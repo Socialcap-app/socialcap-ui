@@ -2,21 +2,14 @@
  * Manages the currently active session, stored in localStorage.
  * When signing out we need to clear it using removeActiveSession(). 
  */
+import { type Session } from "$lib/types/session";
 
 export { 
-  type Session,
   getCurrentSession, 
   getDefaultSession,
   setActiveSession, 
   removeActiveSession 
 } ;
-
-interface Session {
-  host: string;
-  port: number;
-  protocol: 'https' | 'http';
-  authorization: string;
-};
 
 const STORE_KEY = "current-session";
 
