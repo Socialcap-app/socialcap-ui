@@ -87,7 +87,7 @@
 		const chainId = getCurrentBlockchain().chainId;
 		const explorerAccountUrl = getCurrentBlockchain().explorerAccountUrl;
 		console.log('mintCredential', credential, 'on', chainId, 'for owner', accountId);
-		// MinaNFT.minaInit(chainId);
+		MinaNFT.minaInit(chainId);
 		const contractAddress = MINANFT_NAME_SERVICE_V2;
 		const name = credential.claimId + makeString(10);
 		console.log('Name:', name, credential.claimId);
@@ -202,8 +202,9 @@
 			await zkApp.mint(mintParams);
 		});
 		
-
+		console.log("signing tx");
 		tx.sign([nftPrivateKey]);
+		console.log("serialized tx");
 		const serializedTransaction = serializeTransaction(tx);
 		const transaction = tx.toJSON();
 		console.log('Transaction', tx.toPretty());
