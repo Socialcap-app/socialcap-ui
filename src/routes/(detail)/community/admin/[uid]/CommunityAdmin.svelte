@@ -26,7 +26,7 @@
   </Breadcrumb>
 
   <div>
-    <H1>{$community.data?.name}</H1>
+  
     {#if $community.isLoading}
       <span>Loading...</span>
     {:else if $community.isError}
@@ -35,6 +35,7 @@
         error={$community.error} 
       />
     {:else}
+    <H1>{$community.data?.name}</H1>
     <div class="w-full max-w-screen-lg">
       <CommunityBanner image={$community.data?.image} />
     
