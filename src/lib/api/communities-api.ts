@@ -10,7 +10,8 @@ export {
   createCommunity,
   checkCommunityNameExist,
   joinCommunity,
-  getAdminCommunity
+  getAdminCommunity,
+  updateCommunity
 }
 
 async function getCommunity(params: {
@@ -110,6 +111,19 @@ async function joinCommunity(data: {
   personUid: string
 }): Promise<any> {
   const rs = await API.mutate("join_community", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Update community
+ * @param communityUid: string - Uid of community to update
+ * @returns Updated Commmunity
+ */
+async function updateCommunity(data: {
+  communityUid: string
+}): Promise<any> {
+  const rs = await API.mutate("update_community", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }

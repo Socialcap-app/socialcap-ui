@@ -1,7 +1,7 @@
 import { createQuery, useQueryClient, createMutation } from '@tanstack/svelte-query'
 import { getMyCommunities, getAllCommunities, getCommunity, getAdminCommunity } from '$lib/api/queries';
 import type { Community, NewCommunity } from '$lib/types/community';
-import { createCommunity, joinCommunity } from '$lib/api/communities-api';
+import { createCommunity, joinCommunity, updateCommunity } from '$lib/api/communities-api';
 
 export function useGetCommunity(uid?: string) {
   return createQuery<Community | null, Error>({
@@ -63,6 +63,20 @@ export function useJoinCommunity() {
   const client = useQueryClient();
   return createMutation({
     mutationFn: joinCommunity,
+    // Always refetch after error or success:
+    onSettled: () => {
+      client.invalidateQueries({ queryKey: ['get_my_communities'] })
+      client.invalidateQueries({ queryKey: ['get_all_communities'] })
+      client.invalidateQueries({ queryKey: ['get_my_admined_communities'] })
+      client.invalidateQueries({ queryKey: ['get_community'] })
+    },
+  })
+}
+
+export function useUpdateCommunity() {
+  const client = useQueryClient();
+  return createMutation({
+    mutationFn: updateCommunity,
     // Always refetch after error or success:
     onSettled: () => {
       client.invalidateQueries({ queryKey: ['get_my_communities'] })
