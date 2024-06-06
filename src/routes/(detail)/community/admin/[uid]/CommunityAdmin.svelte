@@ -16,11 +16,12 @@
   let community = useGetAdminCommunity(uid!);
  
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
+  // TODO: check/ask image community banner rounded or not 
 </script>
 
-<div class="p-4">
-  <Breadcrumb class="mb-5">
-    <BreadcrumbItem home href="/home">Home</BreadcrumbItem>
+<div>
+  <Breadcrumb class="pt-8 pl-6">
+    <BreadcrumbItem home href="/home">General</BreadcrumbItem>
     <BreadcrumbItem>Admin communities</BreadcrumbItem>
     <BreadcrumbItem>{$community.data?.name || '?'}</BreadcrumbItem>
   </Breadcrumb>
@@ -35,11 +36,10 @@
         error={$community.error} 
       />
     {:else}
-    <H1>{$community.data?.name}</H1>
     <div class="w-full max-w-screen-lg">
       <CommunityBanner image={$community.data?.image} />
     
-      <div class="px-4 pt-3 pb-4">
+      <div class="">
         <div class="flex justify-between items-center">
           <div>
             <StateBadge data={state} /> 
@@ -57,7 +57,7 @@
         </p>
 
         <Tabs style="underline" 
-          contentClass="p-4 bg-transparent rounded-lg dark:bg-gray-800 mt-4"
+          contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
           defaultClass="flex flex-wrap items-end justify-center space-x-8 rtl:space-x-reverse">
           <TabItem open class="">
             <TabHeader slot="title"
@@ -70,7 +70,7 @@
 
           <TabItem class="">
             <TabHeader slot="title"
-              label="Issued"
+              label="Credentials Campagins"
               count={ $community.data?.countCredentials }
             />
             <div>

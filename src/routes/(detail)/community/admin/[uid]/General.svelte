@@ -1,6 +1,8 @@
 <script lang="ts">
+  	import { Label, Input, Textarea } from "flowbite-svelte";
 	import { SubmitButton } from '$lib/components';
 	import { useUpdateCommunity } from '$lib/hooks/communities';
+	import ColorHash from "color-hash";
 	export let communityUid: string;
 
 	const updateCommunityMutation = useUpdateCommunity();
@@ -17,12 +19,22 @@
 </script>
 
 <!-- Example usage -->
+<div class="flex flex-col gap-10">
+    <div>
+      <Label for="community-name" class="text-base">Community Name</Label>
+      <Input class="mt-2" type="text" id="community-name" placeholder="Argentinean Pink Lizard" required />
+    </div>
+	<div class="mt-2">
+		<Label for="description" class="text-base">Short Description<span class="float-right text-sm font-normal text-[#7E8390]">Max. 256 char</span></Label>
+		<Textarea class="mt-2" id="description" placeholder="So gentle, so good" rows="4" name="description" maxlength="256"/>
+	</div>
 <SubmitButton
 	on:click={() => update()}
 	{working}
 	disabled={$updateCommunityMutation.isPending}
-	no-class="order-1 mb-2 mt-6 w-full md:order-2 md:mb-0 md:ms-2"
 	size="md"
+	class="bg-red"
 >
-	Update
+	Save Changes
 </SubmitButton>
+</div>
