@@ -35,11 +35,11 @@
 	import { pinFile } from '$lib/ipfs';
 	import { calculateSHA512 } from '$lib/sha512';
 	import { serializeTransaction } from '$lib/transactions/tools';
-	import { sendTransaction } from '$lib/transactions/mintNft';
+	import { sendTransaction, signMintTransaction } from '$lib/transactions/mintNft';
 	import { serializeFields } from 'zkcloudworker';
 
 	export let uid;
-	
+
 	$: isConnected = false;
 	let accountId = '';
 	$: credential = useGetCredential(uid);
@@ -141,8 +141,8 @@
 		const sha3_512 = await calculateSHA512(image);
 		const ipfs = await generateNftImage(credential, image, name);
 
-		console.log("ipfs", ipfs);
-		console.log("reserved.signature", reserved.signature);
+		console.log('ipfs', ipfs);
+		console.log('reserved.signature', reserved.signature);
 		const signature = Signature.fromBase58(reserved.signature);
 		if (signature === undefined) {
 			console.error('Signature is undefined');
@@ -197,19 +197,28 @@
 			}
 		};
 
-		const tx = await Mina.transaction({ sender, fee, memo }, async () => {
-			AccountUpdate.fundNewAccount(sender!);
-			await zkApp.mint(mintParams);
+		// const tx = await Mina.transaction({ sender, fee, memo }, async () => {
+		// 	AccountUpdate.fundNewAccount(sender!);
+		// 	await zkApp.mint(mintParams);
+		// });
+
+		const serializedTxn = await signMintTransaction({
+			sender,
+			mintParams,
+			fee,
+			memo,
+			claimUid: credential.claimUid
 		});
-		
-		console.log("signing tx");
-		tx.sign([nftPrivateKey]);
-		console.log("serialized tx");
-		const serializedTransaction = serializeTransaction(tx);
-		const transaction = tx.toJSON();
-		console.log('Transaction', tx.toPretty());
+		console.log('serializedTxn: ', serializedTxn);
+
+		// console.log('signing tx');
+		// tx.sign([nftPrivateKey]);
+		// console.log('serialized tx');
+		// const serializedTransaction = serializeTransaction(tx);
+		// const transaction = tx.toJSON();
+		// console.log('Transaction', tx.toPretty());
 		const payload = {
-			transaction,
+			serializedTxn,
 			onlySign: true,
 			feePayer: {
 				fee: fee,
@@ -228,7 +237,7 @@
 		}
 
 		const sentTx = await sendTransaction({
-			serializedTransaction,
+			serializedTransaction: serializedTxn,
 			signedData,
 			mintParams: serializeFields(MintParams.toFields(mintParams)),
 			contractAddress
@@ -257,7 +266,6 @@
 		isConnected = await isWalletConnected();
 		console.log('isConnected', isConnected);
 	});
-
 </script>
 
 <div class="p-4">
@@ -303,7 +311,12 @@
 					</div>
 					{#if $credential.data}
 						<div class="flex items-center justify-end">
-							<CredentialActions credential={$credential?.data} onMintClick={mintCredential} {isConnected} {accountId} />
+							<CredentialActions
+								credential={$credential?.data}
+								onMintClick={mintCredential}
+								{isConnected}
+								{accountId}
+							/>
 						</div>
 					{/if}
 					<div class="px-4 pb-4 pt-2">
