@@ -6,7 +6,7 @@ import { zkCloudWorkerClient } from "zkcloudworker";
 
 export async function signMintTransaction(params: {
   claimUid: string
-  sender: PublicKey,
+  sender: string,
   mintParams: MintParams,
   fee: number,
   memo: string
@@ -28,7 +28,7 @@ export async function signMintTransaction(params: {
   const response = await api.execute({
     mode: "async",
     repo: "socialcap-minanft-worker",
-    developer: "LEOMANZA", 
+    developer: "LEOMANZA", // keep it simple, no strange chars here !
     task: "mint-minanft",
     metadata: `Sign and pay fee for mint  ${claimUid}`,
     args: JSON.stringify({ 
@@ -127,7 +127,7 @@ async function zkCloudWorkerRequest(params: any) {
       transactions: transactions ?? [],
       args,
       repo: "mint-worker",
-      developer: "LEOMANZA",
+      developer: "DSFT",
       metadata,
       mode: mode ?? "sync",
       jobId,

@@ -203,7 +203,7 @@
 		// });
 
 		const serializedTxn = await signMintTransaction({
-			sender,
+			sender: accountId,
 			mintParams,
 			fee,
 			memo,
