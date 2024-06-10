@@ -12,7 +12,7 @@
 
 	const updateCommunityMutation = useUpdateCommunity();
 	// use it for updating button text when submitting
-	$: working = $updateCommunityMutation.isPending ? 'Updating ...' : '';
+	$: working = $updateCommunityMutation.isPending ? 'Updating' : '';
 
 	const schema = object({
 		name: string()
@@ -94,9 +94,9 @@
 			submit();
 		}}
 		{working}
-		disabled={$updateCommunityMutation.isPending}
+		disabled={!$isValid || $updateCommunityMutation.isPending}
 		size="md"
-		class="px-4 lg:w-32 bg-sc_red hover:bg-sc_red"
+		class="px-3 lg:w-32 bg-sc_red hover:bg-sc_red"
 	>
 		Save Changes
 	</SubmitButton>
