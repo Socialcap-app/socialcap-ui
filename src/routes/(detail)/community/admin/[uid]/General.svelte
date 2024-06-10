@@ -42,25 +42,13 @@
 		}
 	});
 
-	async function update() {
-		console.log('updating');
-		let rs = await $updateCommunityMutation.mutateAsync({
-			uid: communityUid,
-			name,
-			description
-		});
-		console.log('Updated:', rs);
-	}
-
 	const submit = createSubmitHandler({
 		onSubmit: async (values, context) => {
-			console.log('submitting');
 			await $updateCommunityMutation.mutateAsync({
 				uid: communityUid,
 				name: values.name,
 				description: values.description,
 			});
-			// created = true;
 		},
 		validate: async (values) => {
 			try {
@@ -73,19 +61,17 @@
 					}),
 					{}
 				);
-				console.log("errors",errors)
 				return errors;
 			}
 		},
 		onSuccess: (response, context) => {
 			console.log('succcess');
-			// created = true;
 		}
 	});
 </script>
 
 <!-- Example usage -->
-<form use:form on:submit|stopPropagation|preventDefault class="flex flex-col gap-10">
+<form use:form on:submit|stopPropagation|preventDefault class="m-auto lg:max-w-md flex flex-col gap-10">
 
     <div>
     	<Label for="name" class="{$errors.name ? "text-red-500" : "text-base"}">Community Name</Label>
@@ -110,7 +96,7 @@
 		{working}
 		disabled={$updateCommunityMutation.isPending}
 		size="md"
-		class="bg-sc_red"
+		class="px-4 lg:w-32 bg-sc_red hover:bg-sc_red"
 	>
 		Save Changes
 	</SubmitButton>
