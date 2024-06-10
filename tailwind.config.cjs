@@ -14,7 +14,7 @@ const config = {
 		extend: {
 			colors: {
         black: '#102353',
-		red: '#fe6a17',
+		sc_red: '#fe6a17',
 
         // Socialcap branding: blue
 				primary: { 50: '#CEDCFF',  100: '#B9CDFF',  200: '#91B0FF',  300: '#6892FE',  400: '#4075FE',  500: '#1758FE',  600: '#013FDC',  700: '#012FA4',  800: '#001F6C',  900: '#000F34', 950: '#000718' },
