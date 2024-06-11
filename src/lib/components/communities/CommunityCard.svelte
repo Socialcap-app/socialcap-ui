@@ -5,6 +5,7 @@
   import CommunityMenu from './CommunityMenu.svelte';
   import CommunityBanner from './CommunityBanner.svelte';
   import JoinCommunityModal from './JoinCommunityModal.svelte';
+	import { goto } from '$app/navigation';
 
   export let 
     uid = '', title = '', description = '', image = '',
@@ -43,7 +44,7 @@
     <div class="flex items-center justify-between">
       <StateBadge data={sts} />
       <div>
-        <CommunityMenu {isAdmin} {joined} />
+        <CommunityMenu {isAdmin} {joined}  on:admin={() => goto('/community/admin/' + uid)}/>
       </div>
     </div>
     <h6 class="mt-2 mb-2 text-xl font-bold text-blue-900 dark:text-white">{title}</h6>

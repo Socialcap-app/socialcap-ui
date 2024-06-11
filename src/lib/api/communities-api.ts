@@ -1,5 +1,5 @@
 import { API, type APIResponse } from "./api-client";
-import { type Community, type User } from "$lib/types";
+import { type Community, type Plan, type User } from "$lib/types";
 import { getCurrentUser } from "$lib/store";
 import type { NewCommunity } from "$lib/types/community";
 
@@ -11,7 +11,8 @@ export {
   checkCommunityNameExist,
   joinCommunity,
   getAdminCommunity,
-  updateCommunity
+  updateCommunity,
+  getAdminCommunityPlans
 }
 
 async function getCommunity(params: {
@@ -31,6 +32,14 @@ async function getAdminCommunity(params: {
   const rs = await API.query("get_admined_community", {
     uid: params.uid
   });
+  if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
+  return rs.data;
+}
+
+async function getAdminCommunityPlans(params:{
+  uid: string}): Promise<Plan[]> {
+  const rs = await API.query("get_admined_plans", { uid: params.uid });
+  console.log("rs.data",rs.data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
   return rs.data;
 }

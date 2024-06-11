@@ -23,7 +23,7 @@
     }
 
     if (isAdmin===true) {
-      items.push({ name: 'Administer it', action: 'admin'});
+      items.push({ name: 'Admin it', action: 'admin'});
       items.push({ name: 'Delete this!', action: 'remove'});
     }
     return items;

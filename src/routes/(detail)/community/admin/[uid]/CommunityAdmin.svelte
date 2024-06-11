@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, P, TabItem, Tabs } from 'flowbite-svelte';
   import { H1, ErrorOnFetch, StateBadge } from "$lib/components";
-  import { useGetAdminCommunity } from "$lib/hooks/communities";
+  import { useGetAdminCommunity, useGetAdminCommunityPlans } from "$lib/hooks/communities";
   import type { Community } from "$lib/types";
   import { getCommunity } from "$lib/api/queries";
 	import Credentials from "./Credentials.svelte";
@@ -11,10 +11,11 @@
 	import CommunityBanner from "$lib/components/communities/CommunityBanner.svelte";
 	import General from "./General.svelte";
 	import { findState } from "$lib/types/states";
+	import Members from "./Members.svelte";
 
   export let uid: string | null = null;
   let community = useGetAdminCommunity(uid!);
- 
+  const plans = useGetAdminCommunityPlans(uid!);
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
 </script>
 
@@ -70,11 +71,11 @@
 
           <TabItem class="">
             <TabHeader slot="title"
-              label="Issued"
-              count={ $community.data?.countCredentials }
+              label="Credentials Campaigns"
+              count={ $plans.data?.length || 0 }
             />
             <div>
-              <Credentials communityUid={uid} />
+              <Credentials communityUid={uid} {plans} />
             </div>
           </TabItem>
 
@@ -84,7 +85,7 @@
               count={ $community.data?.countMembers }
             />
             <div class="">
-              <Credentials 
+              <Members 
                 communityUid={uid}         
               />
             </div>
