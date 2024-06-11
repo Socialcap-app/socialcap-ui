@@ -7,8 +7,8 @@
 	import { object, string, boolean } from 'yup';
 	import ColorHash from "color-hash";
 	export let communityUid: string;
-	let name: string;
-	let description: string;
+	export let name: string;
+	export let description: string;
 
 	const updateCommunityMutation = useUpdateCommunity();
 	// use it for updating button text when submitting
@@ -26,18 +26,21 @@
 	});
 
 	const { form, errors, isValid, data, touched, createSubmitHandler } = createForm({
-		validate: async (values) => {
-			try {
-				await schema.validate(values, { abortEarly: false });
-			} catch (err: any) {
-				const errors = err.inner.reduce(
-					(res: any, value: any) => ({
-						[value.path]: value.message,
-						...res
-					}),
-					{}
-				);
-				return errors;
+		debounced: {
+			timeout: 450, 
+			validate: async (values) => {
+				try {
+					await schema.validate(values, { abortEarly: false });
+				} catch (err: any) {
+					const errors = err.inner.reduce(
+						(res: any, value: any) => ({
+							[value.path]: value.message,
+							...res
+						}),
+						{}
+					);
+					return errors;
+				}
 			}
 		}
 	});
@@ -75,14 +78,14 @@
 
     <div>
     	<Label for="name" class="{$errors.name ? "text-red-500" : "text-base"}">Community Name</Label>
-			<Input class="mt-2 {$errors.name ? "text-red-500" : "text-base"}" type="text" id="name" name="name" placeholder="Argentinean Pink Lizard" required bind:value={name}/>
+			<Input class="mt-2 {$errors.name ? "text-red-500" : "text-base"}" type="text" id="name" name="name" placeholder="" required bind:value={name}/>
 			{#if $errors.name && $touched.name}
 				<span class="mt-2 text-sm text-red-500">{$errors.name}</span>
 			{/if}
     </div>
 	<div class="mt-2">
 		<Label for="description" class="{$errors.description ? "text-red-500" : "text-base"}">Short Description<span class="float-right text-sm font-normal text-[#7E8390]">Max. 256 char</span></Label>
-		<Textarea class="mt-2 {$errors.description ? "text-red-500" : "text-base"}" id="description" placeholder="So gentle, so good" rows="4" name="description" maxlength="256" bind:value={description}/>
+		<Textarea class="mt-2 {$errors.description ? "text-red-500" : "text-base"}" id="description" placeholder="" rows="4" name="description" maxlength="256" bind:value={description}/>
 		{#if $errors.description && $touched.description}
 			<span class="mt-2 text-sm text-red-500">{$errors.description}</span>
 		{/if}
