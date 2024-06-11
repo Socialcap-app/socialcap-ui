@@ -38,7 +38,7 @@ async function getAdminCommunity(params: {
 
 async function getAdminCommunityPlans(params:{
   uid: string}): Promise<Plan[]> {
-  const rs = await API.query("get_admined_plans", { uid: params.uid });
+  const rs = await API.query("get_admined_community_plans", { communityUid: params.uid });
   console.log("rs.data",rs.data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
   return rs.data;
