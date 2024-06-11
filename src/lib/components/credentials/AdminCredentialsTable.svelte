@@ -41,14 +41,14 @@
 					<TableBodyCell><Time timestamp={t.createdUTC} /></TableBodyCell>
 					<TableBodyCell
 						>{#if t.startsUTC}
-							(<Time timestamp={t.startsUTC} />)
+							<Time timestamp={t.startsUTC} />
 						{:else}
 							<p>-</p>
 						{/if}</TableBodyCell
 					>
 					<TableBodyCell
 						>{#if t.endsUTC}
-							(<Time timestamp={t.endsUTC} />)
+              <Time timestamp={t.endsUTC} />
 						{:else}
 							<p>-</p>
 						{/if}</TableBodyCell
