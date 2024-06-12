@@ -121,7 +121,10 @@ async function joinCommunity(data: {
  * @returns Updated Commmunity
  */
 async function updateCommunity(data: {
-  communityUid: string
+  // communityUid: string,
+  uid: string,
+  name: string,
+  description: string
 }): Promise<any> {
   const rs = await API.mutate("update_community", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);

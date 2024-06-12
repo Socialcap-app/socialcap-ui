@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, P, TabItem, Tabs } from 'flowbite-svelte';
   import { H1, ErrorOnFetch, StateBadge } from "$lib/components";
   import { useGetAdminCommunity } from "$lib/hooks/communities";
   import type { Community } from "$lib/types";
-  import { getCommunity } from "$lib/api/queries";
 	import Credentials from "./Credentials.svelte";
 	import TabHeader from "$lib/components/common/TabHeader.svelte";
 	import Time from "svelte-time/Time.svelte";
@@ -14,13 +12,21 @@
 
   export let uid: string | null = null;
   let community = useGetAdminCommunity(uid!);
+
+  async function fetchCommunity() {
+    community = await useGetAdminCommunity(uid!);
+  }
  
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
+  // TODO: check/ask image community banner rounded or not 
+
+  const activeClasses = "px-3 py-1.5 inline-block text-sm font-medium text-center disabled:cursor-not-allowed text-primary-600 border-b-2 border-primary-600 dark:text-primary-500 dark:border-primary-500 active"
+  const inactiveClasses = "px-3 py-1.5 inline-block text-sm font-medium text-center disabled:cursor-not-allowed border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 text-gray-500 dark:text-gray-400"
 </script>
 
-<div class="p-4">
-  <Breadcrumb class="mb-5">
-    <BreadcrumbItem home href="/home">Home</BreadcrumbItem>
+<div>
+  <Breadcrumb class="pt-8 pl-6">
+    <BreadcrumbItem home href="/home">General</BreadcrumbItem>
     <BreadcrumbItem>Admin communities</BreadcrumbItem>
     <BreadcrumbItem>{$community.data?.name || '?'}</BreadcrumbItem>
   </Breadcrumb>
@@ -35,11 +41,10 @@
         error={$community.error} 
       />
     {:else}
-    <H1>{$community.data?.name}</H1>
     <div class="w-full max-w-screen-lg">
       <CommunityBanner image={$community.data?.image} />
     
-      <div class="px-4 pt-3 pb-4">
+      <div class="">
         <div class="flex justify-between items-center">
           <div>
             <StateBadge data={state} /> 
@@ -57,20 +62,20 @@
         </p>
 
         <Tabs style="underline" 
-          contentClass="p-4 bg-transparent rounded-lg dark:bg-gray-800 mt-4"
+          contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
           defaultClass="flex flex-wrap items-end justify-center space-x-8 rtl:space-x-reverse">
-          <TabItem open class="">
+          <TabItem open {activeClasses} {inactiveClasses}>
             <TabHeader slot="title"
               label="General"
             />
             <div>
-              <General communityUid={uid} />
+              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} on:update={fetchCommunity}/>
             </div>
           </TabItem>
 
-          <TabItem class="">
+          <TabItem {activeClasses} {inactiveClasses}>
             <TabHeader slot="title"
-              label="Issued"
+              label="Credentials Campagins"
               count={ $community.data?.countCredentials }
             />
             <div>
@@ -78,7 +83,7 @@
             </div>
           </TabItem>
 
-          <TabItem class="">
+          <TabItem {activeClasses} {inactiveClasses}>
             <TabHeader slot="title"
               label="Members"
               count={ $community.data?.countMembers }
