@@ -11,9 +11,9 @@
 	export let description: string;
 	const original_name = name;
 
-	const updateCommunityMutation = useUpdateCommunity();
+	const updateCommunityMutation = useUpdateCommunity(communityUid);
 	// use it for updating button text when submitting
-	$: working = $updateCommunityMutation.isPending ? 'Updating' : '';
+	$: working = $updateCommunityMutation.isPending ? 'Updating' : undefined;
 
 	const dispatch = createEventDispatcher();
 

@@ -10,12 +10,12 @@
 	import General from "./General.svelte";
 	import { findState } from "$lib/types/states";
 
-  export let uid: string | null = null;
-  let community = useGetAdminCommunity(uid!);
+  export let uid: string;
+  let community = useGetAdminCommunity(uid);
 
-  async function fetchCommunity() {
-    community = await useGetAdminCommunity(uid!);
-  }
+  // async function fetchCommunity() {
+  //   community = await useGetAdminCommunity(uid!);
+  // }
  
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
   // TODO: check/ask image community banner rounded or not 
@@ -69,7 +69,7 @@
               label="General"
             />
             <div>
-              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} on:update={fetchCommunity}/>
+              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} />
             </div>
           </TabItem>
 

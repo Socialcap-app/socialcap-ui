@@ -11,11 +11,10 @@ export function useGetCommunity(uid?: string) {
     })
 }
 
-export function useGetAdminCommunity(uid?: string) {
+export function useGetAdminCommunity(uid: string) {
   return createQuery<Community | null, Error>({
       queryKey: ['get_admin_community', uid],
-      queryFn: () => getAdminCommunity({uid: uid!}),
-      enabled: !!uid
+      queryFn: () => getAdminCommunity({uid: uid})
     })
 }
 
@@ -73,16 +72,14 @@ export function useJoinCommunity() {
   })
 }
 
-export function useUpdateCommunity() {
+export function useUpdateCommunity(uid: string) {
   const client = useQueryClient();
   return createMutation({
     mutationFn: updateCommunity,
     // Always refetch after error or success:
     onSettled: () => {
-      client.invalidateQueries({ queryKey: ['get_my_communities'] })
-      client.invalidateQueries({ queryKey: ['get_all_communities'] })
-      client.invalidateQueries({ queryKey: ['get_my_admined_communities'] })
-      client.invalidateQueries({ queryKey: ['get_community'] })
+      client.invalidateQueries({ queryKey: ['get_admin_community', uid] })
+      // client.refetchQueries({ queryKey: ['get_admin_community', uid] })
     },
   })
 }
