@@ -5,9 +5,9 @@ import type { Plan } from '$lib/types/plan';
 
 export function useGetPlan(uid: string) {
     return createQuery<Plan, Error>({
-        queryKey: ['get_my_claims'],
+        queryKey: ['get_plan', uid],
         queryFn: () => getPlan({uid}),
-        enabled: uid !== undefined
+        enabled: uid !== undefined && uid !== "new"
       })
 }
 
