@@ -32,7 +32,6 @@
 			<div class="text-start">
                 <StateBadge data={plan?.state} />
 			</div>
-
 			<div class="flex w-[50%] max-w-64 items-start justify-between">
 				<div class="grid grid-cols-1 gap-1">
 					

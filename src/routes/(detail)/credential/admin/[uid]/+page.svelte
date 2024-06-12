@@ -7,10 +7,11 @@
 	import PlanHeader from './PlanHeader.svelte';
 	import PlanEditor from './PlanEditor.svelte';
 
-	export let uid: string;
-	const plan = useGetPlan(uid);
-	$: isNew = uid === 'new';
-	$: refreshOn = uid;
+	export let data: any;
+  	$: refreshOn = data.uid;
+	console.log("getting plan", data.uid);
+	const plan = useGetPlan(data.uid);
+	$: isNew = data.uid === 'new';
 </script>
 
 <MetaTag path="claim" title="Socialcap" subtitle={`Claim`} description="" />
