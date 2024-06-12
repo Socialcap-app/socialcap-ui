@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, P, TabItem, Tabs } from 'flowbite-svelte';
   import { H1, ErrorOnFetch, StateBadge } from "$lib/components";
   import { useGetAdminCommunity } from "$lib/hooks/communities";
   import type { Community } from "$lib/types";
-  import { getCommunity } from "$lib/api/queries";
 	import Credentials from "./Credentials.svelte";
 	import TabHeader from "$lib/components/common/TabHeader.svelte";
 	import Time from "svelte-time/Time.svelte";
@@ -18,9 +16,6 @@
   async function fetchCommunity() {
     community = await useGetAdminCommunity(uid!);
   }
-
-
-  // on:update={refreshCommunity}
  
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
   // TODO: check/ask image community banner rounded or not 

@@ -1,10 +1,10 @@
 <script lang="ts">
-  	import { Label, Input, Textarea, Helper } from "flowbite-svelte";
+  	import { Label, Input, Textarea } from "flowbite-svelte";
 	import { SubmitButton } from '$lib/components';
 	import { useUpdateCommunity } from '$lib/hooks/communities';
 	import { checkCommunityNameExist } from '$lib/api/communities-api';
-	import { createForm, getValue } from 'felte';
-	import { object, string, boolean } from 'yup';
+	import { createForm } from 'felte';
+	import { object, string } from 'yup';
 	import { createEventDispatcher } from 'svelte';
 	export let communityUid: string;
 	export let name: string;
@@ -29,7 +29,7 @@
 		// isAdmin: boolean().default(false) TODO: ask about this
 	});
 
-	const { form, errors, isValid, data, touched, createSubmitHandler } = createForm({
+	const { form, errors, isValid, touched, createSubmitHandler } = createForm({
 		debounced: {
 			timeout: 450, 
 			validate: async (values) => {
@@ -72,7 +72,6 @@
 			}
 		},
 		onSuccess: (response, context) => {
-			console.log('succcess');
 			dispatch('update')
 		}
 	});
