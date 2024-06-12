@@ -5,7 +5,12 @@
 </script>
 
 {#if open}
-<Card class="text-center border-0 shadow-xl p-9 bg-gradient-to-b from-white to-[#eff6ff] lg:py-9 lg:px-10 lg:bg-cover lg:bg-[url('/images/bg-invite.png')]" size="fluid" padding="xl">
+<Card 
+  class={`
+    text-center border-0 shadow-xl p-9 bg-gradient-to-b from-white to-[#eff6ff] 
+    lg:py-9 lg:px-10 lg:bg-cover lg:bg-[url('/images/bg-invite.png')]
+  `} 
+  size="none" padding="xl">
   <div class="flex flex-col items-center lg:items-start">
     <h6 class="text-2xl font-semibold text-black dark:text-white">Better together, invite friends</h6>
     <p class="mt-0.5 text-base font-normal text-gray-600 lg:text-base dark:text-gray-400">

@@ -21,12 +21,12 @@
 	<QueryClientProvider client={queryClient}>
   	<Sidebar bind:drawerHidden />
   	<div class="relative h-full w-full overflow-y-auto lg:ms-64">
-      <div class="w-full max-w-screen-lg mx-auto">
+      <div class="w-full max-w-2xl mx-auto">
         <slot />
       </div>
   		<Footer />
   	</div>
-    <div class="hidden xl:block xl:ms-8 w-full max-w-[32rem] border-s border-gray-200">
+    <div class="hidden xl:block xl:ms-8 w-full max-w-md border-s border-gray-200">
       <ActivityPanel />
     </div> 
 	</QueryClientProvider>

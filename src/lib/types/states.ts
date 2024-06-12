@@ -9,9 +9,11 @@ export const
   CANCELLED = 2,
   REVISION = 3,
   CLAIMED = 4,
+  WAITING = 9,
+  DONE = 10,
   ACTIVE = 8,
   UNPAID = 12,
-  ASSIGNED = 7
+  ASSIGNED = 7;
 
 export const States: State[] = [
     {
