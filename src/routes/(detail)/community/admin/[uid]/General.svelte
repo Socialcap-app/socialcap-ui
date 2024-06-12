@@ -5,19 +5,23 @@
 	import { checkCommunityNameExist } from '$lib/api/communities-api';
 	import { createForm, getValue } from 'felte';
 	import { object, string, boolean } from 'yup';
-	import ColorHash from "color-hash";
+	import { createEventDispatcher } from 'svelte';
 	export let communityUid: string;
 	export let name: string;
 	export let description: string;
+	const original_name = name;
 
 	const updateCommunityMutation = useUpdateCommunity();
 	// use it for updating button text when submitting
 	$: working = $updateCommunityMutation.isPending ? 'Updating' : '';
 
+	const dispatch = createEventDispatcher();
+
 	const schema = object({
 		name: string()
 			.required('Name is required')
-			.test('verified', 'Community name already exists', async (value, values) => {
+			.test('verified', 'Community name already exists', async (value) => {
+				if (value === original_name) return true
 				const exist = await checkCommunityNameExist(value);
 				return !exist as boolean;
 			}),
@@ -69,6 +73,7 @@
 		},
 		onSuccess: (response, context) => {
 			console.log('succcess');
+			dispatch('update')
 		}
 	});
 </script>

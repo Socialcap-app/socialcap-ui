@@ -74,7 +74,7 @@
               label="General"
             />
             <div>
-              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description}/>
+              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} on:update={fetchCommunity}/>
             </div>
           </TabItem>
 
