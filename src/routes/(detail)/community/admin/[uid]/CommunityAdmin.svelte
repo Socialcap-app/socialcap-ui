@@ -90,7 +90,11 @@
             <div class="">
               <Members   
                 members={$community.data?.members}     
+                xadmins="a5fae5216feb4c40a339eccf6be06d3d"  
               />
+               <!-- 
+                xadmins={$community.data?.xadmins}
+                --> 
             </div>
           </TabItem>
         </Tabs>

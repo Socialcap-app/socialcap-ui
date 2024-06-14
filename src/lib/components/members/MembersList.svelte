@@ -25,7 +25,6 @@
               personUid={t.personUid}
               isAdmin={t.isAdmin}
               role={t.role}
-              createdUTC={t.createdUTC}
             />
           </div>
         {/each}
