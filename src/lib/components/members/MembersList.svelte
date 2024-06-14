@@ -17,7 +17,7 @@
       />        
     {:else}
       <div class="mt-2">
-        {#each (data || []) as t}
+        {#each (data || []) as t }
           <div class="transition-opacity duration-1000">
             <MemberItem 
               fullName={t.fullName}

@@ -3,6 +3,7 @@
   import { DotsVerticalOutline } from 'flowbite-svelte-icons';
   import { NoData } from "$lib/components";
   import MemberItem from "./MemberItem.svelte";
+  import MemberMenu from "./MemberMenu.svelte";
   import { Roles } from "$lib/types/member"
   import { type Member } from "$lib/types/member"
 
@@ -47,7 +48,7 @@
       />        
     {:else}
       <div class="border-t mt-2">
-        {#each (admin_members || []) as t}
+        {#each (admin_members || []) as t (t.uid)}
           <div class="transition-opacity duration-1000">
             <MemberItem 
               fullName={t.fullName}
@@ -61,14 +62,14 @@
                   <Badge class="bg-white font-semibold text-gray-500 border-gray-500 py-1 px-2.5" border rounded >{capitalizeFirstLetter(Roles[t.role])}</Badge>
                   <Badge class="ml-2 lg:ml-6 bg-white font-semibold text-primary-500 py-1 px-2.5" border rounded color="primary">Admin</Badge>
                 </div>
-                <button class="w-5 justify-self-end"><DotsVerticalOutline/></button>
+                <MemberMenu isAdmin={t.isAdmin} role={t.role}/>
               </svelte:fragment>
             </MemberItem>
           </div>
         {/each}
       </div>
       <div class="lg:border-t mt-16">
-        {#each (regular_members || []) as t}
+        {#each (regular_members || []) as t (t.uid)}
           <div class="transition-opacity duration-1000">
             <MemberItem 
               fullName={t.fullName}
@@ -81,7 +82,7 @@
                 <div class="roles col-start-3 row-start-2 lg:col-start-3 lg:row-start-1">
                   <Badge class="bg-white font-semibold text-gray-500 border-gray-500 py-1 px-2.5" border rounded color="dark">{capitalizeFirstLetter(Roles[t.role])}</Badge>
                 </div>
-                <button class="w-5 justify-self-end"><DotsVerticalOutline/></button>
+                <MemberMenu isAdmin={t.isAdmin} role={t.role}/>
               </svelte:fragment>
             </MemberItem>
           </div>
