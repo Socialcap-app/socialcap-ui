@@ -4,6 +4,7 @@
   import { useGetAdminCommunity } from "$lib/hooks/communities";
   import type { Community } from "$lib/types";
 	import Credentials from "./Credentials.svelte";
+	import Members from "./Members.svelte";
 	import TabHeader from "$lib/components/common/TabHeader.svelte";
 	import Time from "svelte-time/Time.svelte";
 	import CommunityBanner from "$lib/components/communities/CommunityBanner.svelte";
@@ -77,7 +78,7 @@
               count={ $community.data?.countCredentials }
             />
             <div>
-              <Credentials communityUid={uid} />
+              <Credentials communityUid={uid}/>
             </div>
           </TabItem>
 
@@ -87,8 +88,8 @@
               count={ $community.data?.countMembers }
             />
             <div class="">
-              <Credentials 
-                communityUid={uid}         
+              <Members   
+                members={$community.data?.members}     
               />
             </div>
           </TabItem>
