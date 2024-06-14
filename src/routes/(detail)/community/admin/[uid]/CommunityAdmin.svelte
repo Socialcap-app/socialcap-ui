@@ -88,13 +88,7 @@
               count={ $community.data?.countMembers }
             />
             <div class="">
-              <Members   
-                members={$community.data?.members}     
-                xadmins="a5fae5216feb4c40a339eccf6be06d3d"  
-              />
-               <!-- 
-                xadmins={$community.data?.xadmins}
-                --> 
+              <Members communityUid={uid} />
             </div>
           </TabItem>
         </Tabs>

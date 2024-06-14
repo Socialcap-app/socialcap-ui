@@ -4,15 +4,29 @@
   import { NoData } from "$lib/components";
   import MemberItem from "./MemberItem.svelte";
   import { Roles } from "$lib/types/member"
+  import { type Member } from "$lib/types/member"
 
-  export let data: any[] = []; 
-  export let xadmins: string = ""  // TODO ask about admins.. seems to be emtpy
+  export let data: Member[] = []; 
+  
+  let admin_members: Member[] = [];
+  let regular_members: Member[] = [];
 
-  $: admin_members = data.filter(member => xadmins.includes(member.uid))
-  $: regular_members = data.filter(member => !xadmins.includes(member.uid))
+  $: {
+    let adminTemp: Member[]= [];
+    let regularTemp: Member[] = [];
+    data.forEach(member => {
+      if (member.isAdmin) {
+        adminTemp = [...adminTemp, member];
+      } else {
+        regularTemp = [...regularTemp, member];
+      }
+    });
+    admin_members = adminTemp;
+    regular_members = regularTemp;
+  }
 
 
-  $: {console.log("data", data, xadmins, admin_members, regular_members);}
+  $: {console.log("data", data, admin_members, regular_members);}
 
   // TODO: ask about where to put this function
   function capitalizeFirstLetter(text:string) {
@@ -21,9 +35,6 @@
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
-  let gridClass = "";  
-  
-  // TODO: fix gap between badges
 </script>
 
 <div class="">
@@ -35,7 +46,7 @@
         buttons={false}
       />        
     {:else}
-      <div class="mt-2">
+      <div class="border-t mt-2">
         {#each (admin_members || []) as t}
           <div class="transition-opacity duration-1000">
             <MemberItem 
@@ -46,9 +57,9 @@
               role={t.role}
             >
               <svelte:fragment slot="admin">
-                <div class="roles col-start-3 row-start-2 lg:col-start-4 lg:row-start-1">
-                  <Badge class="bg-white py-1 px-2.5" border rounded color="dark">{capitalizeFirstLetter(Roles[t.role])}</Badge>
-                  <Badge class="bg-white text-primary-500 py-1 px-2.5" border rounded color="primary">Admin</Badge>
+                <div class="roles col-start-3 row-start-2 lg:col-start-3 lg:row-start-1">
+                  <Badge class="bg-white font-semibold text-gray-500 border-gray-500 py-1 px-2.5" border rounded >{capitalizeFirstLetter(Roles[t.role])}</Badge>
+                  <Badge class="ml-2 lg:ml-6 bg-white font-semibold text-primary-500 py-1 px-2.5" border rounded color="primary">Admin</Badge>
                 </div>
                 <button class="w-5 justify-self-end"><DotsVerticalOutline/></button>
               </svelte:fragment>
@@ -56,7 +67,7 @@
           </div>
         {/each}
       </div>
-      <div class="mt-16">
+      <div class="lg:border-t mt-16">
         {#each (regular_members || []) as t}
           <div class="transition-opacity duration-1000">
             <MemberItem 
@@ -67,8 +78,8 @@
               role={t.role}
             >
               <svelte:fragment slot="admin">
-                <div class="roles col-start-3 row-start-2 lg:col-start-4 lg:row-start-1">
-                  <Badge class="bg-white py-1 px-2.5" border rounded color="dark">{capitalizeFirstLetter(Roles[t.role])}</Badge>
+                <div class="roles col-start-3 row-start-2 lg:col-start-3 lg:row-start-1">
+                  <Badge class="bg-white font-semibold text-gray-500 border-gray-500 py-1 px-2.5" border rounded color="dark">{capitalizeFirstLetter(Roles[t.role])}</Badge>
                 </div>
                 <button class="w-5 justify-self-end"><DotsVerticalOutline/></button>
               </svelte:fragment>

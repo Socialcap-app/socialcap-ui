@@ -1,11 +1,14 @@
 <script lang="ts">
     import { Search } from 'flowbite-svelte';
+	  import { useGetMembers } from "$lib/hooks/members";
+
     
     import { ErrorOnFetch } from "$lib/components";
     import MembersListAdmin from "$lib/components/members/MembersListAdmin.svelte";
+    
+    export let communityUid: string = "";
 
-    export let members;  // TODO: ask.. paso los miembros por parametro desde acá? supongo que sí porque también uso la lista d xadmins
-    export let xadmins:string = "";
+    let members = useGetMembers(communityUid);
     
     let q: string = ""; // query 
 
@@ -25,11 +28,17 @@
       </div>
     </div>
   
-    <div class="border-t">
-        <MembersListAdmin 
-          data={filterByName(members, q)} 
-          {xadmins}
+    <div>
+      {#if $members.isLoading}
+        <span>Loading...</span>
+      {:else if $members.isError}
+        <ErrorOnFetch 
+          description="My community"
+          error={$members.error} 
         />
+      {:else}
+        <MembersListAdmin data={filterByName($members.data, q)} />
+      {/if}
     </div>
   
   </div>

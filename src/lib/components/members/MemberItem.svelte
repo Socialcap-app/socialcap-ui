@@ -16,7 +16,7 @@
   // let gradientSize = screenWidth>1024?"lg":"md"
   
 </script>
-<div class="grid grid-cols-[auto_1fr_auto] lg:grid-cols-[auto_auto_1fr_auto_auto] gap-x-6 gap-y-0.5 text-black flex items-center justify-between pt-3 pb-3 lg:border-b">
+<div class="grid grid-cols-[auto_1fr_auto] lg:grid-cols-[auto_1fr_auto_auto] gap-x-6 gap-y-0.5 text-black flex items-center justify-between pt-3 pb-3 lg:border-b">
   <div class="flex justify-center lg:hidden">
     <GradientAvatar 
       initials={initials} 
@@ -38,7 +38,7 @@
       {fullName}
     </a>
   </div>
-  <div class={`text-sm font-semibold text-end ${isFromAdmin ? 'max-lg:hidden' : ""}`}  >
+  <div class={`text-sm font-semibold text-end ${isFromAdmin ? 'hidden' : ""}`}  >
     {personUid.slice(0,3)}...{personUid.slice(-3)} 
   </div>
   <slot name="admin"></slot>

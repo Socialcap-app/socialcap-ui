@@ -13,7 +13,7 @@ interface Member {
     communityUid: string;
     personUid: string;
     fullName: string;
-    role?: string;
+    role: string;     // TODO: ask about this undefined
     roleDescr?: string; 
     isAdmin?: boolean;
     accountId?: string
