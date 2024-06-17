@@ -57,6 +57,7 @@
     function dispatch(ev: any, action: string) {
       ev.preventDefault();//.stopPropagation();
       dispatcher(action);
+      console.log("action",action)
       open = false;
     }
   </script>
