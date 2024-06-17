@@ -5,5 +5,5 @@ export { getAllCommunities, getMyCommunities, getCommunity, getAdminCommunity } 
 export { getMyClaims, getClaim } from "./claims-api";
 export { getPlan, getAdminedPlans, getAllClaimables } from "./plans-api";
 export { getMyCredentials, getCommunityCredentials, getCredential, getCredentialOnchainData } from "./credentials-api";
-export { getMembers, updateMemberRole } from "./members-api";
+export { getMembers, updateMemberRole, addMemberToAdmins, removeMemberFromAdmins } from "./members-api";
 export { getMyTasks, submitBatchTasks } from "./tasks-api";
