@@ -2,15 +2,21 @@
     import { createEventDispatcher } from 'svelte';
     import { Dropdown, DropdownItem } from 'flowbite-svelte';
     import {  DotsVerticalOutline } from 'flowbite-svelte-icons';
+	import { useUpdateMemberRole } from '$lib/hooks/members';
   
     export let 
-      isAdmin: boolean = false,
-      role: string = "",
-      open = false;
+        personUid: string = "",
+        communityUid: string = "",
+        isAdmin: boolean = false,
+        role: string = "",
+        open = false;
   
     let items: any[] = [];   
   
-    const dispatcher = createEventDispatcher();  
+    // const dispatcher = createEventDispatcher();
+    
+	const updateMemberMutation = useUpdateMemberRole(communityUid);
+    
   
     $: items = buildItems(isAdmin, role);
    
@@ -29,36 +35,49 @@
         "3": 'AUDITOR'
     */
 
-    function buildItems(isAdmin:boolean,role:string){
+    function buildItems(isAdmin:boolean,currentRole:string){
         items = [];
         if (isAdmin === true) {
             items.push({ name: 'Unset as Admin', action: 'unset_admin'});
         } else {
             items.push({ name: 'Set as Admin', action: 'set_admin'});
         }
-        if (role == '0') {
-            items.push({ name: 'Set as Member', action: 'set_member'});
+        if (currentRole == '0') {
+            items.push({ name: 'Set as Member', action: 'set_member', role: 1});
         }
-        if (role == '1') {
-            items.push({ name: 'Set as Validator', action: 'set_validator'});
-            items.push({ name: 'Set as Auditor', action: 'set_auditor'});
+        if (currentRole == '1') {
+            items.push({ name: 'Set as Validator', action: 'set_validator', role: 2});
+            items.push({ name: 'Set as Auditor', action: 'set_auditor', role: 3});
         }
-        if (role == '2') {
-            items.push({ name: 'Set as Member', action: 'set_member'});
-            items.push({ name: 'Set as Auditor', action: 'set_auditor'});
+        if (currentRole == '2') {
+            items.push({ name: 'Set as Member', action: 'set_member',role: 1});
+            items.push({ name: 'Set as Auditor', action: 'set_auditor',role: 3});
         }
-        if (role == '3') {
-            items.push({ name: 'Set as Member', action: 'set_member'});
-            items.push({ name: 'Set as Validator', action: 'set_validator'});
+        if (currentRole == '3') {
+            items.push({ name: 'Set as Member', action: 'set_member',role: 1});
+            items.push({ name: 'Set as Validator', action: 'set_validator',role: 2});
         }
         return items
     }
   
-    function dispatch(ev: any, action: string) {
-      ev.preventDefault();//.stopPropagation();
-      dispatcher(action);
-      console.log("action",action)
-      open = false;
+    function updateRole(ev: any, action: string, role: number) {
+        ev.preventDefault();
+        if  (action == 'unset_admin') {
+            return
+        }
+        if  (action == 'set_admin') {
+            return
+        }
+        
+        open = false;
+        console.log("action",action, role, personUid, communityUid)
+        
+	    $updateMemberMutation.mutateAsync({
+				communityUid,
+				personUid,
+				role,
+			});
+        
     }
   </script>
   
@@ -69,7 +88,7 @@
 </button>
 <Dropdown   bind:open={open}  placement="bottom" class="shadow-lg rounded-lg border-2 border-gray-100 text-black py-1">
 {#each items as item}
-    <DropdownItem on:click={(ev) => dispatch(ev,item.action)}>
+    <DropdownItem on:click={(ev) => updateRole(ev,item.action, item.role)}>
     {item.name}
     </DropdownItem>
 {/each}

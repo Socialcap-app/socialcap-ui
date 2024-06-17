@@ -37,7 +37,7 @@
           error={$members.error} 
         />
       {:else}
-        <MembersListAdmin data={filterByName($members.data, q)} />
+        <MembersListAdmin {communityUid} data={filterByName($members.data, q)} />
       {/if}
     </div>
   
