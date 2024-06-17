@@ -7,8 +7,8 @@
 	import { object, string } from 'yup';
 	import { createEventDispatcher } from 'svelte';
 	export let communityUid: string;
-	export let name: string;
-	export let description: string;
+	export let name : string | undefined = undefined;
+	export let description: string | undefined = undefined;
 	const original_name = name;
 
 	const updateCommunityMutation = useUpdateCommunity(communityUid);

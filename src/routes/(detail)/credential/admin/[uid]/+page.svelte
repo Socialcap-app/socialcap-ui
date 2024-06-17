@@ -4,8 +4,7 @@
 	import { useGetPlan } from '$lib/hooks/plans';
 	import { ErrorOnFetch, MetaTag } from '$lib/components';
 	import Breadcrumbs from '$lib/components/common/Breadcrumbs.svelte';
-	import PlanHeader from './PlanHeader.svelte';
-	import PlanEditor from './PlanEditor.svelte';
+	import PlanAdmin from './PlanAdmin.svelte';
 
 	export let data: any;
   	$: refreshOn = data.uid;
@@ -25,8 +24,7 @@
 		<Breadcrumbs label={$plan.data?.name || '?'} />
 
 		{#key refreshOn}
-			<PlanHeader plan={$plan.data} />
-			<PlanEditor plan={$plan.data} {isNew} />
+			<PlanAdmin plan={$plan.data} />
 		{/key}
 	{/if}
 </div>

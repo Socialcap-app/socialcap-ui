@@ -13,6 +13,8 @@
 
   export let uid: string;
   let community = useGetAdminCommunity(uid);
+
+
   const plans = useGetAdminCommunityPlans(uid!);
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
   // TODO: check/ask image community banner rounded or not 
@@ -66,7 +68,7 @@
               label="General"
             />
             <div>
-              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} />
+              <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} on:update/>
             </div>
           </TabItem>
 

@@ -89,7 +89,6 @@ export function useUpdateCommunity(uid: string) {
     // Always refetch after error or success:
     onSettled: () => {
       client.invalidateQueries({ queryKey: ['get_admin_community', uid] })
-      // client.refetchQueries({ queryKey: ['get_admin_community', uid] })
     },
   })
 }
