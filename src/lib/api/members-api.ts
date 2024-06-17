@@ -2,9 +2,11 @@ import { API, type APIResponse } from "./api-client";
 import { type Community, type User } from "$lib/types";
 import { getCurrentUser } from "$lib/store";
 import type { NewCommunity } from "$lib/types/community";
+import type { Member } from "$lib/types/member";
 
 export {
-  getMembers
+  getMembers,
+  updateMemberRole
 }
 
 /**
@@ -19,7 +21,7 @@ export {
 async function getMembers(communityUid: string, options?: {
   roles?: string[],
   states?: string[]
-}): Promise<Community[]> {
+}): Promise<Member[]> {
   const rs = await API.query("get_members", {
     communityUid: communityUid
   });
@@ -27,3 +29,19 @@ async function getMembers(communityUid: string, options?: {
   return rs.data || [];
 }
 
+/**
+ * Update community member role
+ * @param communityUid: string - Uid of community the member belong to
+ * @param personUid: string - Uid of the member
+ * @param role: number - new role
+ *  * @returns Updated Member
+ */
+async function updateMemberRole(data: {
+  communityUid: string,
+  personUid: string,
+  role: number
+}): Promise<any> {
+  const rs = await API.mutate("update_member_role", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
