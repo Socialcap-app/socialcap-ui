@@ -5,17 +5,15 @@
 	import { checkCommunityNameExist } from '$lib/api/communities-api';
 	import { createForm } from 'felte';
 	import { object, string } from 'yup';
-	import { createEventDispatcher } from 'svelte';
+
 	export let communityUid: string;
 	export let name : string | undefined = undefined;
 	export let description: string | undefined = undefined;
-	const original_name = name;
+	let original_name = name;
 
 	const updateCommunityMutation = useUpdateCommunity(communityUid);
 	// use it for updating button text when submitting
 	$: working = $updateCommunityMutation.isPending ? 'Updating' : undefined;
-
-	const dispatch = createEventDispatcher();
 
 	const schema = object({
 		name: string()
@@ -72,7 +70,7 @@
 			}
 		},
 		onSuccess: (response, context) => {
-			dispatch('update')
+			original_name = name
 		}
 	});
 </script>

@@ -18,6 +18,7 @@
   const plans = useGetAdminCommunityPlans(uid!);
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
   // TODO: check/ask image community banner rounded or not 
+  // TODO: ask about show count={ $community.data?.countCredentials }
 
   const activeClasses = "px-3 py-1.5 inline-block text-sm font-medium text-center disabled:cursor-not-allowed text-primary-600 border-b-2 border-primary-600 dark:text-primary-500 dark:border-primary-500 active"
   const inactiveClasses = "px-3 py-1.5 inline-block text-sm font-medium text-center disabled:cursor-not-allowed border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 text-gray-500 dark:text-gray-400"
@@ -62,10 +63,11 @@
 
         <Tabs style="underline" 
           contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
-          defaultClass="flex flex-wrap items-end justify-center space-x-8 rtl:space-x-reverse">
+          defaultClass="flex flex-wrap items-end justify-center space-x-2 lg:space-x-10 rtl:space-x-reverse">
           <TabItem open {activeClasses} {inactiveClasses}>
             <TabHeader slot="title"
               label="General"
+              showCount={false}
             />
             <div>
               <General communityUid={uid}  name={$community.data?.name}  description={$community.data?.description} on:update/>
