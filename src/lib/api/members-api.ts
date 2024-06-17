@@ -6,7 +6,9 @@ import type { Member } from "$lib/types/member";
 
 export {
   getMembers,
-  updateMemberRole
+  updateMemberRole,
+  addMemberToAdmins,
+  removeMemberFromAdmins
 }
 
 /**
@@ -42,6 +44,36 @@ async function updateMemberRole(data: {
   role: number
 }): Promise<any> {
   const rs = await API.mutate("update_member_role", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Add community member to admins
+ * @param communityUid: string - Uid of community the member belong to
+ * @param personUid: string - Uid of the member
+ *  * @returns Updated Community
+ */
+async function addMemberToAdmins(data: {
+  communityUid: string,
+  personUid: string
+}): Promise<any> {
+  const rs = await API.mutate("add_member_to_admins", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Remove community member from admins
+ * @param communityUid: string - Uid of community the member belong to
+ * @param personUid: string - Uid of the member
+ *  * @returns Updated Community
+ */
+async function removeMemberFromAdmins(data: {
+  communityUid: string,
+  personUid: string
+}): Promise<any> {
+  const rs = await API.mutate("remove_member_from_admins", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }
