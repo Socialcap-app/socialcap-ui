@@ -24,7 +24,13 @@
               uid={t.uid}
               personUid={t.personUid}
               role={t.role}
-            />
+            >
+              <svelte:fragment slot="public">
+                <div class="text-sm font-semibold text-end"  >
+                  {t.personUid.slice(0,3)}...{t.personUid.slice(-3)} 
+                </div>
+              </svelte:fragment>
+            </MemberItem>
           </div>
         {/each}
       </div>

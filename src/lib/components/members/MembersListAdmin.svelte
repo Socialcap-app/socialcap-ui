@@ -48,7 +48,6 @@
               fullName={t.fullName}
               uid={t.uid}
               personUid={t.uid}
-              isFromAdmin={true}
               role={t.role}
             >
               <svelte:fragment slot="admin">
@@ -69,7 +68,6 @@
               fullName={t.fullName}
               uid={t.uid}
               personUid={t.uid}
-              isFromAdmin={true}
               role={t.role}
             >
               <svelte:fragment slot="admin">

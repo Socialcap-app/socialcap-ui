@@ -7,8 +7,7 @@
     uid: string = "",
     personUid: string = "",
     fullName: string = "",
-    role: string,
-    isFromAdmin: boolean = false;
+    role: string;
   
   $: initials = getInitials(fullName);
 
@@ -38,8 +37,6 @@
       {fullName}
     </a>
   </div>
-  <div class={`text-sm font-semibold text-end ${isFromAdmin ? 'hidden' : ""}`}  >
-    {personUid.slice(0,3)}...{personUid.slice(-3)} 
-  </div>
+  <slot name="public"></slot>
   <slot name="admin"></slot>
 </div>
