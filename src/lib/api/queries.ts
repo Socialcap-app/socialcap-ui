@@ -7,3 +7,4 @@ export { getPlan, getAdminedPlans, getAllClaimables } from "./plans-api";
 export { getMyCredentials, getCommunityCredentials, getCredential, getCredentialOnchainData } from "./credentials-api";
 export { getMembers, updateMemberRole, addMemberToAdmins, removeMemberFromAdmins } from "./members-api";
 export { getMyTasks, submitBatchTasks } from "./tasks-api";
+export { getProfile, updateProfile} from "./profile-api";
