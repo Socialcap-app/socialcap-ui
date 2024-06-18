@@ -20,8 +20,8 @@ export function buildGradient(initials: string, size = 'lg') {
 
   const sizeMap: any = {
     'sm': 20, // px
-    'md': 30,
-    'lg': 44, // h-11
+    'md': 24,
+    'lg': 40, // h-10
     'xl': 72,
   };
   

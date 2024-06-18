@@ -7,8 +7,8 @@
 	import { object, string } from 'yup';
 
 	export let communityUid: string;
-	export let name: string;
-	export let description: string;
+	export let name: undefined | string;
+	export let description: undefined | string;
 	let original_name = name;
 
 	const updateCommunityMutation = useUpdateCommunity(communityUid);
