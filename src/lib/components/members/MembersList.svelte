@@ -23,7 +23,6 @@
               fullName={t.fullName}
               uid={t.uid}
               personUid={t.personUid}
-              isAdmin={t.isAdmin}
               role={t.role}
             />
           </div>

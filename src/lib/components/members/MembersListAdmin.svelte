@@ -29,8 +29,7 @@
   }
 
   // TODO: add some icon to indicate that is refereshing the role
-  // TODO:: define the roles naming to show
-
+  
 </script>
 
 <div class="">
