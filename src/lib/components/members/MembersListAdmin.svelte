@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Badge}  from 'flowbite-svelte'
-  import { DotsVerticalOutline } from 'flowbite-svelte-icons';
   import { NoData } from "$lib/components";
   import MemberItem from "./MemberItem.svelte";
   import MemberMenu from "./MemberMenu.svelte";
   import { Roles } from "$lib/types/member"
+  import { capitalizeFirstLetter } from "$lib/helpers/helpers";
   import { type Member } from "$lib/types/member"
 
   export let 
@@ -28,15 +28,8 @@
     regular_members = regularTemp;
   }
 
-
-  $: {console.log("data", data, admin_members, regular_members);}
-
-  // TODO: ask about where to put this function
-  function capitalizeFirstLetter(text:string) {
-    if (!text) return '';
-    text = text.toLowerCase();
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  }
+  // TODO: add some icon to indicate that is refereshing the role
+  // TODO:: define the roles naming to show
 
 </script>
 
