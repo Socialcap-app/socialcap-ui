@@ -3,11 +3,15 @@
 	import { ForwardOutline } from 'flowbite-svelte-icons';
 	import { type Credential } from '$lib/types/credential';
 	import { onMount, tick } from 'svelte';
+	import { getCurrentBlockchain } from '$lib/store';
+	import { simpleMintNFT } from '$lib/transactions/mint';
+	import { makeString } from 'zkcloudworker';
+	import { getFileImage } from '$lib/transactions/tools';
 	export let credential: Credential,
-		onMintClick: (credential: Credential) => void,
 		isConnected: boolean = false,
 		accountId = '';
 	let isConnecting = false;
+	let minting = false;
 	let isError = false;
 	let errorMessage = '';
 	async function connectWallet() {
@@ -25,6 +29,33 @@
 			errorMessage = `${err}`;
 		}
 	}
+	async function mintCredential(credential: Credential) {
+		if (!isConnected) throw Error('Need a wallet to pay');
+		minting = true;
+		const chainId = getCurrentBlockchain().chainId;
+		console.log('mintCredential', credential, 'on', chainId, 'for owner', accountId);
+
+		const name =   credential.type + '-' + credential.community;
+		const image = await getFileImage(credential);
+		const collection = 'socialcap';
+		const description = credential.description!;
+		const price = 0;
+		const keys = [{ key: "", value: "", isPublic: false }];
+		console.log('Name:', name, name.length);
+		console.log(name, collection, description);
+		await simpleMintNFT({
+			name: name.slice(0, 24) + makeString(5), // max 30 chars
+			image,
+			collection,
+			description,
+			price,	
+			keys,
+			developer: 'DFST',
+			repo: 'web-mint-example'
+		});
+		console.log('finished minting');
+		minting = false;
+	}
 </script>
 
 <div class="flex items-center space-x-1">
@@ -39,10 +70,14 @@
 			color="primary"
 			class="p-2 px-4"
 			on:click={async () => {
-				onMintClick(credential);
+				mintCredential(credential);
 			}}
 		>
-			Mint
+			{#if minting}
+				Minting...
+			{:else}
+				Mint
+			{/if}
 		</Button>
 	{/if}
 </div>
