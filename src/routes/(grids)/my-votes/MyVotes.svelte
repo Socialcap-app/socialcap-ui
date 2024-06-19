@@ -5,8 +5,11 @@
 	import VotesTable from './VotesTable.svelte';
 	import VotesTableMobile from './VotesTableMobile.svelte';
 	import NoData from '$lib/components/common/NoData.svelte';
+	import { ASSIGNED } from '$lib/types/states';
+
 
 	const tasks = useGetMyTasks();
+	$: assignedVotes = $tasks.data && $tasks.data.filter(v => v.state === ASSIGNED).length;
 </script>
 
 <div class="p-4">
@@ -17,10 +20,10 @@
 	{:else if $tasks.isError}
 		<ErrorOnFetch description="All my votes" error={$tasks.error} />
 	{:else if !$tasks.data || $tasks.data.length === 0}
-		<NoData text="You have no pending votes to cast" />
+		<NoData text="You have no votes" />
 	{:else}
 		<H1Subtitle class="mb-8">
-      You have {$tasks.data.length} pending votes
+      You have {assignedVotes} pending votes to cast
     </H1Subtitle>
 		<div class="hidden lg:block">
 			<VotesTable data={$tasks.data && Array.isArray($tasks.data) ? $tasks.data : []} />

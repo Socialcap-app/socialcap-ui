@@ -1,31 +1,27 @@
 <script lang="ts">
-  import { Card, Dropdown, DropdownItem, Avatar, Button, Img } from 'flowbite-svelte';
-
+  import { Card,  Button } from 'flowbite-svelte';
   export let open = true;
+
 </script>
 
 {#if open}
-<Card class="text-center mt-8 border-0 shadow-xl" size="fluid" padding="xl">
-  <div class="flex flex-col items-center pb-4">
-    <!-- <div class="flex mb-5">
-      <Avatar src="/images/gradient-nicolas.svg" stacked />
-      <Avatar src="/images/gradient-lean.svg" stacked />
-      <Avatar src="/images/gradient-maria.svg" stacked/>
-      <Avatar stacked />
-    </div>       -->
-    <div>
-      <Img src="/images/invite-banner.png" class="h-20"/>
-    </div>
-    <h6 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Better together</h6>
-    <p class="mb-4 text-base text-gray-600 sm:text-lg dark:text-gray-400">
+<Card 
+  class={`
+    text-center border-0 shadow-xl p-9 bg-gradient-to-b from-white to-[#eff6ff] 
+    lg:py-9 lg:px-10 lg:bg-cover lg:bg-[url('/images/bg-invite.png')]
+  `} 
+  size="none" padding="xl">
+  <div class="flex flex-col items-center lg:items-start">
+    <h6 class="text-2xl font-semibold text-black dark:text-white">Better together, invite friends</h6>
+    <p class="mt-0.5 text-base font-normal text-gray-600 lg:text-base dark:text-gray-400">
       Invite teammates and create better communities
     </p>
-    <div class="justify-center items-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
-      <Button color="light"
-        on:click={() => open = false}>
+    <div class="flex gap-4 mt-9 justify-center lg:mt-10 h-10">
+      <Button size="sm" color="blue">Invite</Button>
+      <Button size="sm" color="none"
+        on:click={() => open = false} outline={false}>
         Dismiss
       </Button>
-      <Button color="blue">Invite</Button>
     </div>
   </div>
 </Card>  

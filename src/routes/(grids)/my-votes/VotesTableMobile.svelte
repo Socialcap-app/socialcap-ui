@@ -16,6 +16,7 @@
 	import { ASSIGNED } from '$lib/types/states';
 	import ActionFooter from './ActionFooter.svelte';
 	export let data: Task[] = [];
+	$: assignedVotes = data && data.filter((v) => v.state === ASSIGNED).length;
 	const changeVote = (e: any, t: Task, index: number) => {
 		console.log('data', data);
 		if (t.result == e.target.value) {
@@ -74,4 +75,6 @@
 		</TableBody>
 	</Table>
 {/if}
-<ActionFooter tasks={data} />
+{#if assignedVotes > 0}
+	<ActionFooter tasks={data} />
+{/if}

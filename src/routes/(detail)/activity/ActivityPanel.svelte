@@ -1,22 +1,32 @@
 <script lang="ts">
-  import { Heading, P, Badge  } from 'flowbite-svelte';
-  export let activities = [];
+  import { Search  } from 'flowbite-svelte';
+  import { H1, H1Subtitle } from "$lib/components";
+  import ActivitiesList from '$lib/components/activities/ActivitiesList.svelte';
+
+  let q: string = ""; // query 
 </script>
 
 <div class="block w-full border-1 rounded px-4">
-  <Heading tag="h4">
+  <H1>
     Activity
-  </Heading>
-  <P class="text-gray-400 mb-4" size="base">
-    Follow activities from your communities  
-  </P>
-  {#each activities as t}
-    <div class="mb-5 leading-relaxed">
-      <p>
-        <span class="text-bold text-sm">{t.title}: </span>
-        <span class="mt-2 text-sm text-gray-500">{t.description}</span>
-      </p>
-      <Badge color="dark">{t.when}</Badge>
+  </H1>
+  <H1Subtitle>
+    All your activity
+  </H1Subtitle>
+
+  <div class="w-full flex items-center justify-between text-end py-4 mb-4">
+    <div class="w-10/12">&nbsp;</div>
+    <div class="w-5/12">
+      <Search 
+        class="inline-block text-gray-800 text-md" 
+        autofocus 
+        placeholder="Search" 
+        size="md" 
+        bind:value={q} 
+      />
     </div>
-  {/each}
+  </div>
+
+  <hr><br>
+  <ActivitiesList limit={0} filter={q}/>
 </div>  

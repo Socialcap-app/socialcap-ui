@@ -17,12 +17,13 @@
 	import { ASSIGNED } from '$lib/types/states';
 	import ActionFooter from './ActionFooter.svelte';
 	export let data: Task[] = [];
+	$: assignedVotes = data && data.filter((v) => v.state === ASSIGNED).length;
 
 	const changeVote = (e: any, t: Task, index: number) => {
-		console.log("data", data)
+		console.log('data', data);
 		if (t.result == e.target.value) {
 			// remove vote
-			data[index] = { ...t, result: "7" };
+			data[index] = { ...t, result: '7' };
 		}
 		console.log('index', index);
 	};
@@ -45,41 +46,41 @@
 							<StateBadge data={t.state} />
 						</TableBodyCell>
 						<TableBodyCell>
-              <a href={`/claim/${t.claimUid}?mp=${t.planUid}&mode=view`}>
-                <div class="text-xs text-gray-400">
-                  {t.community}
-                </div>
-                <div class="text-sm text-dark mt-1 text-wrap">
-                  {t.plan}
-                </div>  
-                <div class="text-xs text-blue-600 mt-1">
-                  {t.claimUid.slice(0,4)}...{t.claimUid.slice(-6)}
-                </div>  
-              </a>
-            </TableBodyCell>
+							<a href={`/claim/${t.claimUid}?mp=${t.planUid}&mode=view`}>
+								<div class="text-xs text-gray-400">
+									{t.community}
+								</div>
+								<div class="text-dark mt-1 text-wrap text-sm">
+									{t.plan}
+								</div>
+								<div class="mt-1 text-xs text-blue-600">
+									{t.claimUid.slice(0, 4)}...{t.claimUid.slice(-6)}
+								</div>
+							</a>
+						</TableBodyCell>
 						<TableBodyCell>
-              {t.claimer}
-            </TableBodyCell>
+							{t.claimer}
+						</TableBodyCell>
 						<!-- <TableBodyCell>Todo</TableBodyCell> -->
 						<TableBodyCell>
 							{#if t.state === ASSIGNED}
 								<ButtonGroup>
 									<RadioButton
 										on:click={(e) => changeVote(e, t, i)}
-										class="{t.result === '1' ? 'bg-green-100 text-green-800' : ''}"
-										value={"1"}
+										class={t.result === '1' ? 'bg-green-100 text-green-800' : ''}
+										value={'1'}
 										bind:group={t.result}>Yes</RadioButton
 									>
 									<RadioButton
 										on:click={(e) => changeVote(e, t, i)}
-										class="{t.result === '-1' ? 'bg-red-100 text-red-800' : ''}"
-										value={"-1"}
+										class={t.result === '-1' ? 'bg-red-100 text-red-800' : ''}
+										value={'-1'}
 										bind:group={t.result}>No</RadioButton
 									>
 									<RadioButton
 										on:click={(e) => changeVote(e, t, i)}
-										class="{t.result === '0' ? 'bg-yellow-100 text-yellow-800' : ''}"
-										value={"0"}
+										class={t.result === '0' ? 'bg-yellow-100 text-yellow-800' : ''}
+										value={'0'}
 										bind:group={t.result}>Abstain</RadioButton
 									>
 								</ButtonGroup>
@@ -90,10 +91,11 @@
 			</TableBody>
 		</Table>
 
-    <div>
-      <br/><br/><br/><br/>
-    </div>
+		<div>
+			<br /><br /><br /><br />
+		</div>
 	{/if}
-
-	<ActionFooter tasks={data} />
+	{#if assignedVotes > 0}
+		<ActionFooter tasks={data} />
+	{/if}
 </div>
