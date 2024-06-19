@@ -245,4 +245,5 @@ export async function simpleMintNFT(params: {
   });
   console.timeEnd("sent transaction");
   console.log("Sent transaction", sentTx);
+  return sentTx;
 }

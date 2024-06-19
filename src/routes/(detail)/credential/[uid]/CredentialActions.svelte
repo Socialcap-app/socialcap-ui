@@ -3,10 +3,11 @@
 	import { ForwardOutline } from 'flowbite-svelte-icons';
 	import { type Credential } from '$lib/types/credential';
 	import { onMount, tick } from 'svelte';
-	import { getCurrentBlockchain } from '$lib/store';
+	import { getCurrentBlockchain, getCurrentUser } from '$lib/store';
 	import { simpleMintNFT } from '$lib/transactions/mint';
-	import { makeString } from 'zkcloudworker';
+	import { NATSClient } from '$lib/nats';
 	import { getFileImage } from '$lib/transactions/tools';
+	import { makeString } from 'zkcloudworker';
 	export let credential: Credential,
 		isConnected: boolean = false,
 		accountId = '';
@@ -14,6 +15,7 @@
 	let minting = false;
 	let isError = false;
 	let errorMessage = '';
+	let usr = getCurrentUser();
 	async function connectWallet() {
 		isConnecting = true;
 		try {
@@ -35,26 +37,41 @@
 		const chainId = getCurrentBlockchain().chainId;
 		console.log('mintCredential', credential, 'on', chainId, 'for owner', accountId);
 
-		const name =   credential.type + '-' + credential.community;
+		const name = credential.type + '-' + credential.community;
 		const image = await getFileImage(credential);
 		const collection = 'socialcap';
 		const description = credential.description!;
 		const price = 0;
-		const keys = [{ key: "", value: "", isPublic: false }];
+		const keys = [{ key: '', value: '', isPublic: false }];
 		console.log('Name:', name, name.length);
 		console.log(name, collection, description);
-		await simpleMintNFT({
+		const tx = await simpleMintNFT({
 			name: name.slice(0, 24) + makeString(5), // max 30 chars
 			image,
 			collection,
 			description,
-			price,	
+			price,
 			keys,
 			developer: 'DFST',
 			repo: 'web-mint-example'
 		});
 		console.log('finished minting');
 		minting = false;
+
+		NATSClient.notify('personal', {
+			memo: `Mint transaction success`,
+			subject: usr?.uid || '',
+			type: "transaction",
+			metadata: JSON.stringify({net: getCurrentBlockchain().chainId, hash: tx?.hash, type: "zk-tx" })
+		}); 
+
+		NATSClient.notify('personal', {
+			memo: `<p>🎉 Your credential has been successfully minted as an NFT!</p>
+    				<a href="https://example.com/view-nft" target="_blank">View your NFT</a>`,
+			subject: usr?.uid || '',
+			type: "message"
+		});
+	
 	}
 </script>
 
