@@ -9,6 +9,7 @@
   export let gradient = ""; 
   export let sizeClasses = "w-10 h-10" // lg the avatar default size
   export let fontClasses = "leading-10 text-base"
+  export let positionClass = ""
   
   const sizeMap: any = {
     'sm': "w-4 h-4",  // 16
@@ -29,10 +30,10 @@
 </script>
 
 <span class="relative {sizeClasses} inline-block">
-  <div class="absolute {sizeClasses} top-0">
+  <div class="relative {sizeClasses}">
     {@html gradient}
   </div>
-  <div class="absolute {sizeClasses} font-semibold inline-block text-center text-white {fontClasses}">
+  <div class="absolute {sizeClasses} font-semibold inline-block text-center text-white {fontClasses} top-0">
     {initials}
   </div>
 </span>
