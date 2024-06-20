@@ -23,6 +23,9 @@ dependencies:
   flowbite-svelte-icons:
     specifier: ^1.5.0
     version: 1.5.0(svelte@4.2.12)(tailwind-merge@2.2.2)(tailwindcss@3.4.3)
+  nats.ws:
+    specifier: ^1.27.0
+    version: 1.27.0
   o1js:
     specifier: ^1.1.0
     version: 1.1.0
@@ -3265,8 +3268,14 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  /nats@2.25.0:
-    resolution: {integrity: sha512-ta37lmNNKigW7mkh6SsZdJpkgnLhEUOI8jLiIvVDR9pxyDEac4wFwtqifQs762UgMgFk1q45DyjfMgFk6S2aaw==}
+  /nats.ws@1.27.0:
+    resolution: {integrity: sha512-8YPhet5qmclQUwZB+VAvb0C3Q399/MYahxvN3GZU2XnYRkGeOJuvgii5ICLV3z6HDQkL7qkwMIdeUyQgu+wt4Q==}
+    optionalDependencies:
+      nkeys.js: 1.1.0
+    dev: false
+
+  /nats@2.26.0:
+    resolution: {integrity: sha512-Inal+dsFpWtqZ5K/ea735yW162RMzKK6hg+5YXXvnXiF2BYxADGfuDsOTZsDLQkQHGV904Hp5fHB+t0P8qNDyg==}
     engines: {node: '>= 14.0.0'}
     dependencies:
       nkeys.js: 1.1.0
@@ -4436,6 +4445,7 @@ packages:
 
   /tweetnacl@1.0.3:
     resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
+    requiresBuild: true
     dev: false
 
   /type-check@0.4.0:
@@ -4776,7 +4786,7 @@ packages:
     dependencies:
       axios: 1.6.8
       chalk: 4.1.2
-      nats: 2.25.0
+      nats: 2.26.0
       o1js: 1.1.0
     transitivePeerDependencies:
       - debug

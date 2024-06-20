@@ -76,7 +76,7 @@
 
 				<div class="max-w-64 truncate px-2 text-xs text-black dark:text-white">{avatarLabel}</div>
 			</div>
-
+			{#if isIssued}
 			<div class="absolute right-2 top-2">
 				<button
 					data-sveltekit-preload-data="false"
@@ -86,6 +86,7 @@
 					MINA Txns
 				</button>
 			</div>
+			{/if}
 		</div>
 
 		<div class="pb-4 ps-4 pt-4">

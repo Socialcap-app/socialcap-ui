@@ -1,33 +1,27 @@
 <script lang="ts">
-  import { type APIResponse } from '$lib/api';
-  import { Heading, P, Badge  } from 'flowbite-svelte';
-	import { ErrorOnFetch } from '$lib/components';
-  import { activities } from './home/data';
-
-  // let activities: APIResponse | null = null;
+  import { Heading, P, Button  } from 'flowbite-svelte';
+	import { ErrorOnFetch, H1, H1Subtitle } from '$lib/components';
+  import ActivitiesList from '$lib/components/activities/ActivitiesList.svelte';
+  import { refreshNotifications } from '$lib/store/notifications';
+  import { NATSClient } from '$lib/nats';
+	import { getCurrentUser } from '$lib/store';
 </script>
 
-<div class="w-full rounded py-11 px-8">
-  <Heading tag="h4">
+<div class="w-full rounded py-11 ps-5 p-5">
+  <H1>
     Activity
-  </Heading>
-  <P class="text-gray-400 mb-4" size="base">
-    Follow activities from your communities  
+  </H1>
+  <P class="text-gray-400 mb-8" size="base">
+    Your current activity 
+    <Button size="xs" color="light" on:click={() => { 
+      // refreshNotifications() 
+      let usr = getCurrentUser();
+      NATSClient.notify('personal', { 
+        memo: `Hola Peperucho ${usr?.uid}`,
+        subject: usr?.uid || ""
+      });
+    }}>Update</Button>
   </P>
-  {#if !activities?.error}
-    {#each (activities?.data || []) as t}
-      <div class="mb-5 leading-relaxed">
-        <p>
-          <span class="text-bold text-sm">{t.title}: </span>
-          <span class="mt-2 text-sm text-gray-500">{t.description}</span>
-        </p>
-        <Badge color="dark">{t.when}</Badge>
-      </div>
-    {/each}
-  {:else}
-    <ErrorOnFetch
-      description="Activities"
-      error={activities.error}
-    />
-  {/if}
+
+  <ActivitiesList limit={6} />  
 </div>  

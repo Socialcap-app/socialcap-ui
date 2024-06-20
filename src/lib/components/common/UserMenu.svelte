@@ -22,7 +22,6 @@
 		<span class="block truncate text-sm font-medium">{email}</span>
 	</DropdownHeader>
 	<DropdownItem>Profile</DropdownItem>
-	<DropdownItem>Activities</DropdownItem>
 	<DropdownDivider />
 	<DropdownItem href="/login">Sign out</DropdownItem>
 </Dropdown>
