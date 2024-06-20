@@ -1,5 +1,5 @@
 import { createQuery, useQueryClient, createMutation } from '@tanstack/svelte-query'
-import { getMyCommunities, getAllCommunities, getCommunity, getAdminCommunity, getAdminCommunityPlans } from '$lib/api/queries';
+import { getMyCommunities, getAllCommunities, getCommunity, getAdminCommunity } from '$lib/api/queries';
 import type { Community, NewCommunity } from '$lib/types/community';
 import { createCommunity, joinCommunity, updateCommunity } from '$lib/api/communities-api';
 import type { Plan } from '$lib/types';
@@ -18,15 +18,6 @@ export function useGetAdminCommunity(uid: string) {
       queryFn: () => getAdminCommunity({uid: uid})
     })
 }
-
-export function useGetAdminCommunityPlans(uid?: string) {
-  return createQuery<Plan[] | null, Error>({
-    queryKey: ['get_admin_community_plans', uid],
-    queryFn: () => getAdminCommunityPlans({uid: uid!}),
-    enabled: !!uid
-  })
-}
-
 
 export function useGetMyCommunities() {
     return createQuery<Community[], Error>({

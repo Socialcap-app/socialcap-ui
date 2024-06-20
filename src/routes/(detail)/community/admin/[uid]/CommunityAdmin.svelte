@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Breadcrumb, BreadcrumbItem, P, TabItem, Tabs } from 'flowbite-svelte';
   import { H1, ErrorOnFetch, StateBadge } from "$lib/components";
-  import { useGetAdminCommunity, useGetAdminCommunityPlans } from "$lib/hooks/communities";
+  import { useGetAdminCommunity} from "$lib/hooks/communities";
   import type { Community } from "$lib/types";
 	import Credentials from "./Credentials.svelte";
 	import TabHeader from "$lib/components/common/TabHeader.svelte";
@@ -15,7 +15,8 @@
   let community = useGetAdminCommunity(uid);
 
 
-  const plans = useGetAdminCommunityPlans(uid!);
+  $: plans = $community.data?.plans;
+  console.log("plans", plans)
   $: state = findState(($community.data?.state === 'INITIAL') ? 'Revision' : ($community.data?.state || '-'));
   // TODO: check/ask image community banner rounded or not 
   // TODO: ask about show count={ $community.data?.countCredentials }
@@ -77,10 +78,10 @@
           <TabItem {activeClasses} {inactiveClasses}>
             <TabHeader slot="title"
               label="Credentials Campaigns"
-              count={ $plans.data?.length || 0 }
+              count={ plans.length || 0 }
             />
             <div>
-              <Credentials communityUid={uid} {plans} />
+              <Credentials community={community} />
             </div>
           </TabItem>
 

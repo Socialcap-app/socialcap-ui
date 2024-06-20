@@ -12,7 +12,6 @@ export {
   joinCommunity,
   getAdminCommunity,
   updateCommunity,
-  getAdminCommunityPlans
 }
 
 async function getCommunity(params: {
@@ -36,13 +35,6 @@ async function getAdminCommunity(params: {
   return rs.data;
 }
 
-async function getAdminCommunityPlans(params:{
-  uid: string}): Promise<Plan[]> {
-  const rs = await API.query("get_admined_community_plans", { communityUid: params.uid });
-  console.log("rs.data",rs.data)
-  if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
-  return rs.data;
-}
 /**
  * Get the list of all the Socialcap communities
  * @param columns?: string[] - selected columns to return from query
