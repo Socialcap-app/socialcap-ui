@@ -6,6 +6,7 @@ interface Person {
     email: string
     createdUTC: Date
     approvedUTC: Date
+    updatedUTC: Date
     accountId?: string
     state?: string
     description?: string
