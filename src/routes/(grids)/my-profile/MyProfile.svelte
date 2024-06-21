@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="mt-14 text-3xl text-black lg:ml-11 lg:pl-4 lg:mt-20">{$profile.data.fullName}
-              {#if $profile.data.approvedUTC || true}
+              {#if $profile.data.approvedUTC}
               <Badge class="bg-[#F9FBFC] ml-3 font-semibold py-0.5 px-2.5 text-xs max-lg:hidden" rounded color="dark">
                 <CheckCircleOutline class="w-4 me-1.5" />Approved
               </Badge>
@@ -81,7 +81,7 @@
             </div>
             {#if !editing}
             <div class="flex mt-3 lg:hidden">
-              {#if $profile.data.approvedUTC || true}
+              {#if $profile.data.approvedUTC}
               <Badge class="bg-[#F9FBFC] mr-4 font-semibold py-0.5 px-2.5 text-xs"  rounded color="dark">
                 <CheckCircleOutline class="w-4 me-1.5" />Approved
               </Badge>
