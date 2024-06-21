@@ -66,9 +66,9 @@
 	});
 </script>
 
-<div class="max-w-xl mx-auto">
-	<form use:form on:submit|stopPropagation|preventDefault class="mx-6 flex flex-col space-y-4">
-		<Label for="name" class="space-y-2" color={$errors.name ? 'red' : 'gray'}>
+<div class="mx-auto max-w-xl">
+	<form use:form on:submit|stopPropagation|preventDefault class="mx-6 mb-6 flex flex-col space-y-4">
+		<Label for="name" class="space-y-2 pb-6 border-b border-gray-200" color={$errors.name ? 'red' : 'gray'}>
 			<div class="flex justify-between">
 				<span>Name</span><span class="text-orange-400">Required</span>
 			</div>
@@ -77,7 +77,7 @@
 				<span class="text-sm text-red-500">{$errors.name}</span>
 			{/if}
 		</Label>
-		<Label class="space-y-2" color={$errors.description ? 'red' : 'gray'} for="description">
+		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.description ? 'red' : 'gray'} for="description">
 			<div class="flex justify-between">
 				<span>Description</span><span class="text-orange-400">Required</span>
 			</div>
@@ -92,7 +92,7 @@
 			{/if}
 			<Helper class="mt-2 text-sm text-gray-500">Max 256 chars</Helper>
 		</Label>
-		<Label class="space-y-2" color={$errors.state ? 'red' : 'gray'} for="state">
+		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.state ? 'red' : 'gray'} for="state">
 			<div class="flex justify-between">
 				<span>State</span><span class="text-orange-400">Required</span>
 			</div>
@@ -106,7 +106,7 @@
 				<span class="text-sm text-red-500">{$errors.state}</span>
 			{/if}
 		</Label>
-		<Label class="space-y-2" color={$errors.expiration ? 'red' : 'gray'} for="expiration">
+		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.expiration ? 'red' : 'gray'} for="expiration">
 			<div class="flex justify-between">
 				<span>Days for expiration</span><span class="text-orange-400">Required</span>
 			</div>
@@ -118,11 +118,11 @@
 				>Days since issued when it must expire (or 0 for no expiration)</Helper
 			>
 		</Label>
-		<Label class="space-y-2" color={$errors.expiration ? 'red' : 'gray'} for="revocable">
+		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.expiration ? 'red' : 'gray'} for="revocable">
 			<Checkbox name="revocable">Revocable</Checkbox>
 			<Helper class="mt-2 text-sm text-gray-500">Can this credential be revoked?</Helper>
 		</Label>
-		<Label class="space-y-2" color={$errors.issuedAmount ? 'red' : 'gray'} for="issuedAmount">
+		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.issuedAmount ? 'red' : 'gray'} for="issuedAmount">
 			<div class="flex justify-between">
 				<span>Total to be issued</span><span class="text-orange-400">Required</span>
 			</div>
@@ -139,7 +139,7 @@
 				>Max number of this credentials which can be claimed</Helper
 			>
 		</Label>
-		<div class="space-y-3">
+		<div class="space-y-3 pb-6 border-b border-gray-200">
 			<p class="text-lg">Claiming phase</p>
 			<div class="flex flex-row justify-between space-x-3">
 				<Label class="space-y-2" color={$errors.startsUTC ? 'red' : 'gray'} for="startsUTC">
@@ -162,14 +162,22 @@
 				</Label>
 			</div>
 		</div>
-		<div class="space-y-3">
+		<div class="space-y-3 pb-6 border-b border-gray-200">
 			<p class="text-lg">Voting phase</p>
 			<div class="flex flex-row justify-between space-x-3">
-				<Label class="space-y-2" color={$errors.votingStartsUTC ? 'red' : 'gray'} for="votingStartsUTC">
+				<Label
+					class="space-y-2"
+					color={$errors.votingStartsUTC ? 'red' : 'gray'}
+					for="votingStartsUTC"
+				>
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker name="votingStartsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker
+						name="votingStartsUTC"
+						datepickerFormat="dd/mm/yyyy"
+						placeholder="Pick a date"
+					/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential can start</Helper
 					>
@@ -178,7 +186,11 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker name="votingEndsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker
+						name="votingEndsUTC"
+						datepickerFormat="dd/mm/yyyy"
+						placeholder="Pick a date"
+					/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential ends</Helper
 					>
@@ -189,16 +201,13 @@
 			<div class="flex justify-between">
 				<span>NFT Metadata</span>
 			</div>
-			<Textarea
-				color={$errors.metadata ? 'red' : 'base'}
-				type="text"
-				name="metadata"
-				required
-			/>
+			<Textarea color={$errors.metadata ? 'red' : 'base'} type="text" name="metadata" required />
 			{#if $errors.metadata && $touched.metadata}
 				<span class="text-sm text-red-500">{$errors.metadata}</span>
 			{/if}
-			<Helper class="mt-2 text-sm text-gray-500">Metadata to be used when minting, must be a JSON object</Helper>
+			<Helper class="mt-2 text-sm text-gray-500"
+				>Metadata to be used when minting, must be a JSON object</Helper
+			>
 		</Label>
 	</form>
 </div>

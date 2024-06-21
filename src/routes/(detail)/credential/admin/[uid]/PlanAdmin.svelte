@@ -80,8 +80,15 @@
 
 				<TabItem open={activeTab === 2}>
 					<TabHeader showCount={false} slot="title" label="Evidence" />
-					<div class="">
-						<EvidenceEditor {plan} />
+					<div class="mb-6">
+						<div class="space-y-2 pb-6 border-b border-gray-200 mb-6">
+							<p class="text-base font-medium">Evidence fiels</p>
+							<p class="text-sm text-[#7E8390]">
+								This is the set of evidence that the applicant will be required to fill to sustain
+								his/her claim.
+							</p>
+						</div>
+						<EvidenceEditor evidence={plan?.evidence} />
 					</div>
 				</TabItem>
 

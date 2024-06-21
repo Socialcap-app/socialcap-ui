@@ -1,10 +1,27 @@
-export type { Plan };
-export { PayedBy, VariantOptions, SeleectFromOptions };
+export type { Plan, EvidenceType, EvidenceExtra, Evidence };
+export { PayedBy, VariantOptions, SelectFromOptions, EvidenceTypeOptions, PayedByOptions  };
 
 enum PayedBy {
   applicant = 1,
   community = 2,
   socialcap = 3
+}
+type EvidenceType = "text" | "note" | "files" | "remark" | "links" | "radio" | "checks" | "images"
+
+interface EvidenceExtra {
+  max: number, // max number of chars in this field  for Text and Note fields
+  allowed?: string, // allowed file types for File and Image fields
+  options?: string // options for Radio field
+}
+
+interface Evidence {
+  sid: string;
+  required: boolean;
+  label: string;
+  description: string;
+  id: string;
+  type: EvidenceType;
+  extras: EvidenceExtra;
 }
 
 interface Plan {
@@ -18,7 +35,7 @@ interface Plan {
   image?: string; // for avatar
   banner?: string; // has banner additionally to avatar image
   template?: string;
-  evidence?: string;
+  evidence?: Evidence;
   strategy?: string;
   createdUTC: Date;
   updatedUTC: Date;
@@ -42,32 +59,49 @@ interface Plan {
 const VariantOptions = [
   {
     value: "RandomAnonyomusValidators",
-    text: "Random Anonyomus Validators"
+    name: "Random Anonyomus Validators"
   },
   {
     value: "AllMembersAnonymousVoting",
-    text: "All Members Anonymous Voting"
+    name: "All Members Anonymous Voting"
   },
   {
     value: "NominatedValidators",
-    text: "Nominated Validators"
+    name: "Nominated Validators"
   },
   {
     value: "AllJudgesSecretVoting",
-    text: "All Judges Secret Voting"
+    name: "All Judges Secret Voting"
   }
 ];
 
-export const SelectFromOptions = [
+const SelectFromOptions = [
   {
     value: "AllValidator",
-    text: "All Validator"
+    name: "All Validator"
   }, {
     value: "OnlyAuditors",
-    text: "Only auditors"
+    name: "Only auditors"
   },
   {
     value: "FullCommunity",
-    text: "Full community"
+    name: "Full community"
   }
+]
+
+const PayedByOptions = [
+  { value: "1", name: "Applicant" },
+  { value: "2", name: "Community" },
+  { value: "3", name: "Socialcap" }
+]
+
+const EvidenceTypeOptions = [
+  { value: 'text', name: 'Simple text input' },
+  { value: 'note', name: 'Text note input' },
+  { value: 'radio', name: 'Radio buttons input' },
+  { value: 'checks', name: 'Check buttons input' },
+  { value: 'links', name: 'Links input' },
+  { value: 'files', name: 'File links input' },
+  { value: 'images', name: 'Image links input' },
+  { value: 'remark', name: 'Readonly remarks' }
 ]

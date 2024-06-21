@@ -19,6 +19,7 @@
 	import Datepicker from '$lib/components/common/Datepicker.svelte';
 	import H1 from '$lib/components/common/H1.svelte';
 	import { VariantOptions, SelectFromOptions, PayedBy } from '$lib/types';
+	import { PayedByOptions } from '$lib/types/plan';
 
 	export let plan: Plan;
 
@@ -66,39 +67,35 @@
 	});
 </script>
 
-<div class="max-w-xl mx-auto">
-	<form use:form on:submit|stopPropagation|preventDefault class="mx-6 flex flex-col space-y-4">
-		<Label class="space-y-2" color={$errors.fee ? 'red' : 'gray'} for="fee">
-			<div class="flex justify-between">
-				<span>Fee (MINA)</span><span class="text-orange-400">Required</span>
-			</div>
-			<Input color={$errors.fee ? 'red' : 'base'} type="number" name="fee" required />
-			{#if $errors.fee && $touched.fee}
-				<span class="text-sm text-red-500">{$errors.fee}</span>
-			{/if}
-			<Helper class="mt-2 text-sm text-gray-500"
-				>The fee in MINA required for this credential</Helper
-			>
-		</Label>
-		<Label class="space-y-2" color={$errors.fee ? 'red' : 'gray'} for="payedBy">
-			<div class="flex justify-between">
-				<span>Payend By</span><span class="text-orange-400">Required</span>
-			</div>
-			<Select
-				class="mt-2"
-				items={VariantOptions.map((s) => ({ name: s.text, value: s.value }))}
-				name="payedBy"
-				required
-			/>
-			{#if $errors.payedBy && $touched.payedBy}
-				<span class="text-sm text-red-500">{$errors.payedBy}</span>
-			{/if}
-			<Helper class="mt-2 text-sm text-gray-500"
-				>The fee in MINA required for this credential</Helper
-			>
-		</Label>
-
-		<div class="flex flex-row justify-between space-x-3">
+<div class="mx-auto max-w-xl">
+	<form use:form on:submit|stopPropagation|preventDefault class="mx-6 mb-6 flex flex-col space-y-4">
+		<div class="space-y-3 border-b border-gray-200 pb-6">
+			<Label class="space-y-2" color={$errors.fee ? 'red' : 'gray'} for="fee">
+				<div class="flex justify-between">
+					<span>Fee (MINA)</span><span class="text-orange-400">Required</span>
+				</div>
+				<Input color={$errors.fee ? 'red' : 'base'} type="number" name="fee" required />
+				{#if $errors.fee && $touched.fee}
+					<span class="text-sm text-red-500">{$errors.fee}</span>
+				{/if}
+				<Helper class="mt-2 text-sm text-gray-500"
+					>The fee in MINA required for this credential</Helper
+				>
+			</Label>
+			<Label class="space-y-2" color={$errors.fee ? 'red' : 'gray'} for="payedBy">
+				<div class="flex justify-between">
+					<span>Payed By</span><span class="text-orange-400">Required</span>
+				</div>
+				<Select class="mt-2" items={PayedByOptions} name="payedBy" required />
+				{#if $errors.payedBy && $touched.payedBy}
+					<span class="text-sm text-red-500">{$errors.payedBy}</span>
+				{/if}
+				<Helper class="mt-2 text-sm text-gray-500"
+					>The fee in MINA required for this credential</Helper
+				>
+			</Label>
+		</div>
+		<div class="flex flex-row justify-between space-x-3 border-b border-gray-200 pb-6">
 			<Label class="space-y-2" color={$errors.rewardsShare ? 'red' : 'gray'} for="rewardsShare">
 				<div class="flex justify-between">
 					<span>Validator Rewards</span>

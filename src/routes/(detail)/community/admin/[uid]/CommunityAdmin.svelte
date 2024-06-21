@@ -10,7 +10,6 @@
 	import CommunityBanner from "$lib/components/communities/CommunityBanner.svelte";
 	import General from "./General.svelte";
 	import { findState } from "$lib/types/states";
-	import Members from "./Members.svelte";
 
   export let uid: string;
   let community = useGetAdminCommunity(uid);
