@@ -12,6 +12,7 @@
     import { capitalizeFirstLetter } from "$lib/helpers/helpers";
     import type { Person } from '$lib/types/person';
 
+    // TODO: link links to profile
     // TODO: add share button and his functionality
     // TODO: load image and add edit functionality
   
