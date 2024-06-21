@@ -15,13 +15,39 @@
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import CredentialOnChainData from './CredentialOnChainData.svelte';
+	
 
 	export let uid;
+
+	$: isConnected = false;
+	let accountId = '';
 	$: credential = useGetCredential(uid);
 	$: community = useGetCommunity($credential.data?.communityUid!);
-	$: initials = $community.data ? getInitials($credential.data?.applicant!) : '??';
+	$: initials = $credential.data ? getInitials($credential.data?.applicant!) : '??';
 	$: dataOnChain = useGetCredentialOnchainData(uid);
 	$: bannerImage = $credential.data?.banner || '/images/credentialbg.svg';
+	
+	function isWalletAvailable() {
+		return typeof (window as any).mina !== 'undefined';
+	}
+
+	async function isWalletConnected() {
+		console.log('checking if wallet is connected');
+		if (isWalletAvailable()) {
+			const accounts: any[] = (await (window as any).mina?.getAccounts()) || [];
+			console.log('accounts', accounts);
+			if (accounts.length) {
+				accountId = accounts[0];
+				return true;
+			}
+		}
+		return false;
+	}
+
+	onMount(async () => {
+		isConnected = await isWalletConnected();
+		console.log('isConnected', isConnected);
+	});
 </script>
 
 <div class="p-4">
@@ -36,7 +62,12 @@
 			<div class="w-full max-w-screen-lg">
 				<div class="relative flex items-end justify-center">
 					<!-- <CommunityBanner image={$credential.data?.banner} /> -->
-					<img src={bannerImage} class="fill h-auto w-full" alt="Credential Banner" crossorigin="" />
+					<img
+						src={bannerImage}
+						class="fill h-auto w-full"
+						alt="Credential Banner"
+						crossorigin=""
+					/>
 					<div
 						class="absolute -bottom-4 flex items-center gap-2 rounded-full border-2 border-gray-200 bg-gray-50 p-1"
 					>
@@ -49,7 +80,7 @@
 					</div>
 				</div>
 
-				<div class="px-4 pb-4 pt-3 space-y-3">
+				<div class="space-y-3 px-4 pb-4 pt-3">
 					<div class="flex items-center justify-between">
 						<div>
 							<h6 class="mb-2 mt-2 text-3xl font-bold text-gray-900 dark:text-white">
@@ -60,9 +91,15 @@
 							</p>
 						</div>
 					</div>
-					<div class="flex items-center justify-end">
-						<CredentialActions credential={$credential?.data} />
-					</div>
+					{#if $credential.data}
+						<div class="flex items-center justify-end">
+							<CredentialActions
+								credential={$credential?.data}
+								{isConnected}
+								{accountId}
+							/>
+						</div>
+					{/if}
 					<div class="px-4 pb-4 pt-2">
 						<div class="ms-0 mt-4 flex items-center justify-between rtl:space-x-reverse">
 							<div class="flex items-center justify-between gap-2">

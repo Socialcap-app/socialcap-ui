@@ -26,12 +26,12 @@
   });
 
   function isWalletAvailable() {
-    return typeof window.mina !== 'undefined';
+    return typeof (window as any).mina !== 'undefined';
   }
 
   async function isWalletConnected() {
     if (isWalletAvailable()) {
-      const accounts: any[] = (await window.mina?.getAccounts()) || [];
+      const accounts: any[] = (await (window as any).mina?.getAccounts()) || [];
       if (accounts.length) {
         payer = accounts[0];
         return true;
@@ -71,7 +71,7 @@
       console.log('serializedTxn: ', serializedTxn);
       const dt = Number((Date.now() - t0) / 1000);
 
-      let response = await window.mina?.sendTransaction({
+      let response = await (window as any).mina?.sendTransaction({
         transaction: serializedTxn, // serializedTxn,
         feePayer: {
           fee: TXNFEE,
