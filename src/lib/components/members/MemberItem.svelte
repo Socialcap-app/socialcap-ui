@@ -20,7 +20,6 @@
     <GradientAvatar 
       initials={initials} 
       gradient={buildGradient(initials,"md")} 
-      sizeClasses="w-6 h-6"
       fontClasses="leading-6 text-[10px]"
     />
   </div>
@@ -28,7 +27,6 @@
     <GradientAvatar 
       initials={initials} 
       gradient={buildGradient(initials,"lg")} 
-      sizeClasses="w-10 h-10"
       fontClasses="leading-10 text-base"
     />
   </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ErrorOnFetch } from "$lib/components";
-    import { Badge, Label, Input, Helper, Textarea }  from 'flowbite-svelte'
+    import { Badge }  from 'flowbite-svelte'
 	  import Time from 'svelte-time';
 	  import { SubmitButton } from '$lib/components';
     import  ProfileForm from './ProfileForm.svelte'
@@ -10,8 +10,11 @@
     import { useGetProfile } from "$lib/hooks/persons";
     import NoData from "$lib/components/common/NoData.svelte";
     import { capitalizeFirstLetter } from "$lib/helpers/helpers";
-  	
-    
+    import type { Person } from '$lib/types/person';
+
+    // TODO: add share button and his functionality
+    // TODO: load image and add edit functionality
+  
     const profile = useGetProfile();
 
     $: person = {
@@ -40,23 +43,6 @@
       e.preventDefault()
       editing = true;
     }   
-
-    interface Person {
-    uid: string
-    fullName: string
-    email: string
-    createdUTC: Date
-    approvedUTC: Date
-    updatedUTC: Date
-    accountId?: string
-    state?: string
-    description?: string
-    image?: string
-    phone?: string
-    telegram?: string
-    preferences?: string
-}
-
   
   </script>
   
@@ -72,31 +58,45 @@
       {:else if !$profile.data }
         <NoData text="Do You exist?" />
       {:else}
-        <div class="relative flex flex-col items-center pb-72">
+        <div class="relative flex flex-col items-center pb-72 lg:items-start">
             <div class="profile-back">
-                <div class="avatar-container">
+                <div class="avatar-container-mobile">
                     <GradientAvatar
                         gradient={buildGradient(initials,"xl")} 
-                        sizeClasses="w-18 h-18"
-                        fontClasses="leading-18 text-base"
+                    />
+                </div>
+                <div class="avatar-container">
+                    <GradientAvatar
+                        gradient={buildGradient(initials,"xxl")} 
                     />
                 </div>
             </div>
-            <div class="mt-14 text-3xl text-black">{$profile.data.fullName}</div>
+            <div class="mt-14 text-3xl text-black lg:ml-11 lg:pl-4 lg:mt-20">{$profile.data.fullName}
+              {#if $profile.data.approvedUTC || true}
+              <Badge class="bg-[#F9FBFC] ml-3 font-semibold py-0.5 px-2.5 text-xs max-lg:hidden" rounded color="dark">
+                <CheckCircleOutline class="w-4 me-1.5" />Approved
+              </Badge>
+              {/if}
+            </div>
             {#if !editing}
-            <div class="flex mt-3">
-              {#if $profile.data.approvedUTC}
+            <div class="flex mt-3 lg:hidden">
+              {#if $profile.data.approvedUTC || true}
               <Badge class="bg-[#F9FBFC] mr-4 font-semibold py-0.5 px-2.5 text-xs"  rounded color="dark">
                 <CheckCircleOutline class="w-4 me-1.5" />Approved
               </Badge>
               {/if}
-              <Badge class="lg:hidden lg:ml-6 bg-[#B9CDFF]  font-semibold text-primary-500 py-1 px-2.5 text-xs" rounded color="primary">{capitalizeFirstLetter($profile.data.state)}</Badge>
+              <Badge class="bg-[#B9CDFF] font-semibold text-primary-500 py-1 px-2.5 text-xs" rounded color="primary">{capitalizeFirstLetter($profile.data.state)}</Badge>
             </div>
-            <div class="mt-9 text-base text-black font-normal">Joined <Time format="YYYY" timestamp={$profile.data.createdUTC} /></div>            
-            <div class="text-sm text-gray-400 font-normal">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hour ago</div>     
-            <SubmitButton size="md" class="absolute top-4 right-4 py-2 px-4 bg-sc_red hover:bg-sc_red" on:click={(e)=>startEdition(e)}>Edit</SubmitButton>       
+            <div class="mt-9 text-base text-black font-normal lg:ml-11 lg:pl-4 lg:mt-1">Joined <Time format="YYYY" timestamp={$profile.data.createdUTC} /></div>            
+            <div class="text-sm text-gray-400 font-normal lg:ml-11 lg:pl-4 lg:mt-6">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hour ago</div>     
+            <SubmitButton size="md" class="absolute top-4 right-4 py-2 px-4 bg-sc_red hover:bg-sc_red lg:top-[298px] lg-right-0 lg:leading-normal" on:click={(e)=>startEdition(e)}>Edit</SubmitButton>       
             {:else}
-              <ProfileForm person = {person} on:save={()=>{editing = false}}/>
+              <div class="mt-9 text-base text-black font-normal lg:ml-11 lg:pl-4 lg:mt-1">Joined <Time format="YYYY" timestamp={$profile.data.createdUTC} /></div>            
+              <div class="text-sm text-gray-400 font-normal lg:ml-11 lg:pl-4 lg:mt-6">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hour ago</div>     
+              <div class="lg:pl-[60px] lg:w-full">
+                <ProfileForm person = {person} on:save={()=>{editing = false}}/>
+              </div>
+             
             {/if}
         </div>
       {/if}
@@ -112,13 +112,39 @@
         justify-content: center;
     }
 
-    .avatar-container {
+    .avatar-container-mobile {
         position: relative;
         height: 88px;
         top:128px;
         border-radius: 50%;
-        background-color: red; /* rgba(255, 255, 255, 1) */
+        background-color:  rgba(255, 255, 255, 1);
         padding: 8px;
+      }
+      
+    .avatar-container {
+      position: relative;
+      top:174px;
+      border-radius: 50%;
+      background-color:rgba(255, 255, 255, 1);
+      display: none;
+      margin-left: 44px;
+      height: 136px;
+      padding: 16px;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .profile-back {
+        justify-content: start;
+        height: 240px;
+      }
+
+      .avatar-container-mobile {
+        display: none;
+      }
+
+      .avatar-container {
+        display: block;
+      }
     }
   </style>
   

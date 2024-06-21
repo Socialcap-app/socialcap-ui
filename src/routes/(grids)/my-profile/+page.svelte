@@ -11,11 +11,7 @@
   
   <MetaTag {path} {description} {title} {subtitle} />
   
-  <main class="py-4">
-    <!-- only on mobile -->
-    <Breadcrumb class="mb-5 lg:hidden">
-      <BreadcrumbItem>My Profile</BreadcrumbItem>
-    </Breadcrumb>
+  <main class="lg:pt-24 lg:p-8">
     <MyProfile />
   </main>
   
