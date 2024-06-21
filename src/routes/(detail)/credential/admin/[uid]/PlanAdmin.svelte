@@ -20,7 +20,9 @@
 	// use it for updating button text when submitting
 	$: working = $updatePlan.isPending ? 'Saving' : undefined;
 	let activeTab = 0;
-	async function submit() {}
+	async function submit() {
+		console.log("updating plan", plan)
+	}
 </script>
 
 <div class="w-full max-w-screen-lg">
@@ -64,52 +66,46 @@
 				contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
 				defaultClass="flex flex-wrap items-end justify-center space-x-8 rtl:space-x-reverse"
 			>
-				<TabItem open={activeTab === 0}>
+				<TabItem open={activeTab === 0} on:click={(e) => (activeTab = 0)}>
 					<TabHeader showCount={false} slot="title" label="General" />
-					<div>
-						<General {plan} />
-					</div>
+
+					<General bind:plan={plan} />
 				</TabItem>
 
-				<TabItem open={activeTab === 1}>
+				<TabItem open={activeTab === 1} on:click={(e) => (activeTab = 1)}>
 					<TabHeader showCount={false} slot="title" label="Fees & Shares" />
-					<div>
-						<FeesShares {plan} />
-					</div>
+
+					<FeesShares bind:plan={plan} />
 				</TabItem>
 
-				<TabItem open={activeTab === 2}>
+				<TabItem open={activeTab === 2} on:click={(e) => (activeTab = 2)}>
 					<TabHeader showCount={false} slot="title" label="Evidence" />
 					<div class="mb-6">
-						<div class="space-y-2 pb-6 border-b border-gray-200 mb-6">
+						<div class="mb-6 space-y-2 border-b border-gray-200 pb-6">
 							<p class="text-base font-medium">Evidence fiels</p>
 							<p class="text-sm text-[#7E8390]">
 								This is the set of evidence that the applicant will be required to fill to sustain
 								his/her claim.
 							</p>
 						</div>
-						<EvidenceEditor evidence={plan?.evidence} />
+						<EvidenceEditor bind:plan={plan} />
 					</div>
 				</TabItem>
 
-				<TabItem open={activeTab === 3}>
+				<TabItem open={activeTab === 3} on:click={(e) => (activeTab = 3)}>
 					<TabHeader showCount={false} slot="title" label="Strategy" />
-					<div class="">
-						<Strategy {plan} />
-					</div>
+
+					<Strategy bind:plan={plan} />
 				</TabItem>
-				<TabItem open={activeTab === 4}>
+				<TabItem open={activeTab === 4} on:click={(e) => (activeTab = 4)}>
 					<TabHeader showCount={false} slot="title" label="Claims" />
-					<div class="">
-						<Claims {plan} />
-					</div>
+
+					<Claims bind:plan={plan} />
 				</TabItem>
 
-				<TabItem open={activeTab === 5}>
+				<TabItem open={activeTab === 5} on:click={(e) => (activeTab = 5)}>
 					<TabHeader showCount={false} slot="title" label="Voting" />
-					<div class="">
-						<Voting {plan} />
-					</div>
+					<Voting bind:plan={plan} />
 				</TabItem>
 			</Tabs>
 		{/if}

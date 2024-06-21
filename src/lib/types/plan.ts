@@ -1,12 +1,32 @@
-export type { Plan, EvidenceType, EvidenceExtra, Evidence };
-export { PayedBy, VariantOptions, SelectFromOptions, EvidenceTypeOptions, PayedByOptions  };
+export type { Plan, EvidenceType, EvidenceExtra, Evidence, Strategy, StrategyVariant, SelectionSet };
+export { PayedBy, VariantOptions, SelectFromOptions, EvidenceTypeOptions, PayedByOptions };
 
 enum PayedBy {
   applicant = 1,
   community = 2,
   socialcap = 3
 }
-type EvidenceType = "text" | "note" | "files" | "remark" | "links" | "radio" | "checks" | "images"
+type EvidenceType = "text" | "note" | "files" | "remark" | "links" | "radio" | "checks" | "images";
+type StrategyVariant =
+  "RandomAnonyomusValidators" |
+  "AllMembersAnonymousVoting" |
+  "NominatedValidators";
+
+type SelectionSet =
+  "ValidatorsSet" |
+  "WholeCommunity";
+
+interface Strategy {
+  title: string,
+  variant: StrategyVariant,
+  selection: SelectionSet,
+  minValidators: number,
+  minVotes: number,
+  minPositiveVotes: number,
+  minAuditors: number,
+  auditFrequency: number
+
+}
 
 interface EvidenceExtra {
   max: number, // max number of chars in this field  for Text and Note fields
@@ -36,7 +56,7 @@ interface Plan {
   banner?: string; // has banner additionally to avatar image
   template?: string;
   evidence?: Evidence;
-  strategy?: string;
+  strategy?: Strategy;
   createdUTC: Date;
   updatedUTC: Date;
   approvedUTC?: Date;
@@ -69,23 +89,20 @@ const VariantOptions = [
     value: "NominatedValidators",
     name: "Nominated Validators"
   },
-  {
-    value: "AllJudgesSecretVoting",
-    name: "All Judges Secret Voting"
-  }
+  // {
+  //   value: "AllJudgesSecretVoting",
+  //   name: "All Judges Secret Voting"
+  // }
 ];
 
 const SelectFromOptions = [
   {
-    value: "AllValidator",
-    name: "All Validator"
-  }, {
-    value: "OnlyAuditors",
-    name: "Only auditors"
+    value: "ValidatorsSet",
+    name: "Validators Set"
   },
   {
-    value: "FullCommunity",
-    name: "Full community"
+    value: "WholeCommunity",
+    name: "The whole community"
   }
 ]
 

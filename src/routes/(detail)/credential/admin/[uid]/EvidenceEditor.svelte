@@ -11,8 +11,8 @@
 		AngleUpOutline,
 		CirclePlusSolid
 	} from 'flowbite-svelte-icons';
-	export let evidence;
-	let items = evidence;
+	export let plan;
+	let items = plan.evidence;
 	let selected: number | undefined = undefined;
 
 	const EmptyField: Evidence = {

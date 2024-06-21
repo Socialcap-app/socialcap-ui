@@ -39,11 +39,11 @@
 
 	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		initialValues: {
-			fee: undefined,
-			payedBy: undefined,
-			communityShare: 30,
-			protocolShare: 10,
-			rewardsShare: 60
+			fee: plan.fee,
+			payedBy: plan.payedBy,
+			communityShare: plan.communityShare,
+			protocolShare: plan.protocolShare,
+			rewardsShare: plan.rewardsShare
 		},
 		validate: async (values) => {
 			try {

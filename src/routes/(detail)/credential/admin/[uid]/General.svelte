@@ -33,15 +33,15 @@
 
 	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		initialValues: {
-			name: undefined,
-			description: undefined,
-			state: DRAFT,
-			expiration: 0,
-			issuedAmount: 1,
-			startsUTC: '',
-			endsUTC: '',
-			votingStartsUTC: '',
-			votingEndsUTC: '',
+			name: plan.name,
+			description: plan.description,
+			state: plan.state,
+			expiration: plan.expiration,
+			issuedAmount: 0,
+			startsUTC: plan.startsUTC,
+			endsUTC: plan.endsUTC,
+			votingStartsUTC: plan.votingStartsUTC,
+			votingEndsUTC: plan.votingEndsUTC,
 			metadata: ''
 		},
 		validate: async (values) => {
