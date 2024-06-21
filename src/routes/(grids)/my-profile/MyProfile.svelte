@@ -1,73 +1,63 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    import { CACHE, type APIResponse } from "$lib/api";
-    import { Select } from "flowbite-svelte";
-    
-    import { H1, H1Subtitle, ErrorOnFetch } from "$lib/components";
+    import { ErrorOnFetch } from "$lib/components";
     import { Badge, Label, Input, Helper, Textarea }  from 'flowbite-svelte'
 	  import Time from 'svelte-time';
 	  import { SubmitButton } from '$lib/components';
+    import  ProfileForm from './ProfileForm.svelte'
     import GradientAvatar from "$lib/components/common/GradientAvatar.svelte";
     import { getInitials, buildGradient } from "$lib/components/common/gradient-svg";
     import { CheckCircleOutline } from 'flowbite-svelte-icons';
-	  import { createForm } from 'felte';
-	  import { object, string } from 'yup';
-
-
-
     import { useGetProfile } from "$lib/hooks/persons";
     import NoData from "$lib/components/common/NoData.svelte";
     import { capitalizeFirstLetter } from "$lib/helpers/helpers";
-
+  	
     
     const profile = useGetProfile();
 
+    $: person = {
+        uid: $profile.data?.uid,
+        fullName: $profile.data?.fullName,
+        email: $profile.data?.email,
+        createdUTC: $profile.data?.createdUTC,
+        approvedUTC: $profile.data?.approvedUTC,
+        updatedUTC: $profile.data?.updatedUTC,
+        accountId: $profile.data?.accountId,
+        state: $profile.data?.state,
+        description: $profile.data?.description,
+        image: $profile.data?.image,
+        phone: $profile.data?.phone,
+        telegram: $profile.data?.telegram,
+        preferences: $profile.data?.preferences
+    } as Person
+
     $: initials = getInitials($profile.data?.fullName??"");
 
-    let editing = true;
+    $: { console.log("person ",person)}
+
+    let editing = false;
 
     const startEdition = (e:MouseEvent) => {
       e.preventDefault()
       editing = true;
-    }
+    }   
 
-    const schema = object({
-      name: string()
-        .required('Name is required'),
-        /*
-        .test('verified', 'Community name already exists', async (value) => {
-          // if (value === original_name) return true
-          const exist = await checkCommunityNameExist(value);
-          return !exist as boolean;
-        }),*/
-      description: string().required('Description is required'),
-      // isAdmin: boolean().default(false) TODO: ask about this
-    });
+    interface Person {
+    uid: string
+    fullName: string
+    email: string
+    createdUTC: Date
+    approvedUTC: Date
+    updatedUTC: Date
+    accountId?: string
+    state?: string
+    description?: string
+    image?: string
+    phone?: string
+    telegram?: string
+    preferences?: string
+}
 
-    const { form, errors, isValid, touched, createSubmitHandler } = createForm({
-      debounced: {
-        timeout: 450, 
-        validate: async (values) => {
-          try {
-            await schema.validate(values, { abortEarly: false });
-          } catch (err: any) {
-            const errors = err.inner.reduce(
-              (res: any, value: any) => ({
-                [value.path]: value.message,
-                ...res
-              }),
-              {}
-            );
-            return errors;
-          }
-        }
-      }
-    });
-
-    const saveProfile = (e:MouseEvent) => {
-      e.preventDefault()
-      editing = false;
-    }
+  
   </script>
   
   <div class="">  
@@ -82,7 +72,7 @@
       {:else if !$profile.data }
         <NoData text="Do You exist?" />
       {:else}
-        <div class="relative flex flex-col items-center">
+        <div class="relative flex flex-col items-center pb-72">
             <div class="profile-back">
                 <div class="avatar-container">
                     <GradientAvatar
@@ -106,63 +96,7 @@
             <div class="text-sm text-gray-400 font-normal">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hour ago</div>     
             <SubmitButton size="md" class="absolute top-4 right-4 py-2 px-4 bg-sc_red hover:bg-sc_red" on:click={(e)=>startEdition(e)}>Edit</SubmitButton>       
             {:else}
-            <form use:form on:submit|stopPropagation|preventDefault class="mt-14 px-4 w-full flex flex-col gap-12">
-              <div>
-                <Label for="name" class="text-base text-black {$errors.name ? "text-red-500" : ""}">Full name or Alias</Label>
-                <Input class="mt-2 text-sm text-black {$errors.name ? "text-red-500" : ""}" type="text" id="name" name="name" placeholder="Pablo Doe" required />
-                {#if $errors.name && $touched.name}
-                <span class="mt-2 text-sm text-red-500">{$errors.name}</span>
-                {:else}
-                <Helper class="mt-2 text-gray-400">Name or alias you would like to show in your profile</Helper>
-                {/if}
-              </div>
-              <div>
-                <Label for="email" class="text-base text-black {$errors.email ? "text-red-500" : ""}">Email</Label>
-                <Input class="mt-2 text-sm text-black {$errors.email ? "text-red-500" : ""}" type="text" id="email" name="email" placeholder="pablo.doe@gmail.com" required />
-                {#if $errors.email && $touched.email}
-                <span class="mt-2 text-sm text-red-500">{$errors.email}</span>
-                {:else}
-                <Helper class="mt-2 text-gray-400">We need it to contact you. We will never share it with others</Helper>
-                {/if}
-              </div>
-              <div>
-                <Label for="description" class="text-base text-black {$errors.description ? "text-red-500" : ""}">Short bio</Label>
-		            <Textarea class="mt-2 text-sm text-black {$errors.description ? "text-red-500" : ""}" id="description" placeholder="Tell us a bit about yourself" rows="4" name="description" maxlength="256" />
-                {#if $errors.description && $touched.email}
-                <span class="mt-2 text-sm text-red-500">{$errors.description}</span>
-                {:else}
-                <Helper class="mt-2 text-gray-400">A brief description about you that may be of interest to others</Helper>
-                {/if}
-              </div>
-              <div>
-                <Label for="minaaccount" class="text-base text-black {$errors.minaaccount ? "text-red-500" : ""}">Your MINA account</Label>
-                <Input class="mt-2 text-sm text-black {$errors.minaaccount ? "text-red-500" : ""}" type="text" id="minaaccount" name="minaaccount" placeholder="B62qrYipbTfEx5GoJf99uU2iAcW2jgAvnoy1Wrj4Wee" required />
-                {#if $errors.minaaccount && $touched.minaaccount}
-                <span class="mt-2 text-sm text-red-500">{$errors.minaaccount}</span>
-                {:else}
-                <Helper class="mt-2 text-gray-400">This is the MINA account you will use to pay for some services and sign transactions. We will never share it with others.</Helper>
-                {/if}
-              </div>
-              <div>
-                <Label for="telegramaccount" class="text-base text-black {$errors.telegramaccount ? "text-red-500" : ""}">Telegram</Label>
-                <Input class="mt-2 text-sm text-black {$errors.telegramaccount ? "text-red-500" : ""}" type="text" id="telegramaccount" name="telegramaccount" placeholder="@" required />
-                {#if $errors.telegramaccount && $touched.telegramaccount}
-                <span class="mt-2 text-sm text-red-500">{$errors.telegramaccount}</span>
-                {:else}
-                <Helper class="mt-2 text-gray-400">We may use it to contact you. We will never share it with others.</Helper>
-                {/if}
-              </div>
-              <div>
-                <Label for="phone" class="text-base text-black {$errors.phone ? "text-red-500" : ""}">Phone</Label>
-                <Input class="mt-2 text-sm text-black {$errors.phone ? "text-red-500" : ""}" type="text" id="phone" name="phone" placeholder="444-444-444" required />
-                {#if $errors.phone && $touched.phone}
-                <span class="mt-2 text-sm text-red-500">{$errors.phone}</span>
-                {:else}
-                <Helper class="mt-2 text-gray-400">If available we may use it to secure your account. We will never share it with others.</Helper>
-                {/if}
-              </div>
-              <SubmitButton size="md" class="absolute top-4 right-4 py-2 px-4 bg-sc_red hover:bg-sc_red" on:click={(e)=>saveProfile(e)}>Save changes</SubmitButton>       
-            </form>
+              <ProfileForm person = {person} on:save={()=>{editing = false}}/>
             {/if}
         </div>
       {/if}
