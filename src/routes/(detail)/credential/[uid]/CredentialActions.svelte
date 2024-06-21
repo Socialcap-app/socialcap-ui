@@ -37,7 +37,8 @@
 		const chainId = getCurrentBlockchain().chainId;
 		console.log('mintCredential', credential, 'on', chainId, 'for owner', accountId);
 
-		const name = credential.type + '-' + credential.community;
+		let name = credential.type + '-' + credential.community;
+		name = name.slice(0, 24) + makeString(5); // max 30 chars
 		const image = await getFileImage(credential);
 		const collection = 'socialcap';
 		const description = credential.description!;
@@ -46,7 +47,7 @@
 		console.log('Name:', name, name.length);
 		console.log(name, collection, description);
 		const tx = await simpleMintNFT({
-			name: name.slice(0, 24) + makeString(5), // max 30 chars
+			name,
 			image,
 			collection,
 			description,
@@ -67,7 +68,7 @@
 
 		NATSClient.notify('personal', {
 			memo: `<p>🎉 Your credential has been successfully minted as an NFT!</p>
-    				<a href="https://example.com/view-nft" target="_blank">View your NFT</a>`,
+    				<a href="https://testnet.minanft.io/${name}" target="_blank">View your NFT</a>`,
 			subject: usr?.uid || '',
 			type: "message"
 		});
