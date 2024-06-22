@@ -16,12 +16,12 @@
   })
 
   function isWalletAvailable() {
-    return (typeof window.mina !== 'undefined');
+    return (typeof (window as any).mina !== 'undefined');
   }
 
   async function isWalletConnected() {
     if (isWalletAvailable()) {
-      const accounts: any[] = await window.mina?.getAccounts() || [];
+      const accounts: any[] = await (window as any).mina?.getAccounts() || [];
       if (accounts.length) {
         accountId = accounts[0];
         return true;
@@ -33,7 +33,7 @@
   async function connectWallet() {
     isConnecting = true;
     try {
-      const accounts: any[] = await window.mina?.requestAccounts() || [];
+      const accounts: any[] = await (window as any).mina?.requestAccounts() || [];
       accountId = accounts[0];
       isConnecting = false;
       isConnected = true;

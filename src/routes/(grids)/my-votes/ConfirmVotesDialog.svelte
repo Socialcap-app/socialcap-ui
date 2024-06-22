@@ -24,12 +24,12 @@
 	});
 
 	function isWalletAvailable() {
-		return typeof window.mina !== 'undefined';
+		return typeof (window as any).mina !== 'undefined';
 	}
 
 	async function isWalletConnected() {
 		if (isWalletAvailable()) {
-			const accounts: any[] = (await window.mina?.getAccounts()) || [];
+			const accounts: any[] = (await (window as any).mina?.getAccounts()) || [];
 			if (accounts.length) {
 				payer = accounts[0];
 				return true;
@@ -72,12 +72,12 @@
 			if (!isConnected) throw Error('Need to connect a wallet');
 			console.log('SENDING VOTES');
 
-			const accounts: any[] = (await window.mina?.requestAccounts()) || [];
+			const accounts: any[] = (await (window as any).mina?.requestAccounts()) || [];
 			const account = accounts[0];
 			console.log('account', account);
 			// let merkleTree = buildMerkleTree(votes, account);
 
-			let signedData = await window.mina?.signMessage({
+			let signedData = await (window as any).mina?.signMessage({
 				message: JSON.stringify({ root: Field(0), votes })
 			});
 

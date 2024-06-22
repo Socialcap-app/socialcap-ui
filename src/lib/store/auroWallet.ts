@@ -12,7 +12,7 @@ export const auroWallet$ = writable({
   accountExists: false,
   publicKey:"",
   sender: PublicKey.empty(),
-  api: window.mina
+  api: (window as any).mina
 });
 
 export const MINABerkeley = "https://proxy.berkeley.minaexplorer.com/graphql";
