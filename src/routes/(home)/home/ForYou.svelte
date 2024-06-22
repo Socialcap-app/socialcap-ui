@@ -20,7 +20,8 @@
   <br/>
   <H1>For you</H1>
 
-  <Tabs style="underline">
+  <Tabs style="underline"
+    contentClass="py-4 bg-transparent rounded-lg dark:bg-gray-800 mt-4">
     <TabItem open class="">
       <span slot="title" class="text-start sm:text-center">Claim & Earn</span>
       <div>

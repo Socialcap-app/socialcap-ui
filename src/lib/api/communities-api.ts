@@ -1,5 +1,5 @@
 import { API, type APIResponse } from "./api-client";
-import { type Community, type User } from "$lib/types";
+import { type Community, type Plan, type User } from "$lib/types";
 import { getCurrentUser } from "$lib/store";
 import type { NewCommunity } from "$lib/types/community";
 
@@ -11,7 +11,7 @@ export {
   checkCommunityNameExist,
   joinCommunity,
   getAdminCommunity,
-  updateCommunity
+  updateCommunity,
 }
 
 async function getCommunity(params: {
@@ -34,6 +34,7 @@ async function getAdminCommunity(params: {
   if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
   return rs.data;
 }
+
 /**
  * Get the list of all the Socialcap communities
  * @param columns?: string[] - selected columns to return from query

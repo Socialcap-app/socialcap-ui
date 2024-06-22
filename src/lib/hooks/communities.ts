@@ -2,6 +2,7 @@ import { createQuery, useQueryClient, createMutation } from '@tanstack/svelte-qu
 import { getMyCommunities, getAllCommunities, getCommunity, getAdminCommunity } from '$lib/api/queries';
 import type { Community, NewCommunity } from '$lib/types/community';
 import { createCommunity, joinCommunity, updateCommunity } from '$lib/api/communities-api';
+import type { Plan } from '$lib/types';
 
 export function useGetCommunity(uid?: string) {
   return createQuery<Community | null, Error>({
@@ -79,7 +80,6 @@ export function useUpdateCommunity(uid: string) {
     // Always refetch after error or success:
     onSettled: () => {
       client.invalidateQueries({ queryKey: ['get_admin_community', uid] })
-      // client.refetchQueries({ queryKey: ['get_admin_community', uid] })
     },
   })
 }

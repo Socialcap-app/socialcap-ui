@@ -6,6 +6,7 @@
   import { ForwardOutline, CheckOutline } from "flowbite-svelte-icons";
   import CommunityMenu from "$lib/components/communities/CommunityMenu.svelte";
 	import JoinCommunityModal from "$lib/components/communities/JoinCommunityModal.svelte";
+	import { goto } from "$app/navigation";
 
   export let community: Community | undefined | null;
 
@@ -43,7 +44,8 @@
   {#if (community?.isMember === '1') && !community?.isAdmin}
     <CommunityMenu 
       isAdmin={community?.isAdmin}
-      joined={community?.isMember === '1'}>
+      joined={community?.isMember === '1'}
+      on:admin={() => goto('/community/admin/' + community?.uid)}>
         <Badge color="light" large class="text-primary-500 border m-0 !py-2 rounded-lg">
           <CheckOutline class="ms-0 w-5 h-5"/>
           Joined
@@ -54,9 +56,11 @@
   {#if community?.isAdmin}
     <CommunityMenu 
       isAdmin={community?.isAdmin}
-      joined={community?.isMember === '1'}>
+      joined={community?.isMember === '1'}
+      on:admin={() => goto('/community/admin/' + community?.uid)}
+      >
         <Button size="md" class="bg-orange-500 p-2 px-4">
-           Admin this
+           Admin
         </Button> 
     </CommunityMenu>  
   {/if}
