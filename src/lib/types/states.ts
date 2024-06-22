@@ -9,9 +9,11 @@ export const
   CANCELLED = 2,
   REVISION = 3,
   CLAIMED = 4,
+  WAITING = 9,
+  DONE = 10,
   ACTIVE = 8,
   UNPAID = 12,
-  ASSIGNED = 7
+  ASSIGNED = 7;
 
 export const States: State[] = [
     {
@@ -99,6 +101,30 @@ export const States: State[] = [
         value: 99,
         badgeType: "info"
     }
+]
+
+export const PlanStates: State[] = [
+    {
+        name: 'Draft',
+        value: 1,
+        badgeType: "info"
+    },
+    {
+        name: 'Active',
+        value: 8,
+        badgeType: "success"
+    },
+    {
+        name: 'Paused',
+        value: 9,
+        badgeType: "warning"
+    }, 
+    {
+        name: 'Inactive',
+        value: 10,
+        badgeType: "danger"
+    },
+
 ]
 
 // Find a state givien its text

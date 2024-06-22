@@ -13,12 +13,12 @@ const config = {
 		},
 		extend: {
 			colors: {
-        black: '#102353',
-		sc_red: '#fe6a17',
+				black: '#102353',
+				sc_red: '#fe6a17',
 
-        // Socialcap branding: blue
-				primary: { 50: '#CEDCFF',  100: '#B9CDFF',  200: '#91B0FF',  300: '#6892FE',  400: '#4075FE',  500: '#1758FE',  600: '#013FDC',  700: '#012FA4',  800: '#001F6C',  900: '#000F34', 950: '#000718' },
-        
+				// Socialcap branding: blue
+				primary: { 50: '#CEDCFF', 100: '#B9CDFF', 200: '#91B0FF', 300: '#6892FE', 400: '#4075FE', 500: '#1758FE', 600: '#013FDC', 700: '#012FA4', 800: '#001F6C', 900: '#000F34', 950: '#000718' },
+
 				// flowbite-svelte
 				// primary: {
 				// 	50: '#FFF5F2',
@@ -53,7 +53,7 @@ const config = {
 
 				// original blue
 				//primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a" }
-      
+
 				// sky
 				// primary: {"50":"#f0f9ff","100":"#e0f2fe","200":"#bae6fd","300":"#7dd3fc","400":"#38bdf8","500":"#0ea5e9","600":"#0284c7","700":"#0369a1","800":"#075985","900":"#0c4a6e"}
 
