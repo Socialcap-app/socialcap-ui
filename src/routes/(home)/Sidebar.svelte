@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getCurrentUser } from "$lib/store";
   import slugify from 'slugify';
-  import { afterNavigate, goto } from '$app/navigation';
+  import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
   import { removeActiveSession } from '$lib/store/sessions';
 	import { setNavigationPath } from '$lib/store/navigation';
@@ -98,7 +98,7 @@
 
     <SidebarGroup border class="pt-6 mt-4">
 
-      <SidebarItem label="Profile" {spanClass} class="lg:hidden">
+    <SidebarItem label="Profile" {spanClass} class="lg:hidden" href="/my-profile/">
         <svelte:fragment slot="icon">
           <Icon name="Profile" size="5" />
         </svelte:fragment>

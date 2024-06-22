@@ -23,6 +23,7 @@ export function buildGradient(initials: string, size = 'lg') {
     'md': 24,
     'lg': 40, // h-10
     'xl': 72,
+    'xxl': 104,
   };
   
   const colorHash = new ColorHash({ saturation: 1.0 });

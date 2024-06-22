@@ -79,15 +79,15 @@
 <form use:form on:submit|stopPropagation|preventDefault class="m-auto lg:max-w-md flex flex-col gap-10">
 
     <div>
-    	<Label for="name" class="{$errors.name ? "text-red-500" : "text-base"}">Community Name</Label>
-			<Input class="mt-2 {$errors.name ? "text-red-500" : "text-base"}" type="text" id="name" name="name" placeholder="" required bind:value={name}/>
+    	<Label for="name" class="text-base {$errors.name ? "text-red-500" : ""}">Community Name</Label>
+			<Input class="mt-2 text-base {$errors.name ? "text-red-500" : ""}" type="text" id="name" name="name" placeholder="" required bind:value={name}/>
 			{#if $errors.name && $touched.name}
 				<span class="mt-2 text-sm text-red-500">{$errors.name}</span>
 			{/if}
     </div>
 	<div class="mt-2">
-		<Label for="description" class="{$errors.description ? "text-red-500" : "text-base"}">Short Description<span class="float-right text-sm font-normal text-[#7E8390]">Max. 256 char</span></Label>
-		<Textarea class="mt-2 {$errors.description ? "text-red-500" : "text-base"}" id="description" placeholder="" rows="4" name="description" maxlength="256" bind:value={description}/>
+		<Label for="description" class="text-base {$errors.description ? "text-red-500" : ""}">Short Description<span class="float-right text-sm font-normal text-[#7E8390]">Max. 256 char</span></Label>
+		<Textarea class="mt-2 text-base {$errors.description ? "text-red-500" : ""}" id="description" placeholder="" rows="4" name="description" maxlength="256" bind:value={description}/>
 		{#if $errors.description && $touched.description}
 			<span class="mt-2 text-sm text-red-500">{$errors.description}</span>
 		{/if}
