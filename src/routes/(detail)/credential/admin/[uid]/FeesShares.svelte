@@ -47,6 +47,8 @@
 		},
 		validate: async (values) => {
 			try {
+				// update plan data
+				plan = { ...plan, ...values };
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
 				const errors = err.inner.reduce(

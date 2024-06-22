@@ -14,6 +14,7 @@
 	import FeesShares from './FeesShares.svelte';
 	import General from './General.svelte';
 	import { useUpdatePlan } from '$lib/hooks/plans';
+	import { goto } from '$app/navigation';
 
 	export let plan: Plan | undefined = undefined;
 	const updatePlan = useUpdatePlan(plan?.uid);
@@ -21,7 +22,8 @@
 	$: working = $updatePlan.isPending ? 'Saving' : undefined;
 	let activeTab = 0;
 	async function submit() {
-		console.log("updating plan", plan)
+		await $updatePlan.mutateAsync(plan!);
+		goto('/community/admin/' + plan?.communityUid);
 	}
 </script>
 
@@ -68,14 +70,13 @@
 			>
 				<TabItem open={activeTab === 0} on:click={(e) => (activeTab = 0)}>
 					<TabHeader showCount={false} slot="title" label="General" />
-
-					<General bind:plan={plan} />
+					<General bind:plan />
 				</TabItem>
 
 				<TabItem open={activeTab === 1} on:click={(e) => (activeTab = 1)}>
 					<TabHeader showCount={false} slot="title" label="Fees & Shares" />
 
-					<FeesShares bind:plan={plan} />
+					<FeesShares bind:plan />
 				</TabItem>
 
 				<TabItem open={activeTab === 2} on:click={(e) => (activeTab = 2)}>
@@ -88,24 +89,24 @@
 								his/her claim.
 							</p>
 						</div>
-						<EvidenceEditor bind:plan={plan} />
+						<EvidenceEditor bind:plan />
 					</div>
 				</TabItem>
 
 				<TabItem open={activeTab === 3} on:click={(e) => (activeTab = 3)}>
 					<TabHeader showCount={false} slot="title" label="Strategy" />
 
-					<Strategy bind:plan={plan} />
+					<Strategy bind:plan />
 				</TabItem>
 				<TabItem open={activeTab === 4} on:click={(e) => (activeTab = 4)}>
 					<TabHeader showCount={false} slot="title" label="Claims" />
 
-					<Claims bind:plan={plan} />
+					<Claims bind:plan />
 				</TabItem>
 
 				<TabItem open={activeTab === 5} on:click={(e) => (activeTab = 5)}>
 					<TabHeader showCount={false} slot="title" label="Voting" />
-					<Voting bind:plan={plan} />
+					<Voting bind:plan />
 				</TabItem>
 			</Tabs>
 		{/if}

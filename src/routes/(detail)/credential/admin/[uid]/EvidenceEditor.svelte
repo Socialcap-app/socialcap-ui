@@ -11,8 +11,7 @@
 		AngleUpOutline,
 		CirclePlusSolid
 	} from 'flowbite-svelte-icons';
-	export let plan;
-	let items = plan.evidence;
+	export let plan: Plan;
 	let selected: number | undefined = undefined;
 
 	const EmptyField: Evidence = {
@@ -32,18 +31,19 @@
 	function addField() {
 		let field = JSON.parse(JSON.stringify(EmptyField));
 		field.id = crypto.randomUUID().replaceAll('-', '');
-		items = [].concat(items).concat([field]);
-		console.log('item added', items);
+		plan.evidence = plan.evidence.concat([field]);
+		plan.evidence = plan.evidence;
+		console.log('item added', plan.evidence);
 	}
 
 	function removeField(index: number) {
-		items.splice(index, 1);
-		items = [].concat(items);
-		console.log('item removed', items);
+		plan.evidence.splice(index, 1);
+		plan.evidence = plan.evidence;
+		console.log('item removed', plan.evidence);
 	}
 </script>
 
-{#each items as item, index (item.id)}
+{#each plan.evidence as item, index (item.id)}
 	<div>
 		{#if index === selected}
 			<div class="mb-2 space-y-4 rounded-md border-2 border-blue-500 p-4">
@@ -57,7 +57,7 @@
 						<AngleUpOutline />
 					</Button>
 				</div>
-				<EvidenceField bind:field={items[index]} />
+				<EvidenceField bind:field={plan.evidence[index]} />
 				<div class="flex justify-end">
 					<Button
 						color="light"

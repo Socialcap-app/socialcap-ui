@@ -15,7 +15,6 @@
 	import type { Plan } from '$lib/types';
 	import { DRAFT, PlanStates } from '$lib/types/states';
 	import Datepicker from '$lib/components/common/Datepicker.svelte';
-	import H1 from '$lib/components/common/H1.svelte';
 	export let plan: Plan;
 
 	const schema = object({
@@ -46,6 +45,8 @@
 		},
 		validate: async (values) => {
 			try {
+				// update plan data
+				plan = { ...plan, ...values };
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
 				const errors = err.inner.reduce(

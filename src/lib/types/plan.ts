@@ -17,15 +17,14 @@ type SelectionSet =
   "WholeCommunity";
 
 interface Strategy {
-  title: string,
+  title?: string,
   variant: StrategyVariant,
   selection: SelectionSet,
   minValidators: number,
   minVotes: number,
-  minPositiveVotes: number,
+  minPositives: number,
   minAuditors: number,
   auditFrequency: number
-
 }
 
 interface EvidenceExtra {
@@ -55,7 +54,7 @@ interface Plan {
   image?: string; // for avatar
   banner?: string; // has banner additionally to avatar image
   template?: string;
-  evidence?: Evidence;
+  evidence: Evidence[];
   strategy?: Strategy;
   createdUTC: Date;
   updatedUTC: Date;

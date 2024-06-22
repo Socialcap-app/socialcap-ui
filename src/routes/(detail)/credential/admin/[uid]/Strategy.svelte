@@ -29,16 +29,18 @@
 
 	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		initialValues: {
-			variant: undefined,
-			selection: undefined,
-			minValidators: 0,
-			minVotes: 0,
-			minPositives: 0,
-			minAuditors: 0,
-			auditFrequency: 0
+			variant: plan.strategy?.variant,
+			selection: plan.strategy?.selection,
+			minValidators: plan.strategy?.minValidators,
+			minVotes: plan.strategy?.minVotes,
+			minPositives: plan.strategy?.minPositives,
+			minAuditors: plan.strategy?.minAuditors,
+			auditFrequency: plan.strategy?.auditFrequency
 		},
 		validate: async (values) => {
 			try {
+				// update plan data
+				plan = { ...plan, strategy: { ...plan.strategy, ...values } };
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
 				const errors = err.inner.reduce(
