@@ -4,7 +4,8 @@
 
     import * as yup from 'yup'; 
     import { createForm } from 'felte';
-    import { PlusOutline, CloseOutline } from 'flowbite-svelte-icons'
+    import { PlusOutline, CloseOutline, LinkOutline } from 'flowbite-svelte-icons'
+	  import { Icon } from "$lib/components";
 
 
     export let openModal = false;
@@ -16,8 +17,10 @@
     const addMail = (e:Event) => {
       e.preventDefault()
       e.stopPropagation()
-      mails = [...mails, new_mail];
-      new_mail = ""
+      if (new_mail !== "") {
+        mails = [...mails, new_mail];
+        new_mail = ""
+      }
       console.log(mails)
     }
 
@@ -55,21 +58,21 @@
     });
 </script>
 
-<Modal  bind:open={openModal} autoclose>
+<Modal class="mt-20" bind:open={openModal} placement="top-center" autoclose>
     
     <form>
         <div class="lg:max-w-2xl w-full m-auto">
             <Label for="name" class="text-base text-black {$errors.name ? "text-red-500" : ""}">Invite</Label>
             <Helper class="mt-2 text-gray-400">Invite teammates to Socialcap</Helper>
-            <div class="flex">
-                <Input class="mt-2 text-sm text-black {$errors.name ? "text-red-500" : ""}" 
+            <div class="flex mt-2">
+                <Input class="text-sm leading-none text-black {$errors.name ? "text-red-500" : ""}" 
                   on:keydown={(e)=>{
                     if (e.key === "Enter") {
                       addMail(e)
                     }
                   }} 
                   type="text" id="name" name="name" placeholder="Pablo Doe" required bind:value={new_mail} />
-                <Button class="bg-primary-500" on:click={(e) => addMail(e)}><PlusOutline/></Button>
+                <Button class="w-10 my-1 ml-2 bg-primary-500" size="sm" on:click={(e) => addMail(e)}><PlusOutline/></Button>
             </div>
             {#if $errors.name && $touched.name}
             <span class="mt-2 text-sm text-red-500">{$errors.name}</span>
@@ -84,6 +87,25 @@
               </Badge>
             {/each}
             </div>
+        </div>
+        <hr>
+        <div>
+          <p class="text-gray-400 text-center text-sm mt-4">Or copy invite link</p>
+          <div class="flex mt-2">
+            <Icon size="6" name={"Link"} />
+            <Input class="text-sm leading-none text-black {$errors.name ? "text-red-500" : ""}" 
+              on:keydown={(e)=>{
+                if (e.key === "Enter") {
+                  addMail(e)
+                }
+              }} 
+              type="text" id="name" name="name" placeholder="Pablo Doe" required bind:value={new_mail} />
+            <Button class="my-1 ml-2 bg-primary-500" on:click={(e) => addMail(e)}><img 
+              src={`/icons/Copy.svg`} 
+              class=""
+              alt="Copy Icon"
+            /></Button>
+        </div>
         </div>
     </form>
         
