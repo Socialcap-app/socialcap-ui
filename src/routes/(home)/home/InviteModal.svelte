@@ -7,12 +7,13 @@
     import { createForm } from 'felte';
     import { PlusOutline, CloseOutline } from 'flowbite-svelte-icons'
 	  import { Icon } from "$lib/components";
-    // import { sendInvites } from '$lib/api/emails-api';
+    import { sendInvites } from '$lib/api/emails-api';
 
     export let openModal = false;
     let new_mail:string = "";
     let mails:string[] = [];
     let link = ""
+    let working = "";
 
     onMount(() => {
       // const LINK = "my-socialcap-dev.vercel.app/signup/";
@@ -65,14 +66,15 @@
     const submit = createSubmitHandler({
       onSubmit: async (values, context) => {
         console.log("send mails")
-        /*
-        async function invite() {
-          // const recipients = ['leomanzanal+test1@gmail.com', 'leomanzanal+test2@gmail.com'];
-          await sendInvites({recipients : mails.join(",")});
-        } */
+        working = "Sending invitations..";
+        // const recipients = ['leomanzanal+test1@gmail.com', 'leomanzanal+test2@gmail.com'];
+        await sendInvites({recipients : mails.join(",")});
+         
       },
       onSuccess: (response, context) => {
         console.log("mails sended")
+        working = "";
+        openModal = false;
       }
     });
 </script>
@@ -91,7 +93,7 @@
                     }
                   }} 
                   type="text" id="email" name="email" placeholder="Email" required bind:value={new_mail} />
-                <Button class="w-10 my-1 ml-2 bg-primary-500" size="sm" on:click={(e) => addMail(e)}><PlusOutline/></Button>
+                <Button class="w-10 my-1 ml-2 bg-primary-500 disabled:bg-gray-700" size="sm" disabled={new_mail.length===0 ? true : undefined} on:click={(e) => addMail(e)}><PlusOutline/></Button>
             </div>
             {#if $errors.email && $touched.email}
             <span class="mt-2 text-sm text-red-500">{$errors.email}</span>
@@ -121,12 +123,15 @@
         </div>
         </div>
         <hr class="mt-4">
-        <SubmitButton class="mt-4 w-full"
+        <SubmitButton class="mt-4 w-full disabled:bg-gray-700"
           size="md"  
           on:click={(e)=>{
             e.preventDefault()
             e.stopPropagation()
             submit()}
-          } disabled={mails.length===0 ? true : undefined}>Send Invite</SubmitButton>
+          } 
+          disabled={mails.length===0 ? true : undefined}
+          {working}
+          >Send Invite</SubmitButton>
     </form>
   </Modal>
