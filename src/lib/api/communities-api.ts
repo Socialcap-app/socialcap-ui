@@ -1,5 +1,5 @@
 import { API, type APIResponse } from "./api-client";
-import { type Community, type User } from "$lib/types";
+import { type Community, type Plan, type User } from "$lib/types";
 import { getCurrentUser } from "$lib/store";
 import type { NewCommunity } from "$lib/types/community";
 
@@ -9,7 +9,9 @@ export {
   getCommunity,
   createCommunity,
   checkCommunityNameExist,
-  joinCommunity
+  joinCommunity,
+  getAdminCommunity,
+  updateCommunity,
 }
 
 async function getCommunity(params: {
@@ -18,6 +20,16 @@ async function getCommunity(params: {
   const rs = await API.query("get_community", {
     uid: params.uid,
     extras: false // do not include claims,etc in response
+  });
+  if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
+  return rs.data;
+}
+
+async function getAdminCommunity(params: {
+  uid: string,
+}): Promise<Community> {
+  const rs = await API.query("get_admined_community", {
+    uid: params.uid
   });
   if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
   return rs.data;
@@ -100,6 +112,22 @@ async function joinCommunity(data: {
   personUid: string
 }): Promise<any> {
   const rs = await API.mutate("join_community", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Update community
+ * @param communityUid: string - Uid of community to update
+ * @returns Updated Commmunity
+ */
+async function updateCommunity(data: {
+  // communityUid: string,
+  uid: string,
+  name: string,
+  description: string
+}): Promise<any> {
+  const rs = await API.mutate("update_community", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }
