@@ -29,7 +29,7 @@
 		</TableHead>
 		<TableBody class="divide-y">
 			{#each data || [] as t}
-				<TableBodyRow class="cursor-pointer" on:click={() => goto(`/credential/admin/${t.uid}/`)}>
+				<TableBodyRow class="cursor-pointer" on:click={() => goto(`/plan/admin/${t.uid}/`)}>
 					<TableBodyCell>
 						<div class="flex items-center space-x-3">
 							<img class="h-12 w-12 rounded-full" src={t.image} alt="Badge" />
@@ -58,5 +58,5 @@
 			{/each}
 		</TableBody>
 	</Table>
-	<Button color="blue" class="py-3" on:click={() => goto(`/credential/admin/new?communityUid${communityUid}`)}><CirclePlusSolid class="me-2 h-5 w-5"/> Create a campaign</Button>
+	<Button color="blue" class="py-3" on:click={() => goto(`/plan/admin/new?communityUid${communityUid}`)}><CirclePlusSolid class="me-2 h-5 w-5"/> Create a campaign</Button>
 </div>
