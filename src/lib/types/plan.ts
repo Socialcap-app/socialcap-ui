@@ -96,16 +96,16 @@ const VariantOptions = [
 
 const SelectFromOptions = [
   {
-    value: "All Validators",
+    value: "AllValidators",
     name: "All Validators"
   },
   {
     value: "OnlyAuditors",
-    text: "Only auditors"
+    name: "Only auditors"
   },
   {
     value: "FullCommunity",
-    text: "Full community"
+    name: "Full community"
   }
 ]
 
