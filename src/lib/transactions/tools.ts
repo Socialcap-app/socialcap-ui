@@ -1,7 +1,8 @@
 import type { Mina } from "o1js";
-import axios from "axios"
+
 import { getCurrentBlockchain } from "$lib/store";
 import { type Credential } from "$lib/types";
+import { makeString } from "zkcloudworker";
 
 export function serializeTransaction(
   tx: Mina.Transaction<false, false>
@@ -38,7 +39,7 @@ export async function zkCloudWorkerRequest(params: any) {
   const { command, task, transactions, args, metadata, mode, jobId } = params;
   const chain = getCurrentBlockchain().chainId;
   const apiData = {
-    auth: import.meta.env.VITE_ZKCW_AUTH  ,
+    auth: import.meta.env.VITE_ZKCW_AUTH,
     command: command,
     jwtToken: import.meta.env.VITE_ZKCW_JWT,
     data: {
@@ -54,9 +55,15 @@ export async function zkCloudWorkerRequest(params: any) {
     chain: `devnet`,
   };
   const endpoint = import.meta.env.VITE_ZKCW_ENDPOINT + chain;
-
-  const response = await axios.post(endpoint, apiData);
-  return response.data;
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(apiData),
+    headers: {
+      "Accept": "application/json; charset=utf-8",
+      "Content-Type": "application/json; charset=utf-8",
+    }
+  });
+  return await response.json();
 }
 
 export function sleep(ms: number) {
@@ -66,7 +73,7 @@ export function sleep(ms: number) {
 export async function getFileImage(credential: Credential) {
   if (!credential.image) throw new Error('No image provided');
   const response = await fetch(credential.image);
-  const fileName = credential.claimId;
+  const fileName = makeString(5) + credential.claimUid;
 
   // Check if the response is OK
   if (!response.ok) {
