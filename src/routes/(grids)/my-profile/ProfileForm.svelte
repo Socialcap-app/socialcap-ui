@@ -96,7 +96,7 @@
     </div>
     <div class="lg:max-w-2xl w-full m-auto">
       <Label for="description" class="text-base text-black {$errors.description ? "text-red-500" : ""}">Short bio<span class="max-lg:hidden float-right text-sm text-gray-400">Optional</span></Label>
-          <Textarea class="mt-2 text-sm text-black {$errors.description ? "text-red-500" : ""}" id="description" placeholder="Tell us a bit about yourself" rows="4" name="description" maxlength="256" disabled={editing?undefined:true} bind:value={person.description} />
+      <Textarea class="mt-2 text-sm text-black {editing ? "":"text-gray-400"} {$errors.description ? "text-red-500" : ""}" id="description" placeholder="Tell us a bit about yourself" rows="4" name="description" maxlength="256" disabled={editing?undefined:true} bind:value={person.description} />
       {#if $errors.description && $touched.email}
       <span class="mt-2 text-sm text-red-500">{$errors.description}</span>
       {:else}
