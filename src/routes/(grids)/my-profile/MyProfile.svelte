@@ -12,7 +12,7 @@
     import { capitalizeFirstLetter } from "$lib/helpers/helpers";
     import type { Person } from '$lib/types/person';
 
-    // TODO: link links to profile
+    
     // TODO: add share button and his functionality
     // TODO: load image and add edit functionality
   
@@ -88,17 +88,14 @@
               {/if}
               <Badge class="bg-[#B9CDFF] font-semibold text-primary-500 py-1 px-2.5 text-xs" rounded color="primary">{capitalizeFirstLetter($profile.data.state)}</Badge>
             </div>
-            <div class="mt-9 text-base text-black font-normal lg:ml-11 lg:pl-4 lg:mt-1">Joined <Time format="YYYY" timestamp={$profile.data.createdUTC} /></div>            
-            <div class="text-sm text-gray-400 font-normal lg:ml-11 lg:pl-4 lg:mt-6">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hour ago</div>     
-            <SubmitButton size="md" class="absolute top-4 right-4 py-2 px-4 bg-sc_red hover:bg-sc_red lg:top-[298px] lg-right-0 lg:leading-normal" on:click={(e)=>startEdition(e)}>Edit</SubmitButton>       
-            {:else}
-              <div class="mt-9 text-base text-black font-normal lg:ml-11 lg:pl-4 lg:mt-1">Joined <Time format="YYYY" timestamp={$profile.data.createdUTC} /></div>            
-              <div class="text-sm text-gray-400 font-normal lg:ml-11 lg:pl-4 lg:mt-6">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hour ago</div>     
-              <div class="lg:pl-[60px] lg:w-full">
-                <ProfileForm person = {person} on:save={()=>{editing = false}}/>
-              </div>
-             
+            <SubmitButton size="md" class="absolute top-4 right-4 py-2 px-4 bg-sc_red hover:bg-sc_red lg:top-[298px] lg-right-0 lg:leading-normal" on:click={(e)=>startEdition(e)}>Edit</SubmitButton>         
             {/if}
+            <div class="mt-9 text-base text-black font-normal lg:ml-11 lg:pl-4 lg:mt-1">Joined <Time format="YYYY" timestamp={$profile.data.createdUTC} /></div>            
+            <div class="text-sm text-gray-400 font-normal lg:ml-11 lg:pl-4 lg:mt-6">Last update <Time format="hh" timestamp={$profile.data.updatedUTC} /> hours ago</div>     
+            <div class="lg:pl-[60px] lg:w-full">
+              <ProfileForm person = {person} {editing} on:save={()=>{editing = false}}/>
+            </div>
+            
         </div>
       {/if}
     </div>
