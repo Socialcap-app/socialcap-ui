@@ -1,13 +1,21 @@
 import { createQuery, useQueryClient, createMutation } from '@tanstack/svelte-query'
-import { getMyCommunities, getAllCommunities, getCommunity } from '$lib/api/queries';
+import { getMyCommunities, getAllCommunities, getCommunity, getAdminCommunity } from '$lib/api/queries';
 import type { Community, NewCommunity } from '$lib/types/community';
-import { createCommunity, joinCommunity } from '$lib/api/communities-api';
+import { createCommunity, joinCommunity, updateCommunity } from '$lib/api/communities-api';
+import type { Plan } from '$lib/types';
 
 export function useGetCommunity(uid?: string) {
   return createQuery<Community | null, Error>({
-      queryKey: ['get_community'],
+      queryKey: ['get_community', uid],
       queryFn: () => getCommunity({uid: uid!}),
       enabled: !!uid
+    })
+}
+
+export function useGetAdminCommunity(uid: string) {
+  return createQuery<Community | null, Error>({
+      queryKey: ['get_admin_community', uid],
+      queryFn: () => getAdminCommunity({uid: uid})
     })
 }
 
@@ -61,6 +69,17 @@ export function useJoinCommunity() {
       client.invalidateQueries({ queryKey: ['get_all_communities'] })
       client.invalidateQueries({ queryKey: ['get_my_admined_communities'] })
       client.invalidateQueries({ queryKey: ['get_community'] })
+    },
+  })
+}
+
+export function useUpdateCommunity(uid: string) {
+  const client = useQueryClient();
+  return createMutation({
+    mutationFn: updateCommunity,
+    // Always refetch after error or success:
+    onSettled: () => {
+      client.invalidateQueries({ queryKey: ['get_admin_community', uid] })
     },
   })
 }

@@ -4,17 +4,18 @@
    * - Based on: https://github.com/coffee-cup/gradient-avatars
    * - Some ideas: https://github.com/brandonsueur/react-gradient-avatar
   */
-  import { onMount } from "svelte";
 
   export let initials = "";
-  export let gradient = ""; // the avatar default size
+  export let gradient = ""; 
+  export let fontClasses = "leading-10 text-base"
+  
 </script>
 
-<span class={"relative h-11 w-11 inline-block"}>
-  <div class="absolute h-11 w-11 top-0">
+<span class="relative inline-block">
+  <div class="relative">
     {@html gradient}
   </div>
-  <div class="absolute w-11 inline-block mt-[10px] text-center text-white">
+  <div class="absolute w-full font-semibold inline-block text-center text-white {fontClasses} top-0">
     {initials}
   </div>
 </span>
