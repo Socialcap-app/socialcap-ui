@@ -7,13 +7,16 @@
 		Input,
 		Label,
 		Textarea,
-		Checkbox
+		Checkbox,
+		Tooltip
+
 	} from 'flowbite-svelte';
 	import { createForm } from 'felte';
 	import { array, boolean, date, number, object, string } from 'yup';
 	import { onMount } from 'svelte';
 	import type { Plan } from '$lib/types';
 	import { VariantOptions, SelectFromOptions } from '$lib/types';
+	import { InfoCircleOutline } from 'flowbite-svelte-icons';
 
 	export let plan: Plan;
 
@@ -64,23 +67,9 @@
 <div class="max-w-xl mx-auto">
 	<form use:form on:submit|stopPropagation|preventDefault class="mx-6 mb-6 flex flex-col space-y-4">
 		<div class="flex justify-between gap-4 border-b border-gray-200 pb-6">
-			<Label class="space-y-2 w-full" color={$errors.variant ? 'red' : 'gray'} for="variant">
-				<div class="flex justify-between">
-					<span>Variant</span>
-				</div>
-				<Select
-					class="mt-2"
-					items={VariantOptions}
-					name="variant"
-					required
-				/>
-				{#if $errors.variant && $touched.variant}
-					<span class="text-sm text-red">{$errors.variant}</span>
-				{/if}
-			</Label>
 			<Label class="space-y-2 w-full" color={$errors.selection ? 'red' : 'gray'} for="selection">
 				<div class="flex justify-between">
-					<span>Selected from</span>
+					<span class="flex items-center">Selected from <InfoCircleOutline /> <Tooltip>From which group the validators would be selected.</Tooltip></span>
 				</div>
 				<Select
 					class="mt-2"
@@ -92,6 +81,21 @@
 					<span class="text-sm text-red">{$errors.selection}</span>
 				{/if}
 			</Label>
+			<Label class="space-y-2 w-full" color={$errors.variant ? 'red' : 'gray'} for="variant">
+				<div class="flex justify-between">
+					<span class="flex items-center">Variant <InfoCircleOutline /> <Tooltip>How the validators would be selected</Tooltip></span>
+				</div>
+				<Select
+					class="mt-2"
+					items={VariantOptions}
+					name="variant"
+					required
+				/>
+				{#if $errors.variant && $touched.variant}
+					<span class="text-sm text-red">{$errors.variant}</span>
+				{/if}
+			</Label>
+	
 		</div>
 		<div class="flex flex-row justify-between space-x-3 border-b border-gray-200 pb-6">
 			<Label class="space-y-2 w-full" color={$errors.minValidators ? 'red' : 'gray'} for="minValidators">

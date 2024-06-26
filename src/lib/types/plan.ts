@@ -9,12 +9,12 @@ enum PayedBy {
 type EvidenceType = "text" | "note" | "files" | "remark" | "links" | "radio" | "checks" | "images";
 type StrategyVariant =
   "RandomAnonyomusValidators" |
-  "AllMembersAnonymousVoting" |
-  "NominatedValidators";
+  "AllMembersAnonymousVoting" ;
 
 type SelectionSet =
-  "ValidatorsSet" |
-  "WholeCommunity";
+  "AllValidators" |
+  "OnlyAuditors"|
+  "FullCommunity";
 
 interface Strategy {
   title?: string,
@@ -78,16 +78,16 @@ interface Plan {
 const VariantOptions = [
   {
     value: "RandomAnonyomusValidators",
-    name: "Random Anonyomus Validators"
+    name: "Random"
   },
   {
     value: "AllMembersAnonymousVoting",
-    name: "All Members Anonymous Voting"
+    name: "All Members"
   },
-  {
-    value: "NominatedValidators",
-    name: "Nominated Validators"
-  },
+  // {
+  //   value: "NominatedValidators",
+  //   name: "Nominated Validators"
+  // },
   // {
   //   value: "AllJudgesSecretVoting",
   //   name: "All Judges Secret Voting"
@@ -96,12 +96,16 @@ const VariantOptions = [
 
 const SelectFromOptions = [
   {
-    value: "ValidatorsSet",
-    name: "Validators Set"
+    value: "All Validators",
+    name: "All Validators"
   },
   {
-    value: "WholeCommunity",
-    name: "The whole community"
+    value: "OnlyAuditors",
+    text: "Only auditors"
+  },
+  {
+    value: "FullCommunity",
+    text: "Full community"
   }
 ]
 
