@@ -2,9 +2,13 @@ import { API, type APIResponse } from "./api-client";
 import { type Community, type User } from "$lib/types";
 import { getCurrentUser } from "$lib/store";
 import type { NewCommunity } from "$lib/types/community";
+import type { Member } from "$lib/types/member";
 
 export {
-  getMembers
+  getMembers,
+  updateMemberRole,
+  addMemberToAdmins,
+  removeMemberFromAdmins
 }
 
 /**
@@ -19,7 +23,7 @@ export {
 async function getMembers(communityUid: string, options?: {
   roles?: string[],
   states?: string[]
-}): Promise<Community[]> {
+}): Promise<Member[]> {
   const rs = await API.query("get_members", {
     communityUid: communityUid
   });
@@ -27,3 +31,49 @@ async function getMembers(communityUid: string, options?: {
   return rs.data || [];
 }
 
+/**
+ * Update community member role
+ * @param communityUid: string - Uid of community the member belong to
+ * @param personUid: string - Uid of the member
+ * @param role: number - new role
+ *  * @returns Updated Member
+ */
+async function updateMemberRole(data: {
+  communityUid: string,
+  personUid: string,
+  role: number
+}): Promise<any> {
+  const rs = await API.mutate("update_member_role", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Add community member to admins
+ * @param communityUid: string - Uid of community the member belong to
+ * @param personUid: string - Uid of the member
+ *  * @returns Updated Community
+ */
+async function addMemberToAdmins(data: {
+  communityUid: string,
+  personUid: string
+}): Promise<any> {
+  const rs = await API.mutate("add_member_to_admins", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Remove community member from admins
+ * @param communityUid: string - Uid of community the member belong to
+ * @param personUid: string - Uid of the member
+ *  * @returns Updated Community
+ */
+async function removeMemberFromAdmins(data: {
+  communityUid: string,
+  personUid: string
+}): Promise<any> {
+  const rs = await API.mutate("remove_member_from_admins", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}

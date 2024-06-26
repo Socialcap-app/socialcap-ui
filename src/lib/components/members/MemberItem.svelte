@@ -1,36 +1,40 @@
 <script lang="ts">
-  import Time from "svelte-time/Time.svelte";
   import GradientAvatar from "../common/GradientAvatar.svelte";
   import { getInitials, buildGradient } from "../common/gradient-svg";
+	import ActionFooter from '../../../routes/(grids)/my-votes/ActionFooter.svelte';
 
   export let 
     uid: string = "",
     personUid: string = "",
     fullName: string = "",
-    createdUTC: Date,
-    role: string,
-    isAdmin: boolean = false;
+    role: string;
   
   $: initials = getInitials(fullName);
-</script>
 
-<div class="flex items-center justify-between pt-3 pb-3 border-b">
-  <div class="w-12">
+  // let screenWidth = window.innerWidth;
+  // let gradientSize = screenWidth>1024?"lg":"md"
+  
+</script>
+<div class="grid grid-cols-[auto_1fr_auto] lg:grid-cols-[auto_1fr_auto_auto] gap-x-6 gap-y-0.5 text-black flex items-center justify-between pt-3 pb-3 lg:border-b">
+  <div class="flex justify-center lg:hidden">
     <GradientAvatar 
       initials={initials} 
-      gradient={buildGradient(initials)} 
+      gradient={buildGradient(initials,"md")} 
+      fontClasses="leading-6 text-[10px]"
     />
   </div>
-  <div class="w-full h-12 ms-4 text-base font-semibold text-black text-start">
+  <div class="flex justify-center max-lg:hidden">
+    <GradientAvatar 
+      initials={initials} 
+      gradient={buildGradient(initials,"lg")} 
+      fontClasses="leading-10 text-base"
+    />
+  </div>
+  <div class="w-full ms-4 text-base text-start">
     <a href={`/person/${personUid}`}>
       {fullName}
     </a>
-    <div class="text-xs text-gray-400 mt-1">
-      Since
-      <Time format="MMM DD, YYYY" timestamp={createdUTC} />
-    </div>
   </div>
-  <div class="text-sm text-black text-end">
-    {personUid.slice(0,6)}...{personUid.slice(-6)}
-  </div>
+  <slot name="public"></slot>
+  <slot name="admin"></slot>
 </div>

@@ -98,7 +98,7 @@
 
     <SidebarGroup border class="pt-6 mt-4">
 
-      <SidebarItem label="Profile" {spanClass} class="lg:hidden">
+    <SidebarItem label="Profile" {spanClass} class="lg:hidden" href="/my-profile/">
         <svelte:fragment slot="icon">
           <Icon name="Profile" size="5" />
         </svelte:fragment>
@@ -156,7 +156,7 @@
           <Icon name="MyCredentials" size="5" />
         </svelte:fragment>
         {#each ($plans.data || []) as t}
-          <SidebarDropdownItem class="text-xs font-bold" label={`${t.name} (${t.stateDescr})`} href={`/admin/plan/${t.uid}/`} />
+          <SidebarDropdownItem class="text-xs font-bold" label={`${t.name} (${t.stateDescr})`} href={`/plan/admin/${t.uid}/`} on:click={() => { goto(`/plan/admin/${t.uid}/`) }} />
         {/each}
       </SidebarDropdownWrapper>
 
@@ -168,7 +168,7 @@
           {#each ($communities.data || []) as t}
             <SidebarDropdownItem class="text-xs font-bold" 
               label={t.name}
-              href={`/admin/community/${t.uid}?${slugify(t.name)}/`} 
+              href={`/community/admin/${t.uid}?${slugify(t.name)}/`} 
             />
           {/each}
         </SidebarDropdownWrapper>

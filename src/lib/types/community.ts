@@ -1,3 +1,5 @@
+import type { Plan } from "./plan";
+
 export type { Community, NewCommunity };
 
 type CommunityState =  "INITIAL" | "APPROVED" | "PAUSED" | "REJECTED";
@@ -20,7 +22,7 @@ interface Community {
   approvedUTC: string;
 
   // master plans
-  plans: string[]; // Uid of all MasterPlans
+  plans: Plan[]; 
 
   // extras 
   countMembers: number;

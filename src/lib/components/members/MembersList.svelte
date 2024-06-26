@@ -17,16 +17,20 @@
       />        
     {:else}
       <div class="mt-2">
-        {#each (data || []) as t}
+        {#each (data || []) as t }
           <div class="transition-opacity duration-1000">
             <MemberItem 
               fullName={t.fullName}
               uid={t.uid}
               personUid={t.personUid}
-              isAdmin={t.isAdmin}
               role={t.role}
-              createdUTC={t.createdUTC}
-            />
+            >
+              <svelte:fragment slot="public">
+                <div class="text-sm font-semibold text-end"  >
+                  {t.personUid.slice(0,3)}...{t.personUid.slice(-3)} 
+                </div>
+              </svelte:fragment>
+            </MemberItem>
           </div>
         {/each}
       </div>
