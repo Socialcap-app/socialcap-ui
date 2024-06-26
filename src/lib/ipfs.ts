@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export async function pinFile(params: {
   file: File;
   keyvalues: { [key: string]: string };
@@ -26,20 +24,25 @@ export async function pinFile(params: {
     const key = PINATA_JWT;
     if (key === undefined) throw new Error("IPFS Key is undefined");
     const headers = {
-      "Content-Type": `multipart/form-data`,
       Authorization: "Bearer " + key,
     };
     console.log("pinFile", { endpoint, key, metadata, headers, formData });
 
-    const response = await axios.post(endpoint, formData, {
-      maxBodyLength: Infinity,
-      headers,
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+      headers: headers
     });
-    if (response && response.data && response.data.IpfsHash) {
-      console.log("pinFile response", response.data);
-      return response.data.IpfsHash;
+
+    const parsed = await response.json();
+    if (!response.ok) {
+      console.error("pinFile error on fetch", response.status, response.statusText, parsed.error.message);
+    }
+
+    if (parsed.IpfsHash) {
+      return parsed.IpfsHash;
     } else {
-      console.error("pinFile error 1", response.data.error);
+      console.error("pinFile error 1", parsed.error);
       return undefined;
     }
   } catch (err) {
