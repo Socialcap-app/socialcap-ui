@@ -1,5 +1,9 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import { Card,  Button } from 'flowbite-svelte';
+
+  const dispatch = createEventDispatcher();
+
   export let open = true;
 
 </script>
@@ -17,7 +21,13 @@
       Invite teammates and create better communities
     </p>
     <div class="flex gap-4 mt-9 justify-center lg:mt-10 h-10">
-      <Button size="sm" color="blue">Invite</Button>
+      <Button size="sm" color="blue" 
+        on:click={(e)=>{
+          e.preventDefault()
+          e.stopPropagation()
+          dispatch("invite")
+        }
+      }>Invite</Button>
       <Button size="sm" color="none"
         on:click={() => open = false} outline={false}>
         Dismiss
