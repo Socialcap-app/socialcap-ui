@@ -9,7 +9,7 @@
 	export let data: any;
   	$: refreshOn = data.uid;
 	console.log("getting plan", data.uid);
-	const plan = useGetPlan(data.uid);
+	$: plan = useGetPlan(data.uid);
 	$: isNew = data.uid === 'new';
 </script>
 
