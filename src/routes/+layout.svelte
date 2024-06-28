@@ -4,14 +4,21 @@
   import { page } from "$app/stores";
 	import modeobserver from '$lib/modeobserver';
   import { getCurrentSession, getDefaultSession } from "$lib/store/sessions";
+  import { redirectUrl } from "$lib/store/navigation"
 
   let activeSession = getCurrentSession(); 
 
 	onMount(() => {
     activeSession = getCurrentSession();
-    if (! activeSession) goto("/login");
-    if (activeSession) goto(getRoute());
-    console.log("pageUrl=", getRoute())
+    const route = getRoute()
+    if (! activeSession) {
+      if (route.startsWith("/community/")){ // this maybe could be removed and left the functionallity to all urls.. but I'm not sure about.
+        redirectUrl.set(route);
+      }
+      goto("/login");
+    } 
+    if (activeSession) goto(route);
+    console.log("pageUrl=", route)
     modeobserver();
   });
 	onMount(modeobserver);
