@@ -12,7 +12,7 @@
     activeSession = getCurrentSession();
     const route = getRoute()
     if (! activeSession) {
-      if (route.startsWith("/community/")){ // this maybe could be removed and left the functionallity to all urls.. but I'm not sure about.
+      if (route != ''){
         redirectUrl.set(route);
       }
       goto("/login");
