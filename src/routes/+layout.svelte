@@ -12,7 +12,7 @@
     activeSession = getCurrentSession();
     const route = getRoute()
     if (! activeSession) {
-      if (route != ''){
+      if (route != '/login/' && route !='/signup/' && (!route.startsWith('/otp/')) ){
         redirectUrl.set(route);
       }
       goto("/login");
