@@ -5,15 +5,27 @@
 	import { ErrorOnFetch, MetaTag } from '$lib/components';
 	import Breadcrumbs from '$lib/components/common/Breadcrumbs.svelte';
 	import PlanAdmin from './PlanAdmin.svelte';
+	import { UID } from '$lib/types/uid';
+	import {type Plan} from "$lib/types/plan"
 
-	export let data: any;
-  	$: refreshOn = data.uid;
-	console.log("getting plan", data.uid);
-	$: plan = useGetPlan(data.uid);
-	$: isNew = data.uid === 'new';
+	export let data: { uid: string; communityUid: string };
+	const { uid, communityUid } = data;
+	$: refreshOn = uid;
+	$: isNew = uid === 'new';
+	$: plan = useGetPlan(uid);
+	const newPlan: Plan = {
+		uid: UID.uuid4(),
+		communityUid: communityUid,
+		name: '',
+		state: 1, // DRAFT
+		stateDescr: "DRAFT",
+		createdUTC: new Date(),
+		updatedUTC: new Date(),
+		evidence: [],
+	};
 </script>
 
-<MetaTag path="claim" title="Socialcap" subtitle={`Claim`} description="" />
+<MetaTag path="plan" title="Socialcap" subtitle={`Plan`} description="" />
 
 <div class="px-2">
 	{#if $plan.isLoading}
@@ -23,8 +35,12 @@
 	{:else}
 		<Breadcrumbs label={$plan.data?.name || '?'} />
 
-		{#key refreshOn}
-			<PlanAdmin plan={$plan.data} />
-		{/key}
+		{#if isNew}
+			<PlanAdmin plan={newPlan} />
+		{:else}
+			{#key refreshOn}
+				<PlanAdmin plan={$plan.data} />
+			{/key}
+		{/if}
 	{/if}
 </div>

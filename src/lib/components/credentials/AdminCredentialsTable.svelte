@@ -1,7 +1,7 @@
 <script lang="ts">
 	import StateBadge from '$lib/components/common/StateBadge.svelte';
 	import {
-	Button,
+		Button,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -9,12 +9,12 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-  import {CirclePlusSolid} from "flowbite-svelte-icons"
 	import Time from 'svelte-time/Time.svelte';
 	import type { Plan } from '$lib/types';
 	import { goto } from '$app/navigation';
 
-	export let data: Plan[] = [], communityUid: string = '';
+	export let data: Plan[] = [],
+		communityUid: string = '';
 	console.log('plan data', data);
 </script>
 
@@ -48,7 +48,7 @@
 					>
 					<TableBodyCell
 						>{#if t.endsUTC}
-              <Time timestamp={t.endsUTC} />
+							<Time timestamp={t.endsUTC} />
 						{:else}
 							<p>-</p>
 						{/if}</TableBodyCell
@@ -58,5 +58,4 @@
 			{/each}
 		</TableBody>
 	</Table>
-	<Button color="blue" class="py-3" on:click={() => goto(`/plan/admin/new?communityUid${communityUid}`)}><CirclePlusSolid class="me-2 h-5 w-5"/> Create a campaign</Button>
 </div>
