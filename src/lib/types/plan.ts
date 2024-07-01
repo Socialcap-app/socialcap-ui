@@ -11,12 +11,12 @@ type NotaryType = "github"
 
 type StrategyVariant =
   "RandomAnonyomusValidators" |
-  "AllMembersAnonymousVoting" |
-  "NominatedValidators";
- 
+  "AllMembersAnonymousVoting" ;
+
 type SelectionSet =
-  "ValidatorsSet" |
-  "WholeCommunity";
+  "AllValidators" |
+  "OnlyAuditors"|
+  "FullCommunity";
 
 interface Strategy {
   title?: string,
@@ -91,16 +91,16 @@ interface Plan {
 const VariantOptions: { value: StrategyVariant, name: string }[] = [
   {
     value: "RandomAnonyomusValidators",
-    name: "Random Anonyomus Validators"
+    name: "Random"
   },
   {
     value: "AllMembersAnonymousVoting",
-    name: "All Members Anonymous Voting"
+    name: "All Members"
   },
-  {
-    value: "NominatedValidators",
-    name: "Nominated Validators"
-  },
+  // {
+  //   value: "NominatedValidators",
+  //   name: "Nominated Validators"
+  // },
   // {
   //   value: "AllJudgesSecretVoting",
   //   name: "All Judges Secret Voting"
@@ -109,12 +109,16 @@ const VariantOptions: { value: StrategyVariant, name: string }[] = [
 
 const SelectFromOptions: { value: SelectionSet, name: string }[] = [
   {
-    value: "ValidatorsSet",
-    name: "Validators Set"
+    value: "AllValidators",
+    name: "All Validators"
   },
   {
-    value: "WholeCommunity",
-    name: "The whole community"
+    value: "OnlyAuditors",
+    name: "Only auditors"
+  },
+  {
+    value: "FullCommunity",
+    name: "Full community"
   }
 ]
 

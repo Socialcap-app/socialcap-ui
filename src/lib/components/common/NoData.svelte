@@ -7,7 +7,7 @@
 	export { twClasses as class } ;
 </script>
 
-<div class="flex justify-center mt-8 lg:mt-8">
+<div class="flex justify-center w-full mt-8 lg:mt-8">
 	<Card size="none" class="items-center px-18 py-6 rounded-md border-0 NObg-gray-50 text-center" padding="xl">
 			<div class="mb-6">
 				<Icon name="NoData" size="8" />
