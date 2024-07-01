@@ -13,16 +13,20 @@
 	import EvidenceEditor from './EvidenceEditor.svelte';
 	import FeesShares from './FeesShares.svelte';
 	import General from './General.svelte';
-	import { useUpdatePlan } from '$lib/hooks/plans';
+	import { useCreatePlan, useUpdatePlan } from '$lib/hooks/plans';
 	import { goto } from '$app/navigation';
 
-	export let plan: Plan | undefined = undefined;
+	export let plan: Plan | undefined = undefined, isNew: boolean | undefined;
 	const updatePlan = useUpdatePlan(plan?.uid);
+	const createPlan = useCreatePlan();
 	// use it for updating button text when submitting
-	$: working = $updatePlan.isPending ? 'Saving' : undefined;
+	$: working = $updatePlan.isPending || $createPlan.isPending ? 'Saving' : undefined;
 	let activeTab = 0;
 	async function submit() {
-		await $updatePlan.mutateAsync(plan!);
+		if (isNew)
+			await $createPlan.mutateAsync(plan!);
+		else
+			await $updatePlan.mutateAsync(plan!);
 		goto('/community/admin/' + plan?.communityUid);
 	}
 </script>
@@ -48,7 +52,7 @@
 					submit();
 				}}
 				{working}
-				disabled={$updatePlan.isPending}
+				disabled={$updatePlan.isPending || $createPlan.isPending}
 				size="md"
 				class="bg-sc_red px-3 hover:bg-sc_red lg:w-32"
 			>
