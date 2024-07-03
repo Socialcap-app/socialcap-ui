@@ -1,6 +1,6 @@
 
 import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query'
-import { getPlan, getAdminedPlans, getAllClaimables, updatePlan } from '$lib/api/queries';
+import { getPlan, getAdminedPlans, getAllClaimables, updatePlan, addPlan } from '$lib/api/queries';
 import type { Plan } from '$lib/types/plan';
 
 export function useGetPlan(uid: string) {
@@ -34,6 +34,17 @@ export function useUpdatePlan(uid: string | undefined) {
     // Always refetch after error or success:
     onSettled: () => {
       client.invalidateQueries({ queryKey: ['get_plan', uid] })
+    },
+  })
+}
+
+export function useCreatePlan() {
+  const client = useQueryClient();
+  return createMutation({
+    mutationFn: addPlan,
+    // Always refetch after error or success:
+    onSettled: () => {
+  
     },
   })
 }

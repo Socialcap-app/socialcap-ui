@@ -5,7 +5,8 @@ export {
   getPlan,
   getAdminedPlans,
   getAllClaimables,
-  updatePlan
+  updatePlan,
+  addPlan
 }
 
 /**
@@ -54,6 +55,17 @@ async function getAllClaimables(params: {
  */
 async function updatePlan(data: Plan): Promise<Plan> {
   const rs = await API.mutate("update_plan", data)
+  if (rs.error) throw Error(rs.error.message, rs.error.cause);
+  return rs.data;
+}
+
+/**
+ * Add community master plan
+ * @param data: plan data to create
+ * @returns Created Plan
+ */
+async function addPlan(data: Plan): Promise<Plan> {
+  const rs = await API.mutate("add_plan", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }

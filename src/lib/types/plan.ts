@@ -57,7 +57,7 @@ interface Evidence {
 }
 
 interface Plan {
-  uid: string;
+  uid?: string;
   communityUid: string;
   state: number;
   stateDescr: string;
