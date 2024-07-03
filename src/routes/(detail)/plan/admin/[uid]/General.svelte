@@ -30,7 +30,7 @@
 		metadata: string()
 	});
 
-	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
+	const { form, data, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		initialValues: {
 			name: plan.name,
 			description: plan.description,
@@ -147,7 +147,7 @@
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker name="startsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker name="startsUTC" placeholder="Pick a date" date={ $data.startsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when claiming of this credential can start</Helper
 					>
@@ -156,7 +156,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker name="endsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker name="endsUTC" placeholder="Pick a date"  date={ $data.endsUTC} />
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when claiming of this credential ends</Helper
 					>
@@ -174,11 +174,7 @@
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker
-						name="votingStartsUTC"
-						datepickerFormat="dd/mm/yyyy"
-						placeholder="Pick a date"
-					/>
+					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  date={ $data.votingStartsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential can start</Helper
 					>
@@ -187,11 +183,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker
-						name="votingEndsUTC"
-						datepickerFormat="dd/mm/yyyy"
-						placeholder="Pick a date"
-					/>
+					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  date={ $data.votingEndsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential ends</Helper
 					>
