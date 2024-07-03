@@ -80,7 +80,9 @@
 		"slugify": "^1.6.6",
 		"svelte-exmarkdown": "^3.0.3",
 		"tailwind-merge": "^2.2.1",
-		"zkcloudworker": "^0.8.2"
+		"vite-plugin-wasm": "^3.3.0",
+		"zkcloudworker": "^0.8.2",
+		"zknotary-verifier": "^1.2.0"
 	},
 	"keywords": [
 		"Socialcap",

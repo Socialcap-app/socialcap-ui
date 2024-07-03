@@ -160,14 +160,18 @@
 		{/if}
 
 		{#if field.type === 'notary'}
-			<NotaryForm
-				notaryType={field.extras.notaryType}
-				notaryConfig={field.extras.notaryConfig}
-				bind:value={data[index].value}
-			/>
-			{#if $errors[field.sid]}
-				<div class="text-sm text-red-500">{$errors[field.sid]}</div>
-			{/if}
+			<div
+				class="block -full rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
+			>
+				<NotaryForm
+					notaryType={field.extras.notaryType}
+					notaryConfig={field.extras.notaryConfig}
+					bind:value={data[index].value}
+				/>
+				{#if $errors[field.sid]}
+					<div class="text-sm text-red-500">{$errors[field.sid]}</div>
+				{/if}
+			</div>
 		{/if}
 
 		{#if field.description && field.type !== 'remark'}
