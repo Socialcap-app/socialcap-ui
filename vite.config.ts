@@ -7,5 +7,8 @@ export default defineConfig({
 	plugins: [sveltekit(), wasm()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
+	},
+	build: {
+		target: 'esnext'
 	}
 });
