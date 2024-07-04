@@ -125,7 +125,12 @@ async function updateCommunity(data: {
   // communityUid: string,
   uid: string,
   name: string,
-  description: string
+  description: string,
+  tokenId?: string,
+  tokenMaxSupply?: number,
+  tokenOwner?: string,
+  tokenMasterAccount?: string,
+  tokenSymbol?: string
 }): Promise<any> {
   const rs = await API.mutate("update_community", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);

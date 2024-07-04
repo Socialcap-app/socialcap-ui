@@ -34,7 +34,8 @@
 			.min(0, 'Protocol share must be positive'),
 		rewardsShare: number()
 			.required('Validators reward share is required')
-			.min(0, 'Validators reward share must be positive')
+			.min(0, 'Validators reward share must be positive'),
+		tokenSharePerClaim: number()
 	});
 
 	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
@@ -43,7 +44,8 @@
 			payedBy: plan.payedBy,
 			communityShare: plan.communityShare,
 			protocolShare: plan.protocolShare,
-			rewardsShare: plan.rewardsShare
+			rewardsShare: plan.rewardsShare,
+			tokenSharePerClaim: 0
 		},
 		validate: async (values) => {
 			try {
@@ -149,6 +151,33 @@
 					<span class="text-sm text-red-500">{$errors.protocolShare}</span>
 				{/if}
 			</Label>
+		</div>
+		<div class="space-y-3 border-b border-gray-200 pb-6">
+			<p class="text-lg">Community token</p>
+			<div class="flex flex-col justify-between space-y-3">
+				<Label
+					class="space-y-2"
+					color={$errors.tokenSharePerClaim ? 'red' : 'gray'}
+					for="tokenSharePerClaim"
+				>
+					<div class="flex justify-between">
+						<span>Tokens Share</span>
+					</div>
+					<Input
+						class="mt-2 text-base {$errors.tokenSharePerClaim ? 'text-red-500' : ''}"
+						type="number"
+						id="tokenSharePerClaim"
+						name="tokenSharePerClaim"
+						placeholder=""
+					/>
+					{#if $errors.tokenSharePerClaim && $touched.tokenSharePerClaim}
+						<span class="text-sm text-red-500">{$errors.tokenSharePerClaim}</span>
+					{/if}
+					<Helper class="mt-2 text-sm text-gray-500"
+						>Set how many tokens will be distributed per issued claim</Helper
+					>
+				</Label>
+			</div>
 		</div>
 	</form>
 </div>

@@ -21,6 +21,8 @@ interface Claim {
     negativeVotes?: number
     ignoredVotes?: number
     evidenceData?: string
+    tokenAccountId?: string // token account that holds community custom token
+
 
     // Master Plan data
     community: string
