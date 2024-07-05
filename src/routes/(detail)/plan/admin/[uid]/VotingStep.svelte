@@ -55,8 +55,8 @@
     {#if isLast == false}
         <div class={connectorColor + " ml-[22px] mt-6 h-6 w-0.5"}></div>
     {/if}
-    <p class="text-gray-500 mt-6 text-sm">{description}</p>
     {#if stepState === StepState.ONGOING && buttonText!=""}
+    <p class="text-gray-500 mt-6 text-sm">{description}</p>
     <slot name="button">
 
     </slot>

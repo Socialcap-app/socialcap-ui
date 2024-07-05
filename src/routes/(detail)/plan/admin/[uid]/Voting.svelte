@@ -4,11 +4,11 @@
     import VotingStep  from "./VotingStep.svelte";
     import { StepState, type Step } from "./vote-flow";
     import { NONE, ACTIVE, VOTING, DONE, CLAIMED, TALLYING, ISSUING } from "$lib/types/states";
+    import { stopClaimings, enableVoting, closeVoting, reopenVoting, startTally, closeTally, issueCredentials } from "$lib/api/queries";
 
 
 
     export let plan: Plan | undefined = undefined;
-
 
     let state = DONE, currentStep:number|undefined;
     let tallyed = null;
@@ -24,14 +24,15 @@
 
     let steps:Step[] = [
         { action: "Claiming", description:"", buttonText: "Stop claiming"},
-        { action: "Assigning", description:"", buttonText: ""},
-        { action: "Voting", description:"", buttonText: "Stop Voting"},
-        { action: "Tallying", description:"", buttonText: "Close Tally"},
-        { action: "Issuing", description:"", buttonText: ""},
+        { action: "Assigning", description:"Assigning the electors ... This will take some time", buttonText: ""},
+        { action: "Voting", description:"Closing voting. Please wait ...", buttonText: "Stop Voting"},
+        { action: "Tallying", description:"Starting counting votes. Please wait ...", buttonText: "Close Tally"},
+        { action: "Issuing", description:"Issuing credentials ... this will take some time !", buttonText: ""},
     ]
 
     $: {
-      // state = plan?.state??NONE; // me parece que está al pedo
+      state = plan?.state??NONE; // me parece que está al pedo
+      console.log("plan: ",plan, state)
       currentStep = getCurrentStep(state);
     }
 
