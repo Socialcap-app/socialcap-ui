@@ -52,6 +52,10 @@
 				: array();
 		}
 
+		if (field.type === 'notarize') {
+			return field.required ? string().required(field.label + ' is required') : string();	
+		}
+
 		if (field.type === 'radio') {
 			return field.required ? string().required('One option must be selected') : string();
 		}

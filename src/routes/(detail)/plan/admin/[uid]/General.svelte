@@ -20,7 +20,7 @@
 	const schema = object({
 		name: string().required('Name is required'),
 		description: string().required('Description is required'),
-		status: number().required('Status is required'),
+		state: number().required('State is required'),
 		expiration: number().required('Expiration is required'),
 		issuedAmount: number().required('Total to be issued is required'),
 		startsUTC: string(),
@@ -30,7 +30,7 @@
 		metadata: string()
 	});
 
-	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
+	const { form, data, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		initialValues: {
 			name: plan.name,
 			description: plan.description,
@@ -46,7 +46,10 @@
 		validate: async (values) => {
 			try {
 				// update plan data
+				values.state = Number(values.state)
+				console.log("values", values, plan)
 				plan = { ...plan, ...values };
+				plan.evidence = ""
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
 				const errors = err.inner.reduce(
@@ -147,7 +150,7 @@
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker name="startsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker name="startsUTC" placeholder="Pick a date" date={ $data.startsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when claiming of this credential can start</Helper
 					>
@@ -156,7 +159,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker name="endsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker name="endsUTC" placeholder="Pick a date"  date={ $data.endsUTC} />
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when claiming of this credential ends</Helper
 					>
@@ -174,11 +177,7 @@
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker
-						name="votingStartsUTC"
-						datepickerFormat="dd/mm/yyyy"
-						placeholder="Pick a date"
-					/>
+					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  date={ $data.votingStartsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential can start</Helper
 					>
@@ -187,11 +186,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker
-						name="votingEndsUTC"
-						datepickerFormat="dd/mm/yyyy"
-						placeholder="Pick a date"
-					/>
+					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  date={ $data.votingEndsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential ends</Helper
 					>
