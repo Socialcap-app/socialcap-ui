@@ -10,7 +10,7 @@
 
     export let plan: Plan | undefined = undefined;
 
-    let state = DONE, currentStep:number|undefined;
+    let state = CLAIMED, currentStep:number|undefined;
     let tallyed = null;
 
         /*
@@ -24,14 +24,14 @@
 
     let steps:Step[] = [
         { action: "Claiming", description:"", buttonText: "Stop claiming"},
-        { action: "Assigning", description:"Assigning the electors ... This will take some time", buttonText: ""},
+        { action: "Assigning", description:"Assigning the electors ... This will take some time", buttonText: "Assign electors"},
         { action: "Voting", description:"Closing voting. Please wait ...", buttonText: "Stop Voting"},
         { action: "Tallying", description:"Starting counting votes. Please wait ...", buttonText: "Close Tally"},
         { action: "Issuing", description:"Issuing credentials ... this will take some time !", buttonText: ""},
     ]
 
     $: {
-      state = plan?.state??NONE; // me parece que está al pedo
+      // state = plan?.state??NONE; // me parece que está al pedo
       console.log("plan: ",plan, state)
       currentStep = getCurrentStep(state);
     }
