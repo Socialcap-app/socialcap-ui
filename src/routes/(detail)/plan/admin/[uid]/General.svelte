@@ -20,9 +20,9 @@
 	const schema = object({
 		name: string().required('Name is required'),
 		description: string().required('Description is required'),
-		status: number().required('Status is required'),
+		state: number().required('State is required'),
 		expiration: number().required('Expiration is required'),
-		issuedAmount: number().required('Total to be issued is required'),
+		total: number().required('Total to be issued is required'),
 		startsUTC: string(),
 		endsUTC: string(),
 		votingStartsUTC: string(),
@@ -30,13 +30,13 @@
 		metadata: string()
 	});
 
-	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
+	const { form, data, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		initialValues: {
 			name: plan.name,
 			description: plan.description,
 			state: plan.state,
-			expiration: plan.expiration,
-			issuedAmount: 0,
+			expiration: plan.expiration || 0,
+			total: plan.total || 0,
 			startsUTC: plan.startsUTC,
 			endsUTC: plan.endsUTC,
 			votingStartsUTC: plan.votingStartsUTC,
@@ -123,18 +123,18 @@
 			<Checkbox name="revocable">Revocable</Checkbox>
 			<Helper class="mt-2 text-sm text-gray-500">Can this credential be revoked?</Helper>
 		</Label>
-		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.issuedAmount ? 'red' : 'gray'} for="issuedAmount">
+		<Label class="space-y-2 pb-6 border-b border-gray-200" color={$errors.total ? 'red' : 'gray'} for="total">
 			<div class="flex justify-between">
 				<span>Total to be issued</span><span class="text-orange-400">Required</span>
 			</div>
 			<Input
-				color={$errors.issuedAmount ? 'red' : 'base'}
+				color={$errors.total ? 'red' : 'base'}
 				type="number"
-				name="issuedAmount"
+				name="total"
 				required
 			/>
-			{#if $errors.issuedAmount && $touched.issuedAmount}
-				<span class="text-sm text-red-500">{$errors.issuedAmount}</span>
+			{#if $errors.total && $touched.total}
+				<span class="text-sm text-red-500">{$errors.total}</span>
 			{/if}
 			<Helper class="mt-2 text-sm text-gray-500"
 				>Max number of this credentials which can be claimed</Helper
@@ -147,7 +147,7 @@
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker name="startsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker name="startsUTC" placeholder="Pick a date" value={ $data.startsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when claiming of this credential can start</Helper
 					>
@@ -156,7 +156,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker name="endsUTC" datepickerFormat="dd/mm/yyyy" placeholder="Pick a date" />
+					<Datepicker name="endsUTC" placeholder="Pick a date"  value={ $data.endsUTC} />
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when claiming of this credential ends</Helper
 					>
@@ -174,11 +174,7 @@
 					<div class="flex justify-between">
 						<span>Starts on</span>
 					</div>
-					<Datepicker
-						name="votingStartsUTC"
-						datepickerFormat="dd/mm/yyyy"
-						placeholder="Pick a date"
-					/>
+					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  value={ $data.votingStartsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential can start</Helper
 					>
@@ -187,11 +183,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker
-						name="votingEndsUTC"
-						datepickerFormat="dd/mm/yyyy"
-						placeholder="Pick a date"
-					/>
+					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  value={ $data.votingEndsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential ends</Helper
 					>

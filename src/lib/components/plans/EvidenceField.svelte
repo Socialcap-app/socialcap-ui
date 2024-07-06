@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Select, Input, Textarea, Label, Helper, Checkbox, Tooltip } from 'flowbite-svelte';
-	import { EvidenceTypeOptions, type Evidence } from '$lib/types/plan';
+	import { EvidenceTypeOptions, NotaryTypeOptions, type Evidence } from '$lib/types/plan';
 	import { InfoCircleOutline } from 'flowbite-svelte-icons';
+	import NotaryForm from '../claims/NotaryForm.svelte';
 	export { className as class };
 	let className;
 
@@ -38,6 +39,15 @@
 			<!-- <Helper class="mt-2 text-sm text-gray-500">We need a description for this field</Helper> -->
 		</Label>
 	</div>
+	{#if field.type === 'notary'}
+	<div class="mb-6">
+		<!-- <Label for="notary" class="text-base"><span>Notary</span><NotaryForm bind:notaryType={field.extras.notaryType} bind:notaryConfig={field.extras.notaryConfig} /></Label> -->
+		<Label for="field.extras.notaryType" class="text-base"
+			><span>Notary Type</span>
+			<Select items={NotaryTypeOptions} bind:value={field.extras.notaryType} />
+		</Label>
+	</div>
+	{/if}
 	<div class="flex items-center justify-between space-x-6">
 		{#if field.type === 'text' || field.type === 'note'}
 			<Label for="extras.max" class="text-base"
@@ -45,7 +55,7 @@
 					>Max text size <InfoCircleOutline />
 					<Tooltip>Which is the max allowed text size</Tooltip></span
 				>
-				<Input type="number" invalid={field.extras.max < 0} bind:value={field.extras.max} />
+				<Input type="number" invalid={field.extras.max && field.extras.max < 0} bind:value={field.extras.max} />
 			</Label>
 		{/if}
 
@@ -75,7 +85,7 @@
 					>Max Items <InfoCircleOutline />
 					<Tooltip>Which is the max items allowed</Tooltip>
 				</span>
-				<Input type="number" invalid={field.extras.max < 0} bind:value={field.extras.max} />
+				<Input type="number" invalid={field.extras.max && field.extras.max < 0} bind:value={field.extras.max} />
 			</Label>
 		{/if}
 
@@ -88,7 +98,7 @@
 				<Input
 					label="Max items"
 					type="number"
-					invalid={field.extras.max < 0}
+					invalid={field.extras.max && field.extras.max < 0}
 					bind:value={field.extras.max}
 				/>
 			</Label>

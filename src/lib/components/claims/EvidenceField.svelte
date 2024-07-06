@@ -5,6 +5,8 @@
 	import MultiChecksField from './MultiChecksField.svelte';
 	import Tags from 'svelte-tags-input';
 	import Markdown from 'svelte-exmarkdown';
+	import Datepicker from '../common/Datepicker.svelte';
+	import NotaryForm from './NotaryForm.svelte';
 
 	export let field: any, index: number, data: any, errors: any, touched: any;
 
@@ -103,10 +105,10 @@
 				<MultiChecksField {field} bind:value={data[index].value} class="mt-1 px-2 py-1" />
 			</div>
 			{#if $errors[field.sid] && $touched[field.sid]}
-			<div class="text-sm text-red-500">
-				<div class="text-sm text-red-500">{$errors[field.sid]}</div>
-			</div>
-		{/if}
+				<div class="text-sm text-red-500">
+					<div class="text-sm text-red-500">{$errors[field.sid]}</div>
+				</div>
+			{/if}
 		{/if}
 
 		{#if field.type === 'links'}
@@ -155,6 +157,21 @@
 					<div class="text-sm text-red-500">{$errors[field.sid]}</div>
 				</div>
 			{/if}
+		{/if}
+
+		{#if field.type === 'notary'}
+			<div
+				class="block -full rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
+			>
+				<NotaryForm
+					notaryType={field.extras.notaryType}
+					notaryConfig={field.extras.notaryConfig}
+					bind:value={data[index].value}
+				/>
+				{#if $errors[field.sid]}
+					<div class="text-sm text-red-500">{$errors[field.sid]}</div>
+				{/if}
+			</div>
 		{/if}
 
 		{#if field.description && field.type !== 'remark'}

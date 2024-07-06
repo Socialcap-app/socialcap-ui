@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getCurrentUser } from "$lib/store";
   import slugify from 'slugify';
-  import { afterNavigate } from '$app/navigation';
+  import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
   import { removeActiveSession } from '$lib/store/sessions';
 	import { setNavigationPath } from '$lib/store/navigation';
@@ -156,7 +156,7 @@
           <Icon name="MyCredentials" size="5" />
         </svelte:fragment>
         {#each ($plans.data || []) as t}
-          <SidebarDropdownItem class="text-xs font-bold" label={`${t.name} (${t.stateDescr})`} href={`/plan/admin/${t.uid}/`} />
+          <SidebarDropdownItem class="text-xs font-bold" label={`${t.name} (${t.stateDescr})`} href={`/plan/admin/${t.uid}/`} on:click={() => { goto(`/plan/admin/${t.uid}/`) }} />
         {/each}
       </SidebarDropdownWrapper>
 
