@@ -1,7 +1,8 @@
 import { API } from "./api-client";
 import type { Plan } from "$lib/types/plan";
+import { convertDateToISO } from "$lib/helpers/helpers";
 
-export { 
+export {
   getPlan,
   getAdminedPlans,
   getAllClaimables,
@@ -13,7 +14,7 @@ export {
  * Get the plan details
  * @returns Plan 
  */
-async function getPlan(params: { 
+async function getPlan(params: {
   uid: string
 }): Promise<Plan> {
   const rs = await API.query("get_plan", params);
@@ -40,7 +41,7 @@ async function getAdminedPlans(): Promise<Plan[]> {
 async function getAllClaimables(params: {
   joined?: boolean;
 }): Promise<Plan[]> {
-  const rs = await API.query("get_my_claimables", { 
+  const rs = await API.query("get_my_claimables", {
     joined: false
   });
   if (rs.error) throw rs.error; // TODO handle error
@@ -54,7 +55,8 @@ async function getAllClaimables(params: {
  * @returns Updated Plan
  */
 async function updatePlan(data: Plan): Promise<Plan> {
-  const rs = await API.mutate("update_plan", data)
+  const rs = await API.mutate("update_plan", { ...data, state: Number(data.state), evidence: JSON.stringify(data.evidence), startsUTC: convertDateToISO(data.startsUTC), endsUTC: convertDateToISO(data.endsUTC), votingStartsUTC: convertDateToISO(data.votingStartsUTC), votingEndsUTC: convertDateToISO(data.votingEndsUTC) })
+  
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }
@@ -65,7 +67,7 @@ async function updatePlan(data: Plan): Promise<Plan> {
  * @returns Created Plan
  */
 async function addPlan(data: Plan): Promise<Plan> {
-  const rs = await API.mutate("add_plan", data)
+  const rs = await API.mutate("add_plan", { ...data, state: Number(data.state), evidence: JSON.stringify(data.evidence), startsUTC: convertDateToISO(data.startsUTC), endsUTC: convertDateToISO(data.endsUTC), votingStartsUTC: convertDateToISO(data.votingStartsUTC), votingEndsUTC: convertDateToISO(data.votingEndsUTC) })
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }
