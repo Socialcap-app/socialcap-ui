@@ -4,18 +4,19 @@ import type { Community, NewCommunity } from '$lib/types/community';
 import { createCommunity, joinCommunity, updateCommunity } from '$lib/api/communities-api';
 import type { Plan } from '$lib/types';
 
-export function useGetCommunity(uid?: string) {
+export function useGetCommunity(uid?: string, getExtraData?: boolean) {
   return createQuery<Community | null, Error>({
       queryKey: ['get_community', uid],
-      queryFn: () => getCommunity({uid: uid!}),
+      queryFn: () => getCommunity({uid: uid!, extras: getExtraData}),
       enabled: !!uid
     })
 }
 
-export function useGetAdminCommunity(uid: string) {
+export function useGetAdminCommunity(uid?: string) {
   return createQuery<Community | null, Error>({
       queryKey: ['get_admin_community', uid],
-      queryFn: () => getAdminCommunity({uid: uid})
+      queryFn: () => getAdminCommunity({uid: uid!}),
+      enabled: !!uid
     })
 }
 

@@ -1,12 +1,17 @@
 <script lang="ts">
-	import { Select, Input, Textarea, Label, Helper, Checkbox, Tooltip } from 'flowbite-svelte';
-	import { EvidenceTypeOptions, NotaryTypeOptions, type Evidence } from '$lib/types/plan';
+	import { Select, Input, Textarea, Label, Helper, Checkbox, Tooltip, MultiSelect } from 'flowbite-svelte';
+	import {
+		EvidenceTypeOptions,
+		NotaryTypeOptions,
+		type Evidence,
+		type Plan
+	} from '$lib/types/plan';
 	import { InfoCircleOutline } from 'flowbite-svelte-icons';
 	import NotaryForm from '../claims/NotaryForm.svelte';
 	export { className as class };
 	let className;
 
-	export let field: Evidence;
+	export let field: Evidence, plans: Plan[] | undefined;
 </script>
 
 <div>
@@ -40,13 +45,30 @@
 		</Label>
 	</div>
 	{#if field.type === 'notary'}
-	<div class="mb-6">
-		<!-- <Label for="notary" class="text-base"><span>Notary</span><NotaryForm bind:notaryType={field.extras.notaryType} bind:notaryConfig={field.extras.notaryConfig} /></Label> -->
-		<Label for="field.extras.notaryType" class="text-base"
-			><span>Notary Type</span>
-			<Select items={NotaryTypeOptions} bind:value={field.extras.notaryType} />
-		</Label>
-	</div>
+		<div class="mb-6">
+			<Label for="field.extras.notaryType" class="text-base"
+				><span>Notary Type</span>
+				<Select items={NotaryTypeOptions} bind:value={field.extras.notaryType} />
+			</Label>
+		</div>
+	{/if}
+
+	{#if field.type === 'composite'}
+		<div class="mb-6">
+			<Label for="field.extras.aggregatedCredentials" class="text-base"
+				><span>Composite Credentials</span>
+				<Helper class="mt-2 text-sm text-gray-500"
+					>Select credential types (aka plans) that would serve as proof of successful claiming processes to
+					include as evidence in the new credential claim</Helper
+				>
+				{#if plans}
+					<MultiSelect
+						items={plans?.map((p) => ({ name: p.name + , value: p.uid }))}
+						bind:value={field.extras.aggregatedCredentials}
+					/>
+				{/if}
+			</Label>
+		</div>
 	{/if}
 	<div class="flex items-center justify-between space-x-6">
 		{#if field.type === 'text' || field.type === 'note'}
@@ -55,7 +77,11 @@
 					>Max text size <InfoCircleOutline />
 					<Tooltip>Which is the max allowed text size</Tooltip></span
 				>
-				<Input type="number" invalid={field.extras.max && field.extras.max < 0} bind:value={field.extras.max} />
+				<Input
+					type="number"
+					invalid={field.extras.max && field.extras.max < 0}
+					bind:value={field.extras.max}
+				/>
 			</Label>
 		{/if}
 
@@ -85,7 +111,11 @@
 					>Max Items <InfoCircleOutline />
 					<Tooltip>Which is the max items allowed</Tooltip>
 				</span>
-				<Input type="number" invalid={field.extras.max && field.extras.max < 0} bind:value={field.extras.max} />
+				<Input
+					type="number"
+					invalid={field.extras.max && field.extras.max < 0}
+					bind:value={field.extras.max}
+				/>
 			</Label>
 		{/if}
 

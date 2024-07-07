@@ -6,7 +6,7 @@ enum PayedBy {
   community = 2,
   socialcap = 3
 }
-type EvidenceType = "text" | "note" | "files" | "remark" | "links" | "radio" | "checks" | "images" | "notary";
+type EvidenceType = "text" | "note" | "files" | "remark" | "links" | "radio" | "checks" | "images" | "notary" | "composite"; 
 type NotaryType = "github"
 
 type StrategyVariant =
@@ -44,6 +44,7 @@ interface EvidenceExtra {
   options?: string; // options for Radio field
   notaryType?: NotaryType; // zk notary type to use for Notary field
   notaryConfig?: NotaryConfig; // notary data to be use by zkNotary  eg: "{"username", "repo", "since", "until"}""
+  aggregatedCredentials?: string[]; // list of master plan ids to be used in a credential composite scenario
 }
 
 interface Evidence {
@@ -137,9 +138,10 @@ const EvidenceTypeOptions: { value: EvidenceType, name: string }[] = [
   { value: 'files', name: 'File links input' },
   { value: 'images', name: 'Image links input' },
   { value: 'remark', name: 'Readonly remarks' },
-  { value: 'notary', name: 'TLS Notary' }
+  { value: 'notary', name: 'TLS Notary' },
+  { value: 'composite', name: 'Composite Credentials' }
 ]
 
 const NotaryTypeOptions: { value: NotaryType, name: string }[] = [
-  { value: 'github', name: 'GitHub' }
+  { value: 'github', name: 'GitHub Checkins' }
 ]

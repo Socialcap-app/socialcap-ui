@@ -10,11 +10,16 @@
 	import { useSaveDratClaim, useUpdateClaim } from '$lib/hooks/claims';
 	import { goto } from '$app/navigation';
 	import { DRAFT, UNPAID } from '$lib/types/states';
+	import { useGetCommunity } from '$lib/hooks/communities';
+	import { useGetMyCredentials } from '$lib/hooks/credentials';
 
 	export let plan: any, claim: any, isNew: boolean, mode: 'view' | 'edit';
+	const communityQuery = useGetCommunity(plan.communityUid, true)
+	const myCredentialsQuery = useGetMyCredentials()
 	const saveClaim = useSaveDratClaim();
 	const updateClaim = useUpdateClaim();
-
+	$: communityPlans = $communityQuery.data?.plans;
+	$: myCredentials = $myCredentialsQuery.data;
 	let toggleDialog = false,
 		step = 0;
 	let previewOn = mode === 'view';
@@ -44,7 +49,9 @@
     {isNew} 
   />
 {/if}
-
+{#if !communityPlans }
+		<span>Loading...</span>
+{:else}
 <div class="relative">
 	<div class="mb-24 w-full p-8">
 		<!-- <pre class="text-xs">
@@ -52,7 +59,7 @@
     </pre> -->
 		{#if !previewOn}
 			<form>
-				<EvidenceForm eform={plan?.evidence} data={claim?.evidenceData} />
+				<EvidenceForm eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
 			</form>
 		{:else}
 			<EvidenceFormPreview evidenceData={claim?.evidenceData} />
@@ -86,3 +93,4 @@
 		</div>
 	</div>
 </div>
+{/if}

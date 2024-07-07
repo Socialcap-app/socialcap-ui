@@ -4,7 +4,14 @@
 	import { createForm } from 'felte';
 	import { array, object, string } from 'yup';
 	import { onMount } from 'svelte';
-	export let eform: any, data: any; // this is the data for this MasterPlan and empty Claim
+	import type { Plan } from '$lib/types';
+	import {type Credential} from '$lib/types/credential';
+
+	export let eform: any,
+		data: any,
+		communityUid: string, // this is the data for this MasterPlan and empty Claim
+		communityPlans: Plan[] = [],
+		myCredentials: Credential[] = [];
 
 	function camelize(str: string) {
 		return str
@@ -53,7 +60,7 @@
 		}
 
 		if (field.type === 'notarize') {
-			return field.required ? string().required(field.label + ' is required') : string();	
+			return field.required ? string().required(field.label + ' is required') : string();
 		}
 
 		if (field.type === 'radio') {
@@ -112,7 +119,15 @@
 
 	<form use:form on:submit|stopPropagation|preventDefault class="mx-10 flex flex-col space-y-4">
 		{#each fields || [] as field, index}
-			<EvidenceField {errors} {touched} {field} {index} bind:data />
+			<EvidenceField
+				{errors}
+				{touched}
+				{field}
+				{index}
+				bind:data
+				{myCredentials}
+				{communityPlans}
+			/>
 		{/each}
 	</form>
 </div>

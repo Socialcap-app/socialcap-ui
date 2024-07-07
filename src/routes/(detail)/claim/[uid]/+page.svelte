@@ -27,7 +27,7 @@
 <MetaTag path="claim" title="Socialcap" subtitle={`Claim`} description="" />
 
 <div class="px-2">
-	{#if $planQuery.isLoading}
+	{#if $planQuery.isLoading }
 		<span>Loading...</span>
 	{:else if $planQuery.isError}
 		<ErrorOnFetch description="A new claim" error={$planQuery.error} />
