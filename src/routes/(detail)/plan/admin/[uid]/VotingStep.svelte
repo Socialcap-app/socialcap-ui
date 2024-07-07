@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { StepState } from "./vote-flow"
+    import { StepState, CLAIMING_TEXT, ASSIGNING_TEXT, ISSUING_TEXT, TALLYING_TEXT, VOTING_TEXT } from "$lib/types/states"
     import { CheckOutline } from "flowbite-svelte-icons";
     import  Claiming  from "$lib/components/icons/claiming.svelte"
     import  Assigning  from "$lib/components/icons/assigning.svelte"
@@ -10,16 +10,16 @@
 
     export let action = ""
     export let description = ""
-    export let buttonText = ""
-    export let isLast = false;
+    export let handler
+    export let isFirst = false;
     export let stepState;
 
     let iconOptions = [
-        { step: 'Claiming', component: Claiming },
-        { step: 'Assigning', component: Assigning },
-        { step: 'Issuing', component: Issuing },
-        { step: 'Tallying', component: Tallying },
-        { step: 'Voting', component: Voting },
+        { step: CLAIMING_TEXT, component: Claiming },
+        { step: ASSIGNING_TEXT, component: Assigning },
+        { step: ISSUING_TEXT, component: Issuing },
+        { step: TALLYING_TEXT, component: Tallying },
+        { step: VOTING_TEXT, component: Voting },
     ];
 
     let iconCompoent = iconOptions.find(option => option.step == action)?.component;
@@ -28,6 +28,9 @@
 
 </script>
 <div>
+    {#if isFirst == false}
+        <div class={connectorColor + " ml-[22px] mt-6 h-6 w-0.5"}></div>
+    {/if}
     <div class="flex items-center gap-4 mt-6">
         {#if stepState === StepState.COMPLETED}
         <div class="flex items-center justify-center bg-[#15803D] border-[3px] border-[#86EFAC] rounded-full h-[46px] w-[46px]">
@@ -52,13 +55,11 @@
         </span>
         {/if}
     </div>
-    {#if isLast == false}
+    {#if stepState === StepState.ONGOING && handler}
         <div class={connectorColor + " ml-[22px] mt-6 h-6 w-0.5"}></div>
-    {/if}
-    {#if stepState === StepState.ONGOING && buttonText!=""}
-    <p class="text-gray-500 mt-6 text-sm">{description}</p>
-    <slot name="button">
+        <p class={description?"text-gray-500 mt-6 text-sm":"hidden "}} >{description}</p>
+        <slot name="button">
 
-    </slot>
+        </slot>
     {/if}
 </div>

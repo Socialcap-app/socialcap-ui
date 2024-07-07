@@ -19,6 +19,28 @@ export const
   TALLYING = 21,
   ISSUING = 32;
 
+export const 
+    CLAIMING_TEXT = "Claiming",
+    ASSIGNING_TEXT = "Assigning",
+    ISSUING_TEXT  = "Issuing",
+    TALLYING_TEXT = "Tallying",
+    VOTING_TEXT = "Voting";
+
+
+
+export enum StepState {
+    PENDING = 0,
+    ONGOING = 1,
+    COMPLETED = 2
+}
+      
+export type Step = {
+    action: string,
+    description: string,
+    buttonText: string,
+    handler?: () => void
+}
+      
 
 export const States: State[] = [
     {
