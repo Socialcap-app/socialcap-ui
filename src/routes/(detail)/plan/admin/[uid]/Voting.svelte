@@ -88,8 +88,8 @@
        await $stopClaimings.mutateAsync(plan?.uid!)
     }
 
-    function assingingHandler() {
-       $enableVoting.mutateAsync(plan?.uid!)
+    async function assingingHandler() {
+       await $enableVoting.mutateAsync(plan?.uid!)
     }
 
     async function votingHandler() {
@@ -97,12 +97,12 @@
         $startTally.mutateAsync(plan?.uid!) // TODO: this is a quick fix found thers an extra step.. one for start another to close the tally
     }
 
-    function tallyHandler() {
-        $closeTally.mutateAsync(plan?.uid!)
+    async function tallyHandler() {
+        await $closeTally.mutateAsync(plan?.uid!)
     }
 
-    function issuingHandler() {
-        $issueCredentials.mutateAsync(plan?.uid!) 
+    async function issuingHandler() {
+        await $issueCredentials.mutateAsync(plan?.uid!) 
     }
     
     
