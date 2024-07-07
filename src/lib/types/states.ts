@@ -5,15 +5,42 @@ export type State = {
 }
 
 export const 
+  NONE =  0,
   DRAFT = 1,
   CANCELLED = 2,
   REVISION = 3,
   CLAIMED = 4,
+  VOTING =  6,  
+  ASSIGNED = 7,
+  ACTIVE = 8,
   WAITING = 9,
   DONE = 10,
-  ACTIVE = 8,
   UNPAID = 12,
-  ASSIGNED = 7;
+  TALLYING = 21,
+  ISSUING = 32;
+
+export const 
+    CLAIMING_TEXT = "Claiming",
+    ASSIGNING_TEXT = "Assigning",
+    ISSUING_TEXT  = "Issuing",
+    TALLYING_TEXT = "Tallying",
+    VOTING_TEXT = "Voting";
+
+
+
+export enum StepState {
+    PENDING = 0,
+    ONGOING = 1,
+    COMPLETED = 2
+}
+      
+export type Step = {
+    action: string,
+    description: string,
+    buttonText: string,
+    handler?: () => void
+}
+      
 
 export const States: State[] = [
     {

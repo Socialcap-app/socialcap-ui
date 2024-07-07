@@ -9,4 +9,5 @@ export { getMembers, updateMemberRole, addMemberToAdmins, removeMemberFromAdmins
 export { getMyTasks, submitBatchTasks } from "./tasks-api";
 export { getMyActivities } from "./activities-api";
 export { getProfile, updateProfile} from "./profile-api";
+export { stopClaimings, enableVoting, closeVoting, reopenVoting, startTally, closeTally, issueCredentials } from "./votes-api";
 export {notarize_github} from "./notaries-api";

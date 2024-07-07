@@ -45,7 +45,6 @@
 		},
 		validate: async (values) => {
 			try {
-				// update plan data
 				plan = { ...plan, ...values };
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
@@ -183,7 +182,7 @@
 					<div class="flex justify-between">
 						<span>Ends on</span>
 					</div>
-					<Datepicker name="votingStartsUTC" placeholder="Pick a date"  value={ $data.votingEndsUTC}/>
+					<Datepicker name="votingEndsUTC" placeholder="Pick a date"  value={ $data.votingEndsUTC}/>
 					<Helper class="mt-2 text-sm text-gray-500"
 						>Date when voting of this credential ends</Helper
 					>
