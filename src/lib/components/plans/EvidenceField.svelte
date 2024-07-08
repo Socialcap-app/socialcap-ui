@@ -55,16 +55,16 @@
 
 	{#if field.type === 'composite'}
 		<div class="mb-6">
-			<Label for="field.extras.aggregatedCredentials" class="text-base"
+			<Label for="field.extras.aggregatedCredential" class="text-base"
 				><span>Composite Credentials</span>
 				<Helper class="mt-2 text-sm text-gray-500"
 					>Select credential types (aka plans) that would serve as proof of successful claiming processes to
 					include as evidence in the new credential claim</Helper
 				>
 				{#if plans}
-					<MultiSelect
-						items={plans?.map((p) => ({ name: p.name + , value: p.uid }))}
-						bind:value={field.extras.aggregatedCredentials}
+					<Select
+						items={plans?.map((p) => ({ name: p.name , value: p.uid }))}
+						bind:value={field.extras.aggregatedCredential}
 					/>
 				{/if}
 			</Label>

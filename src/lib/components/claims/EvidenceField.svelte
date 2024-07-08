@@ -182,7 +182,7 @@
 				<CompositeForm
 					{communityPlans}
 					{myCredentials}
-					aggregatedCredentials={field.extras.aggregatedCredentials}
+					aggregatedCredential={field.extras.aggregatedCredential}
 					bind:value={data[index].value}
 				/>
 				{#if $errors[field.sid]}

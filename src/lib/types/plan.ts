@@ -44,7 +44,7 @@ interface EvidenceExtra {
   options?: string; // options for Radio field
   notaryType?: NotaryType; // zk notary type to use for Notary field
   notaryConfig?: NotaryConfig; // notary data to be use by zkNotary  eg: "{"username", "repo", "since", "until"}""
-  aggregatedCredentials?: string[]; // list of master plan ids to be used in a credential composite scenario
+  aggregatedCredential?: string; // master plan id to be used in a credential composite scenario
 }
 
 interface Evidence {
