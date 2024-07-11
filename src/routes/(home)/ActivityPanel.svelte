@@ -17,26 +17,11 @@
 			on:click={() => {
 				// refreshNotifications()
 				let usr = getCurrentUser();
-				// NATSClient.notify('personal', {
-				//   memo: `Hola Peperucho ${usr?.uid}`,
-				//   subject: usr?.uid || ""
-				// });
 				NATSClient.notify('personal', {
-					memo: `Mint transaction success`,
-					subject: usr?.uid || '',
-					type: 'transaction',
-					metadata: JSON.stringify({
-						net: getCurrentBlockchain().chainId,
-						hash: "5JvD3uTVPDQWfZdv6mjEpwmAA6KFSeTRkGytjLUdcT7PerKdNQ7X",
-						type: 'zk-tx'
-					})
+				  memo: `Hola Peperucho ${usr?.uid}`,
+				  subject: usr?.uid || ""
 				});
-				NATSClient.notify('personal', {
-					memo: `<p>🎉 Your credential has been successfully minted as an NFT!</p>
-    				<a href="https://example.com/view-nft" target="_blank">View your NFT</a>`,
-					subject: usr?.uid || '',
-					type: 'message'
-				});
+
 			}}>Update</Button
 		>
 	</P>
