@@ -86,6 +86,7 @@ interface Plan {
   payedBy?: PayedBy;
   votingStartsUTC?: Date;
   votingEndsUTC?: Date;
+  tokenSharePerClaim?: number; // amount of community token to distribute per issued claim
 }
 
 const VariantOptions: { value: StrategyVariant, name: string }[] = [

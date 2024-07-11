@@ -16,6 +16,12 @@ interface Community {
   image: string; // logo image
   xadmins: string;
 
+  tokenId?: string;                // unique identifier for community custom token
+  tokenMaxSupply?: number;        // community custom token max supply
+  tokenOwner?: string;            // account that creates, facilitates, and governs how the comm token can be used
+  tokenMasterAccount?: string;    // hold initial token balance to be distributed to community
+  tokenSymbol?: string;           // community custom token symbol
+
   // activity times
   createdUTC: string;
   updatedUTC: string;
