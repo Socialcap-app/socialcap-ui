@@ -24,9 +24,39 @@ const API_ENDPOINTS: any = {
   }
 }
 
+const MINANFT_ENDPOINTS: any = {
+  'testing': {
+    url: 'https://testnet.minanft.io'
+  },
+  'production': {
+      url: 'https://minanft.io'
+  }
+}
+
+const MINASCAN_ENDPOINTS: any = {
+  'testing': {
+    url: 'https://minascan.io/devnet/tx'
+  },
+  'production': {
+      url: 'https://minascan.io/mainnet/tx'
+  }
+}
+
 export function getDefaultAPISessionFromEnv(): Session {
   const key = import.meta.env.VITE_USE_API;
   const session = API_ENDPOINTS[key] || API_ENDPOINTS['local'];
   console.log("store/api/getDefaultAPISessionFromEnv", session);
   return session;
+}
+
+export function getMinaNftUrl(): string {
+  const key = import.meta.env.VITE_APP_ENV;
+  const endpoint = MINANFT_ENDPOINTS[key] || MINANFT_ENDPOINTS['testing'];
+  return endpoint.url;
+}
+
+export function getMinascnanUrl(): string {
+  const key = import.meta.env.VITE_APP_ENV;
+  const endpoint = MINASCAN_ENDPOINTS[key] || MINASCAN_ENDPOINTS['testing'];
+  return endpoint.url;
 }

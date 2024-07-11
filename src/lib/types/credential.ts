@@ -1,6 +1,6 @@
 import type { Community } from "./community";
 
-export type { Credential, OnchainCredentialData };
+export type { Credential, OnchainCredentialData, CredentialMint };
 
 interface Credential {
     uid: string
@@ -56,4 +56,14 @@ interface OnchainCredentialData{
     status: string;
     url: string;
   }[];
+}
+
+interface CredentialMint {
+  credentialUid: string;
+  protocol: string;
+  txnHash: string;
+  explorerUrl: string;
+  name?: string;
+  mintedUTC?: Date;
+  marketplaceUrl?: string;
 }

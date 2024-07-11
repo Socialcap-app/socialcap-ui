@@ -5,7 +5,9 @@ import type { ProofOfNFT, SimpleMintNFT, SimpleImageData } from "$lib/types/mint
 import { getCurrentBlockchain } from "$lib/store";
 import { sleep } from "zkcloudworker";
 import { zkCloudWorkerRequest } from "./tools";
-
+import { getMinaNftUrl, getMinascnanUrl } from "$lib/store/api";
+const MINANFT_URL = getMinaNftUrl();
+const MINASCAN_URL = getMinascnanUrl();
 export async function prepareTransaction(params: SimpleMintNFT): Promise<{
   isPrepared: boolean;
   transaction?: string;
@@ -245,5 +247,5 @@ export async function simpleMintNFT(params: {
   });
   console.timeEnd("sent transaction");
   console.log("Sent transaction", sentTx);
-  return sentTx;
+  return { tx: sentTx, mintUrl: `${MINANFT_URL}/@${name}`, explorerUrl: `${MINASCAN_URL}` };
 }
