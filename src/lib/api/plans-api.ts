@@ -67,7 +67,7 @@ async function updatePlan(data: Plan): Promise<Plan> {
  * @returns Created Plan
  */
 async function addPlan(data: Plan): Promise<Plan> {
-  const rs = await API.mutate("add_plan", { ...data, state: Number(data.state), evidence: JSON.stringify(data.evidence), startsUTC: convertDateToISO(data.startsUTC), endsUTC: convertDateToISO(data.endsUTC), votingStartsUTC: convertDateToISO(data.votingStartsUTC), votingEndsUTC: convertDateToISO(data.votingEndsUTC) })
+  const rs = await API.mutate("add_plan", { ...data, evidence: JSON.stringify(data.evidence), payedBy: Number(data.payedBy),state: Number(data.state), startsUTC: convertDateToISO(data.startsUTC), endsUTC: convertDateToISO(data.endsUTC), votingStartsUTC: convertDateToISO(data.votingStartsUTC), votingEndsUTC: convertDateToISO(data.votingEndsUTC) })
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
 }

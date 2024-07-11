@@ -16,7 +16,7 @@
 	import { useCreatePlan, useUpdatePlan } from '$lib/hooks/plans';
 	import { goto } from '$app/navigation';
 
-	export let plan: Plan | undefined = undefined, isNew: boolean | undefined;
+	export let plan: Plan | undefined = undefined, isNew: boolean | undefined, communityPlans: Plan[];
 	const updatePlan = useUpdatePlan(plan?.uid);
 	const createPlan = useCreatePlan();
 	// use it for updating button text when submitting
@@ -93,7 +93,7 @@
 								his/her claim.
 							</p>
 						</div>
-						<EvidenceEditor bind:plan />
+						<EvidenceEditor {communityPlans} bind:plan={plan}  />
 					</div>
 				</TabItem>
 

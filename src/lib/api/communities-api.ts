@@ -16,10 +16,11 @@ export {
 
 async function getCommunity(params: {
   uid: string,
+  extras?: boolean
 }): Promise<Community> {
   const rs = await API.query("get_community", {
     uid: params.uid,
-    extras: false // do not include claims,etc in response
+    extras: params.extras || false // do not include claims,etc in response
   });
   if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
   return rs.data;
