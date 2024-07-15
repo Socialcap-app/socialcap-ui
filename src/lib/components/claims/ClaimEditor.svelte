@@ -49,8 +49,8 @@
     {isNew} 
   />
 {/if}
-{#if !communityPlans }
-		<span>Loading...</span>
+{#if $communityQuery.isLoading }
+		<span>Loading community...</span>
 {:else}
 <div class="relative">
 	<div class="mb-24 w-full p-8">
