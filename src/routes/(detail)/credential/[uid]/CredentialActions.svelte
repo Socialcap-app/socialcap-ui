@@ -9,7 +9,7 @@
 	import { getFileImage } from '$lib/transactions/tools';
 	import { makeString } from 'zkcloudworker';
 	import { useRegisterCredentialMint } from '$lib/hooks/credentials';
-	export let credential: Credential,
+	export let uid = '', credential: Credential,
 		isConnected: boolean = false,
 		accountId = '';
 	let isConnecting = false;
@@ -17,7 +17,7 @@
 	let isError = false;
 	let errorMessage = '';
 	let usr = getCurrentUser();
-	const registerCredentialMintMutation = useRegisterCredentialMint(credential.claimUid);
+	const registerCredentialMintMutation = useRegisterCredentialMint(uid);
 	async function connectWallet() {
 		isConnecting = true;
 		try {

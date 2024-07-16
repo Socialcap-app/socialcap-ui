@@ -161,7 +161,7 @@
 					for="tokenSharePerClaim"
 				>
 					<div class="flex justify-between">
-						<span>Tokens Share</span>
+						<span>Tokens per credential</span>
 					</div>
 					<Input
 						class="mt-2 text-base {$errors.tokenSharePerClaim ? 'text-red-500' : ''}"
@@ -174,7 +174,7 @@
 						<span class="text-sm text-red-500">{$errors.tokenSharePerClaim}</span>
 					{/if}
 					<Helper class="mt-2 text-sm text-gray-500"
-						>Set how many tokens will be distributed per issued claim</Helper
+						>Set how many tokens will be distributed per issued credential</Helper
 					>
 				</Label>
 			</div>

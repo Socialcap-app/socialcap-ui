@@ -17,7 +17,7 @@ export function useGetClaim(
   plan?: Plan
 ) {
   return createQuery<Claim, Error>({
-      queryKey: ['get_claim', uid],
+      queryKey: ['get_claim'],
       queryFn: () => getClaim({ uid: uid, plan: plan }),
       enabled: !!plan
     })
@@ -29,6 +29,7 @@ export function useSaveDratClaim() {
       mutationFn: saveDratClaim,
       // Always refetch after error or success:
       onSettled: () => {
+        client.invalidateQueries({ queryKey: ['get_claim'] })
         client.invalidateQueries({ queryKey: ['get_my_claims'] })
       },
     })
@@ -41,7 +42,7 @@ export function useSaveDratClaim() {
       // Always refetch after error or success:
       onSettled: () => {
         client.invalidateQueries({ queryKey: ['get_my_claims'] });
-        // client.invalidateQueries({ queryKey: ['get_claim'] });
+        client.invalidateQueries({ queryKey: ['get_claim'] })
       },
     })
   }
