@@ -28,7 +28,7 @@
 
 <div class="px-2">
 	{#if $planQuery.isLoading }
-		<span>Loading...</span>
+		<span>Loading plan...</span>
 	{:else if $planQuery.isError}
 		<ErrorOnFetch description="A new claim" error={$planQuery.error} />
 	{:else}
@@ -36,7 +36,7 @@
 
 		{#key refreshOn}
 			{#if $claim.isLoading}
-				<span>Loading...</span>
+				<span>Loading claim...</span>
 			{:else if $claim.isError}
 				<ErrorOnFetch description="A new claim" error={$claim.error} />
 			{:else}

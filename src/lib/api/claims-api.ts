@@ -85,7 +85,7 @@ function buildEmptyClaim(plan: Plan): Claim {
   const state: State | undefined = toState(findState('Draft'));
 
   return {
-    uid: UID.uuid4(),
+    // uid: UID.uuid4(),
     communityUid: plan.communityUid,
     applicantUid: applicant?.uid as string,
     planUid: plan.uid,

@@ -27,7 +27,7 @@
 	let accountId = '';
 	$: credential = useGetCredential(uid);
 	$: community = useGetCommunity($credential.data?.communityUid!);
-	$: mints = useGetCredentialMints(uid);
+	const mints = useGetCredentialMints(uid);
 	$: initials = $credential.data ? getInitials($credential.data?.applicant!) : '??';
 	$: dataOnChain = useGetCredentialOnchainData(uid);
 	$: bannerImage = $credential.data?.banner || '/images/credentialbg.svg';
@@ -98,7 +98,7 @@
 					</div>
 					{#if $credential.data}
 						<div class="flex items-center justify-end">
-							<CredentialActions credential={$credential?.data} {isConnected} {accountId} />
+							<CredentialActions credential={$credential?.data} {isConnected} {accountId} {uid} />
 						</div>
 					{/if}
 					<div class="px-4 pb-4 pt-2">
