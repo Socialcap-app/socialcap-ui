@@ -16,7 +16,7 @@
   description="" 
 />
 
-<div>
+<div class="p-4">
   {#key refreshOn}
     <CommunityAdmin uid={data.uid} />
   {/key}

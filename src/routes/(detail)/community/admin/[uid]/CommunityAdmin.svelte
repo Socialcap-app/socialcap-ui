@@ -28,8 +28,8 @@
 		'px-3 py-1.5 inline-block text-sm font-medium text-center disabled:cursor-not-allowed border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 text-gray-500 dark:text-gray-400';
 </script>
 
-<div>
-	<Breadcrumb class="pl-6 pt-8">
+<div class="p-4">
+	<Breadcrumb class="flex mt-8 mb-8 ms-2">
 		<BreadcrumbItem home href="/home">General</BreadcrumbItem>
 		<BreadcrumbItem>Admin communities</BreadcrumbItem>
 		<BreadcrumbItem>{$community.data?.name || '?'}</BreadcrumbItem>
@@ -43,7 +43,6 @@
 		{:else}
 			<div class="w-full max-w-screen-lg">
 				<CommunityBanner image={$community.data?.image} />
-
 				<div class="">
 					<div class="flex items-center justify-between">
 						<div>
