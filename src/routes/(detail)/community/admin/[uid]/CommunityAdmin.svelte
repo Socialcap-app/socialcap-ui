@@ -29,7 +29,7 @@
 </script>
 
 <div class="p-4">
-	<Breadcrumb class="flex mt-8 mb-8 ms-2">
+	<Breadcrumb class="mb-8 ms-2 mt-8 flex">
 		<BreadcrumbItem home href="/home">General</BreadcrumbItem>
 		<BreadcrumbItem>Admin communities</BreadcrumbItem>
 		<BreadcrumbItem>{$community.data?.name || '?'}</BreadcrumbItem>
@@ -43,7 +43,8 @@
 		{:else}
 			<div class="w-full max-w-screen-lg">
 				<CommunityBanner image={$community.data?.image} />
-				<div class="">
+				<div class="px-4 pb-4 pt-3">
+					<!-- ESTANDARIZAR DESDE -->
 					<div class="flex items-center justify-between">
 						<div>
 							<StateBadge data={state} />
@@ -55,14 +56,14 @@
 							</span>
 						</div>
 					</div>
-
-					<h6 class="mb-2 mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+					<h6 class="mb-2 mt-2 text-3xl font-bold text-gray-900 dark:text-white pt-1">
 						{$community.data?.name}
 					</h6>
 					<p class="mb-2 text-base text-gray-600 dark:text-gray-400">
 						{$community.data?.description}
 					</p>
-
+					&nbsp;
+					<!-- ESTANDARIZAR HASTA -->
 					<Tabs
 						style="underline"
 						contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
