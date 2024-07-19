@@ -2,14 +2,13 @@
 	import { Breadcrumb, BreadcrumbItem, P, TabItem, Tabs } from 'flowbite-svelte';
 	import { H1, ErrorOnFetch, StateBadge } from '$lib/components';
 	import { useGetAdminCommunity } from '$lib/hooks/communities';
-	import type { Community } from '$lib/types';
 	import Credentials from './Credentials.svelte';
 	import Members from './Members.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
-	import Time from 'svelte-time/Time.svelte';
 	import CommunityBanner from '$lib/components/communities/CommunityBanner.svelte';
 	import General from './General.svelte';
 	import { findState } from '$lib/types/states';
+	import CommunityHeader from '$lib/components/communities/CommunityHeader.svelte';
 
 	export let uid: string;
 	let community = useGetAdminCommunity(uid);
@@ -44,26 +43,7 @@
 			<div class="w-full max-w-screen-lg">
 				<CommunityBanner image={$community.data?.image} />
 				<div class="px-4 pb-4 pt-3">
-					<!-- ESTANDARIZAR DESDE -->
-					<div class="flex items-center justify-between">
-						<div>
-							<StateBadge data={state} />
-							<span class="ms-2 text-xs">
-								Last update <Time
-									relative={true}
-									timestamp={$community.data?.createdUTC.replace('T', ' ')}
-								/>
-							</span>
-						</div>
-					</div>
-					<h6 class="mb-2 mt-2 text-3xl font-bold text-gray-900 dark:text-white pt-1">
-						{$community.data?.name}
-					</h6>
-					<p class="mb-2 text-base text-gray-600 dark:text-gray-400">
-						{$community.data?.description}
-					</p>
-					&nbsp;
-					<!-- ESTANDARIZAR HASTA -->
+					<CommunityHeader isAdmin={true} {uid} {state} title={$community.data?.name} description={$community.data?.description} />
 					<Tabs
 						style="underline"
 						contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"

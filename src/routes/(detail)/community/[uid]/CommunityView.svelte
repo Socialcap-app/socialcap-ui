@@ -23,6 +23,7 @@
 	import CommunityIssued from './CommunityIssued.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
 	import CommunityActions from './CommunityActions.svelte';
+	import CommunityHeader from '$lib/components/communities/CommunityHeader.svelte';
 
 	export let uid: string = '';
 
@@ -46,23 +47,7 @@
 			<div class="w-full max-w-screen-lg">
 				<CommunityBanner image={cmn?.image} />
 				<div class="px-4 pb-4 pt-3">
-					<div class="flex items-center justify-between">
-						<div>
-							<StateBadge data={sts} />
-							<span class="ms-2 text-xs">
-								Last update <Time relative={true} timestamp={cmn?.createdUTC.replace('T', ' ')} />
-							</span>
-						</div>
-						<CommunityActions community={cmn} />
-					</div>
-
-					<h6 class="mb-2 mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-						{cmn?.name}
-					</h6>
-					<p class="mb-2 text-base text-gray-600 dark:text-gray-400">
-						{cmn?.description}
-					</p>
-          &nbsp;
+					<CommunityHeader isAdmin={false} {uid} state={sts} title={cmn?.name} description={cmn?.description} />
 					<Tabs
 						style="underline"
 						contentClass="p-4 bg-transparent rounded-lg dark:bg-gray-800 mt-4"
