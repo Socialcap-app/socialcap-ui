@@ -1,14 +1,14 @@
-<script>
+<script lang="ts">
 	import Time from 'svelte-time/Time.svelte';
 	import StateBadge from '../common/StateBadge.svelte';
 	import CommunityActions from '../../../routes/(detail)/community/[uid]/CommunityActions.svelte';
 	import { useGetAdminCommunity } from '$lib/hooks/communities';
 
-	export let isAdmin = false;
-	export let title = '';
-	export let description = '';
+	export let isAdmin: Boolean = false;
+	export let title: string = '';
+	export let description: string = '';
 	export let state = {};
-	export let uid;
+	export let uid: string;
 
 	let community = useGetAdminCommunity(uid);
 	$: cmn = $community.data;

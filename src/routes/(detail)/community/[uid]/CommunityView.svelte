@@ -1,20 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { useGetCommunity } from '$lib/hooks/communities';
 	import { findState } from '$lib/types/states';
-	import type { Community } from '$lib/types';
 	//
-	import Time from 'svelte-time';
-	import { Dropdown, DropdownItem, Tabs, TabItem } from 'flowbite-svelte';
-	import { Badge, Avatar, Button, Img } from 'flowbite-svelte';
-	import {
-		EnvelopeSolid,
-		EditSolid,
-		ShareNodesSolid,
-		DotsVerticalOutline
-	} from 'flowbite-svelte-icons';
+	import { Tabs, TabItem } from 'flowbite-svelte';
+	
 	import { H1, ErrorOnFetch } from '$lib/components';
-	import StateBadge from '$lib/components/common/StateBadge.svelte';
 	import Breadcrumbs from '$lib/components/common/Breadcrumbs.svelte';
 	import CommunityBanner from '$lib/components/communities/CommunityBanner.svelte';
 	import CredentialsList from '$lib/components/credentials/CredentialsList.svelte';
@@ -22,7 +12,6 @@
 	import CommunityMembers from './CommunityMembers.svelte';
 	import CommunityIssued from './CommunityIssued.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
-	import CommunityActions from './CommunityActions.svelte';
 	import CommunityHeader from '$lib/components/communities/CommunityHeader.svelte';
 
 	export let uid: string = '';

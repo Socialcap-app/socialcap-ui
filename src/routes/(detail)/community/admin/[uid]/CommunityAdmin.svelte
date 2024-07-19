@@ -49,7 +49,7 @@
 						contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
 						defaultClass="flex flex-wrap items-end justify-center space-x-2 lg:space-x-10 rtl:space-x-reverse"
 					>
-						<TabItem open {activeClasses} {inactiveClasses}>
+						<TabItem open ><!-- {activeClasses} {inactiveClasses} -->
 							<TabHeader slot="title" label="General" showCount={false} />
 							{#if $community.data}
 								<div>
@@ -58,14 +58,14 @@
 							{/if}
 						</TabItem>
 
-						<TabItem {activeClasses} {inactiveClasses}>
+						<TabItem>
 							<TabHeader slot="title" label="Credentials Campaigns" count={plans.length || 0} />
 							<div>
 								<Credentials {community} />
 							</div>
 						</TabItem>
 
-						<TabItem {activeClasses} {inactiveClasses}>
+						<TabItem>
 							<TabHeader slot="title" label="Members" count={$community.data?.countMembers} />
 							<div class="">
 								<Members communityUid={uid} />
