@@ -2,14 +2,13 @@
 	import { Breadcrumb, BreadcrumbItem, P, TabItem, Tabs } from 'flowbite-svelte';
 	import { H1, ErrorOnFetch, StateBadge } from '$lib/components';
 	import { useGetAdminCommunity } from '$lib/hooks/communities';
-	import type { Community } from '$lib/types';
 	import Credentials from './Credentials.svelte';
 	import Members from './Members.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
-	import Time from 'svelte-time/Time.svelte';
 	import CommunityBanner from '$lib/components/communities/CommunityBanner.svelte';
 	import General from './General.svelte';
 	import { findState } from '$lib/types/states';
+	import CommunityHeader from '$lib/components/communities/CommunityHeader.svelte';
 
 	export let uid: string;
 	let community = useGetAdminCommunity(uid);
@@ -28,8 +27,8 @@
 		'px-3 py-1.5 inline-block text-sm font-medium text-center disabled:cursor-not-allowed border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 text-gray-500 dark:text-gray-400';
 </script>
 
-<div>
-	<Breadcrumb class="pl-6 pt-8">
+<div class="p-4">
+	<Breadcrumb class="mb-8 ms-2 mt-8 flex">
 		<BreadcrumbItem home href="/home">General</BreadcrumbItem>
 		<BreadcrumbItem>Admin communities</BreadcrumbItem>
 		<BreadcrumbItem>{$community.data?.name || '?'}</BreadcrumbItem>
@@ -43,33 +42,14 @@
 		{:else}
 			<div class="w-full max-w-screen-lg">
 				<CommunityBanner image={$community.data?.image} />
-
-				<div class="">
-					<div class="flex items-center justify-between">
-						<div>
-							<StateBadge data={state} />
-							<span class="ms-2 text-xs">
-								Last update <Time
-									relative={true}
-									timestamp={$community.data?.createdUTC.replace('T', ' ')}
-								/>
-							</span>
-						</div>
-					</div>
-
-					<h6 class="mb-2 mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-						{$community.data?.name}
-					</h6>
-					<p class="mb-2 text-base text-gray-600 dark:text-gray-400">
-						{$community.data?.description}
-					</p>
-
+				<div class="px-4 pb-4 pt-3">
+					<CommunityHeader isAdmin={true} {uid} {state} title={$community.data?.name} description={$community.data?.description} />
 					<Tabs
 						style="underline"
 						contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
 						defaultClass="flex flex-wrap items-end justify-center space-x-2 lg:space-x-10 rtl:space-x-reverse"
 					>
-						<TabItem open {activeClasses} {inactiveClasses}>
+						<TabItem open ><!-- {activeClasses} {inactiveClasses} -->
 							<TabHeader slot="title" label="General" showCount={false} />
 							{#if $community.data}
 								<div>
@@ -78,14 +58,14 @@
 							{/if}
 						</TabItem>
 
-						<TabItem {activeClasses} {inactiveClasses}>
+						<TabItem>
 							<TabHeader slot="title" label="Credentials Campaigns" count={plans.length || 0} />
 							<div>
 								<Credentials {community} />
 							</div>
 						</TabItem>
 
-						<TabItem {activeClasses} {inactiveClasses}>
+						<TabItem>
 							<TabHeader slot="title" label="Members" count={$community.data?.countMembers} />
 							<div class="">
 								<Members communityUid={uid} />
