@@ -4,4 +4,4 @@
 
 </script>
 
-<div class="text-center my-10"><Spinner /></div>
+<div class="flex justify-center items-center my-10"><Spinner /></div>
