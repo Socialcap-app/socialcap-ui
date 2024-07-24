@@ -8,6 +8,7 @@
 	import { UID } from '$lib/types/uid';
 	import { type Plan } from '$lib/types/plan';
 	import { useGetAdminCommunity, useGetCommunity } from '$lib/hooks/communities';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let data: { uid: string; communityUid: string };
 	const { uid, communityUid } = data;
@@ -35,7 +36,7 @@
 
 <div class="px-2">
 	{#if $plan.isLoading || $community.isLoading || !$community.data}
-		<span>Loading...</span>
+		<LoadingSpinner />
 	{:else if $plan.isError || $community.isError}
 		<ErrorOnFetch description="A new claim" error={$plan.error || $community.error} />
 	{:else}

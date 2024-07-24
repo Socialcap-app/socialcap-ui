@@ -11,6 +11,7 @@
     import NoData from "$lib/components/common/NoData.svelte";
     import { capitalizeFirstLetter } from "$lib/helpers/helpers";
     import type { Person } from '$lib/types/person';
+	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
 
     
     // TODO: add share button and his functionality
@@ -50,7 +51,7 @@
   <div class="">  
     <div class="">
       {#if $profile.isLoading}
-        <span>Loading...</span>
+        <LoadingSpinner />
       {:else if $profile.isError}
         <ErrorOnFetch 
           description="Upps..."

@@ -5,6 +5,7 @@
 	import ClaimsTable from './ClaimsTable.svelte';
 	import ClaimsTableMobile from './ClaimsTableMobile.svelte';
 	import NoData from '$lib/components/common/NoData.svelte';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	const claims = useGetMyClaims();
 </script>
@@ -14,7 +15,7 @@
 	<P class="text-gray-400" size="base">Your claimed credentials</P>
 	<P class="pb-8"></P>
 	{#if $claims.isLoading}
-		<span>Loading...</span>
+		<LoadingSpinner />
 	{:else if $claims.isError}
 		<ErrorOnFetch description="All my claims" error={$claims.error} />
 	{:else if !$claims.data || $claims.data.length === 0}

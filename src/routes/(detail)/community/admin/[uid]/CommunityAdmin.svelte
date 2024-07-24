@@ -9,6 +9,7 @@
 	import General from './General.svelte';
 	import { findState } from '$lib/types/states';
 	import CommunityHeader from '$lib/components/communities/CommunityHeader.svelte';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let uid: string;
 	let community = useGetAdminCommunity(uid);
@@ -36,7 +37,7 @@
 
 	<div>
 		{#if $community.isLoading}
-			<span>Loading...</span>
+			<LoadingSpinner />
 		{:else if $community.isError}
 			<ErrorOnFetch description="Admin community" error={$community.error} />
 		{:else}

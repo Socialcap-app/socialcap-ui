@@ -8,6 +8,7 @@
   import { useGetAllCommunities } from "$lib/hooks/communities";
 	import { useGetAllClaimables } from "$lib/hooks/plans";
 	import { ACTIVE } from "$lib/types/states";
+	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
 
   const communities =  useGetAllCommunities({ states: ["APPROVED"]});
   const claimables = useGetAllClaimables({});
@@ -26,7 +27,7 @@
       <span slot="title" class="text-start sm:text-center">Claim & Earn</span>
       <div>
         {#if $claimables.isLoading}
-          <span>Loading...</span>
+          <LoadingSpinner />
         {:else if $claimables.isError}
           <ErrorOnFetch 
             description="All the claimables"
@@ -48,7 +49,7 @@
       <span slot="title" class="">Join communities</span>
       <div>
       {#if $communities.isLoading}
-        <span>Loading...</span>
+      <LoadingSpinner />
       {:else if $communities.isError}
         <ErrorOnFetch 
           description="All the communities"

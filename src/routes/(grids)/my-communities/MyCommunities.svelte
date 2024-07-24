@@ -6,6 +6,7 @@
 	import CommunitiesList from "$lib/components/communities/CommunitiesList.svelte";
   import { useGetMyCommunities } from "$lib/hooks/communities";
 	import NoData from "$lib/components/common/NoData.svelte";
+	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
   
   const communities = useGetMyCommunities();
 </script>
@@ -25,7 +26,7 @@
 
   <div class="pt-8 lg:pt-16">
     {#if $communities.isLoading}
-      <span>Loading...</span>
+      <LoadingSpinner />
     {:else if $communities.isError}
       <ErrorOnFetch 
         description="All the communities"

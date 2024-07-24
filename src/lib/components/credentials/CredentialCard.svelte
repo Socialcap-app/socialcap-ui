@@ -15,6 +15,7 @@
 
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
+	import LoadingSpinner from '../common/LoadingSpinner.svelte';
 	export let data: Credential,
 		joined: boolean = false,
 		isClaimable: boolean = false;
@@ -60,7 +61,7 @@
 <CredentialOnchainDataModal bind:open={modalOpened} {onchainData} />
 
 {#if $community.isLoading}
-	<span>Loading...</span>
+	<LoadingSpinner />
 {:else if $community.isError}
 	<ErrorOnFetch description="Credential" error={$community.error} />
 {:else}
