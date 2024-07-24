@@ -4,4 +4,4 @@
 
 </script>
 
-<div class="text-center"><Spinner /></div>
+<div class="text-center my-10"><Spinner /></div>
