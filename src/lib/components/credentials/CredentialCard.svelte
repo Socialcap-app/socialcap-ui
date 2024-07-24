@@ -61,7 +61,9 @@
 <CredentialOnchainDataModal bind:open={modalOpened} {onchainData} />
 
 {#if $community.isLoading}
-	<LoadingSpinner />
+	<div class="bg-gray-100 mb-4 w-full h-80 rounded loading-shimmer">
+		<div class="shimmer"></div>
+	</div>
 {:else if $community.isError}
 	<ErrorOnFetch description="Credential" error={$community.error} />
 {:else}
@@ -157,3 +159,29 @@
 		</div></Card
 	>
 {/if}
+
+<style>
+	.loading-shimmer {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  position: relative;
+	  overflow: hidden;
+	}
+  
+	.shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(224,224,224,0) 0%, rgba(224,224,224,0.8) 50%, rgba(224,224,224,0) 100%);
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+  </style>
