@@ -15,7 +15,7 @@
 
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
-	import LoadingSpinner from '../common/LoadingSpinner.svelte';
+	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
 	export let data: Credential,
 		joined: boolean = false,
 		isClaimable: boolean = false;
@@ -60,23 +60,20 @@
 
 <CredentialOnchainDataModal bind:open={modalOpened} {onchainData} />
 
-{#if $community.isLoading}
-	<div class="bg-gray-100 mb-4 w-full h-80 rounded loading-shimmer">
-		<div class="shimmer"></div>
-	</div>
-{:else if $community.isError}
+{#if $community.isError}
 	<ErrorOnFetch description="Credential" error={$community.error} />
 {:else}
-	<Card padding="md" size="md" class={`${clazz || ''}`} href={isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}` }>
-		<div class="relative flex items-end justify-center">
-			<img src={bannerImage} class="fill h-auto w-full" alt="Credential Banner" crossorigin="" />
-
-			<div
+	<LoadingSkeleton isLoading={!!$community.isLoading} extraClasses={'mb-4 h-80 w-full'}>
+		<Card padding="md" size="md" class={`${clazz || ''}`} href={isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}` }>
+			<div class="relative flex items-end justify-center">
+				<img src={bannerImage} class="fill h-auto w-full" alt="Credential Banner" crossorigin="" />
+				
+				<div
 				class="absolute -bottom-4 flex items-center gap-2 rounded-full border-2 border-gray-200 bg-gray-50 p-1"
-			>
+				>
 				<!-- <Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" /> -->
 				<GradientAvatar {initials} gradient={buildGradient(initials)} />
-
+				
 				<div class="max-w-64 truncate px-2 text-xs text-black dark:text-white">{avatarLabel}</div>
 			</div>
 			{#if isIssued}
@@ -158,30 +155,5 @@
 			</div>
 		</div></Card
 	>
+	</LoadingSkeleton>
 {/if}
-
-<style>
-	.loading-shimmer {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  position: relative;
-	  overflow: hidden;
-	}
-  
-	.shimmer {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(224,224,224,0) 0%, rgba(224,224,224,0.8) 50%, rgba(224,224,224,0) 100%);
-    animation: shimmer 1.5s infinite;
-  }
-
-  @keyframes shimmer {
-    100% {
-      left: 100%;
-    }
-  }
-  </style>
