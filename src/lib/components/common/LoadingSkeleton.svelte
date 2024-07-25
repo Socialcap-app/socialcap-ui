@@ -1,8 +1,6 @@
 <script>
 	export let isLoading;
     export let extraClasses = '';
-	/* export let width;
-	export let height; */
 </script>
 
 {#if isLoading}
@@ -36,16 +34,6 @@
 		);
 		animation: shimmer 1.5s infinite;
 	}
-	/*
-  	.shimmer {
-		left: -300%;
-		width: 300%;
-		height: 200%;
-		transform: rotate(45deg);
-		background: linear-gradient(0deg, rgba(224,224,224,0) 0%, rgba(224,224,224,0.8) 50%, rgba(224,224,224,0) 100%);
-		animation: shimmer 1.5s infinite; 
-  	}
-	*/
 
 	@keyframes shimmer {
 		100% {

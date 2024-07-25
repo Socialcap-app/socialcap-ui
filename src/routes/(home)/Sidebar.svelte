@@ -87,6 +87,7 @@
             class="max-w-24 px-2 py-1 ms-3 text-xs font-medium text-gray-800 bg-green-200 rounded-full border-green-200 dark:bg-gray-700 dark:text-gray-300"
             placeholder="" 
             bind:value={network}
+            disabled
             >
             <option selected value="main">Devnet</option>
             <option value="test">Testnet</option>

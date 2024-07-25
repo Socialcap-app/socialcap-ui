@@ -13,8 +13,6 @@
   const communities =  useGetAllCommunities({ states: ["APPROVED"]});
   const claimables = useGetAllClaimables({});
 
-  onMount(async () => { })
-
 </script>
 
 <div>

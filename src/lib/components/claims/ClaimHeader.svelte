@@ -28,10 +28,10 @@
 <Card class="" padding="none"  size="fluid">
   <div class="relative bg-blue-100">
     <span class="inline-block mt-4 ms-4 absolute -bottom-12 left-0">
-      <Avatar src={avatarImage} class="h-24 w-24 round drop-shadow-lg"/>
+      <Avatar src={bannerImage} class="h-24 w-24 round drop-shadow-lg"/>
     </span>
     <img 
-      src={bannerImage} 
+      src={avatarImage} 
       class="fill max-h-32 w-full" alt="Credential Banner" 
       crossorigin=""
     />
