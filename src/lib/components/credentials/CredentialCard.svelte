@@ -66,7 +66,7 @@
 	<LoadingSkeleton isLoading={!!$community.isLoading} extraClasses={'mb-4 h-80 w-full'}>
 		<Card padding="md" size="md" class={`${clazz || ''}`} href={isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}` }>
 			<div class="relative flex items-end justify-center">
-				<img src={avatarImage} class="fill h-40 w-full rounded" alt="Credential Banner" crossorigin="" />
+				<img src={avatarImage} class="object-cover h-40 w-full rounded" alt="Credential Banner" crossorigin="" />
 				
 				<div
 				class="absolute -bottom-4 flex items-center gap-2 rounded-full border-2 border-gray-200 bg-gray-50 p-1"

@@ -32,7 +32,7 @@
     </span>
     <img 
       src={avatarImage} 
-      class="fill max-h-32 w-full" alt="Credential Banner" 
+      class="object-cover max-h-32 w-full rounded-t" alt="Credential Banner" 
       crossorigin=""
     />
   </div>
