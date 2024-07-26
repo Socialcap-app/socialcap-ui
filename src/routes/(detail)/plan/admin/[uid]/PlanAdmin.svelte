@@ -15,8 +15,9 @@
 	import General from './General.svelte';
 	import { useCreatePlan, useUpdatePlan } from '$lib/hooks/plans';
 	import { goto } from '$app/navigation';
+	import { type Claim } from '$lib/types/claim';
 
-	export let plan: Plan | undefined = undefined, isNew: boolean | undefined, communityPlans: Plan[];
+	export let plan: Plan | undefined = undefined, isNew: boolean | undefined, communityPlans: Plan[], communityClaims: Claim[];
 	const updatePlan = useUpdatePlan(plan?.uid);
 	const createPlan = useCreatePlan();
 	// use it for updating button text when submitting
@@ -105,7 +106,7 @@
 				<TabItem open={activeTab === 4} on:click={(e) => (activeTab = 4)}>
 					<TabHeader showCount={false} slot="title" label="Claims" />
 
-					<Claims bind:plan />
+					<Claims bind:plan claims={communityClaims} />
 				</TabItem>
 
 				<TabItem open={activeTab === 5} on:click={(e) => (activeTab = 5)}>

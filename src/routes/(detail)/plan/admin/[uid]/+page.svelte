@@ -41,10 +41,10 @@
 	{:else}
 		<Breadcrumbs label={$plan.data?.name || '?'} />
 		{#if isNew}
-			<PlanAdmin plan={newPlan} {isNew} communityPlans={$community.data?.plans}/>
+			<PlanAdmin plan={newPlan} {isNew} communityPlans={$community.data?.plans} communityClaims={$community.data?.claims} />
 		{:else}
 			{#key refreshOn}
-				<PlanAdmin plan={$plan.data} {isNew} communityPlans={$community.data?.plans} />
+				<PlanAdmin plan={$plan.data} {isNew} communityPlans={$community.data?.plans} communityClaims={$community.data?.claims} />
 			{/key}
 		{/if}
 	{/if}

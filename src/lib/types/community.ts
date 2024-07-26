@@ -1,3 +1,4 @@
+import type { Claim } from "./claim";
 import type { Plan } from "./plan";
 
 export type { Community, NewCommunity };
@@ -29,6 +30,9 @@ interface Community {
 
   // master plans
   plans: Plan[]; 
+
+  // claims
+  claims: Claim[];
 
   // extras 
   countMembers: number;
