@@ -6,10 +6,7 @@
 	import { page } from '$app/stores';
   import { removeActiveSession } from '$lib/store/sessions';
 	import { setNavigationPath } from '$lib/store/navigation';
-	import { Badge, Button, Sidebar,	SidebarGroup,	SidebarItem, SidebarWrapper } from 'flowbite-svelte';
-  import { SidebarDropdownWrapper, SidebarDropdownItem } from "flowbite-svelte";
-  import { Avatar, Select, A } from 'flowbite-svelte';
-  import { ChevronDownOutline } from "flowbite-svelte-icons";
+	import { Badge, Button, Sidebar,	SidebarGroup,	SidebarItem, SidebarWrapper, SidebarDropdownWrapper, SidebarDropdownItem } from 'flowbite-svelte';
   import Icon from "$lib/components/common/Icon.svelte";
   import type { User } from "$lib/types";
   import { useGetMyAdminedCommunities } from "$lib/hooks/communities";
