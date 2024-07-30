@@ -7,7 +7,7 @@
 	import { object, string, number } from 'yup';
 	import { type Community } from '$lib/types';
 
-	export let communityUid: string ;
+	export let communityUid: string;
 	export let community: Community;
 	let original_name = community.name;
 	let generateToken = true;
@@ -37,6 +37,7 @@
 		debounced: {
 			timeout: 450,
 			validate: async (values) => {
+				console.log(values);
 				try {
 					await schema.validate(values, { abortEarly: false });
 				} catch (err: any) {
@@ -64,7 +65,6 @@
 				tokenMaxSupply: values.tokenMaxSupply,
 				tokenOwner: values.tokenOwner,
 				tokenSymbol: values.tokenSymbol
-
 			});
 		},
 		validate: async (values) => {
@@ -133,7 +133,9 @@
 	</div>
 	<div class="space-y-3 border-b border-t border-gray-200 py-6">
 		<p class="text-lg">Community token</p>
-		<Helper class="mt-2 text-sm text-gray-500">Set the community custom token fields or generate a new custom token for your community</Helper>
+		<Helper class="mt-2 text-sm text-gray-500"
+			>Set the community custom token fields or generate a new custom token for your community</Helper
+		>
 		<div class="flex flex-col justify-between space-y-3">
 			<Label class="space-y-2" color={$errors.tokenId ? 'red' : 'gray'} for="votingStartsUTC">
 				<div class="flex justify-between">
@@ -148,7 +150,6 @@
 					bind:value={community.tokenId}
 					disabled={generateToken}
 				/>
-				
 			</Label>
 			<Label class="space-y-2" color={$errors.votingEndsUTC ? 'red' : 'gray'} for="votingEndsUTC">
 				<div class="flex justify-between">
@@ -163,7 +164,6 @@
 					bind:value={community.tokenMaxSupply}
 					disabled={generateToken}
 				/>
-				
 			</Label>
 			<Label class="space-y-2" color={$errors.tokenId ? 'red' : 'gray'} for="votingStartsUTC">
 				<div class="flex justify-between">
@@ -178,7 +178,6 @@
 					bind:value={community.tokenSymbol}
 					disabled={generateToken}
 				/>
-				
 			</Label>
 			<Label class="space-y-2" color={$errors.votingEndsUTC ? 'red' : 'gray'} for="votingEndsUTC">
 				<div class="flex justify-between">
@@ -195,8 +194,13 @@
 				/>
 			</Label>
 		</div>
-		<Toggle name="generateToken" bind:checked={generateToken}> Generate Token</Toggle>
-		<Button disabled={!generateToken} alternate color="light" on:click={() => generateCommunityToken()}>Generate Community Token</Button>
+		<Toggle name="generateToken" bind:checked={generateToken}>Generate Token</Toggle>
+		<Button
+			disabled={!generateToken}
+			alternate
+			color="light"
+			on:click={() => generateCommunityToken()}>Generate Community Token</Button
+		>
 	</div>
 	<SubmitButton
 		on:click={(e) => {

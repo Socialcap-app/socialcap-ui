@@ -1,12 +1,6 @@
 <script lang="ts">
 	import { type Credential } from '$lib/types/credential';
-	import {
-		Card,
-		Badge,
-		Avatar,
-		Button,
-		CardPlaceholder
-	} from 'flowbite-svelte';
+	import { Card, Badge, Avatar, Button } from 'flowbite-svelte';
 	import Time from 'svelte-time';
 	import { useGetCommunity } from '$lib/hooks/communities';
 	import ErrorOnFetch from '../common/ErrorOnFetch.svelte';
@@ -20,7 +14,7 @@
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
-	
+
 	export let data: Credential,
 		joined: boolean = false,
 		isClaimable: boolean = false;
@@ -65,12 +59,10 @@
 
 <CredentialOnchainDataModal bind:open={modalOpened} {onchainData} />
 
-{#if !$community.isLoading}
-	<CardPlaceholder size="lg" class="m-auto h-80 w-full overflow-hidden" />
-{:else if $community.isError}
+{#if $community.isError}
 	<ErrorOnFetch description="Credential" error={$community.error} />
 {:else}
-	<!-- <LoadingSkeleton isLoading={!!$community.isLoading} extraClasses={'mb-4 h-80 w-full'}> -->
+	<LoadingSkeleton type={'card'} isLoading={$community.isLoading} extraClasses={'mb-4 h-80 w-full'}>
 		<Card
 			padding="md"
 			size="md"
@@ -179,5 +171,5 @@
 				</div>
 			</div></Card
 		>
-	<!-- </LoadingSkeleton> -->
+	</LoadingSkeleton>
 {/if}

@@ -1,43 +1,33 @@
 <script>
+	import {
+		CardPlaceholder,
+		ImagePlaceholder,
+		Skeleton,
+		TextPlaceholder,
+		VideoPlaceholder
+	} from 'flowbite-svelte';
+
 	export let isLoading;
-    export let extraClasses = '';
+	export let type = 'default';
+	export let size = 'lg';
+	export let extraClasses = '';
 </script>
 
 {#if isLoading}
-	<div class={"loading-shimmer rounded bg-gray-100 w-full h-10 " + extraClasses}>
-		<div class="shimmer"></div>
-	</div>
+	{#if type === 'card'}
+		<CardPlaceholder {size} class={'m-auto overflow-hidden ' + extraClasses} />
+	{:else if type === 'image'}
+		<ImagePlaceholder imgOnly class={'m-auto overflow-hidden ' + extraClasses} />
+	{:else if type === 'video'}
+		<VideoPlaceholder {size} class={'m-auto overflow-hidden ' + extraClasses} />
+	{:else if type === 'text'}
+		<TextPlaceholder {size} class={'m-auto overflow-hidden ' + extraClasses} />
+	{:else}
+		<Skeleton {size} class={'m-auto overflow-hidden ' + extraClasses} />
+	{/if}
 {:else}
 	<slot />
 {/if}
 
 <style>
-	.loading-shimmer {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.shimmer {
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(
-			90deg,
-			rgba(224, 224, 224, 0) 0%,
-			rgba(224, 224, 224, 0.8) 50%,
-			rgba(224, 224, 224, 0) 100%
-		);
-		animation: shimmer 1.5s infinite;
-	}
-
-	@keyframes shimmer {
-		100% {
-			left: 100%;
-		}
-	}
 </style>
