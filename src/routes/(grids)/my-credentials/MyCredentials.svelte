@@ -3,6 +3,7 @@
   import { H1, ErrorOnFetch } from "$lib/components";
 	import CredentialsList from "$lib/components/credentials/CredentialsList.svelte";
   import { useGetMyCredentials } from "$lib/hooks/credentials";
+	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
   
   const credentials = useGetMyCredentials();
 </script>
@@ -14,7 +15,7 @@
   </P>
   <P class="pb-8"></P>
   {#if $credentials.isLoading}
-    <span>Loading...</span>
+    <LoadingSpinner />
   {:else if $credentials.isError}
     <ErrorOnFetch 
       description="All the credentials"

@@ -13,6 +13,7 @@
 	import CommunityIssued from './CommunityIssued.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
 	import CommunityHeader from '$lib/components/communities/CommunityHeader.svelte';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let uid: string = '';
 
@@ -29,7 +30,7 @@
 
 	<div>
 		{#if $community.isLoading}
-			<span>Loading...</span>
+		<LoadingSpinner />
 		{:else if $community.isError}
 			<ErrorOnFetch description="My community" error={$community.error} />
 		{:else}

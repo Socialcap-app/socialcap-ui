@@ -12,6 +12,7 @@
 	import { DRAFT, UNPAID } from '$lib/types/states';
 	import { useGetCommunity } from '$lib/hooks/communities';
 	import { useGetMyCredentials } from '$lib/hooks/credentials';
+	import LoadingSpinner from '../common/LoadingSpinner.svelte';
 
 	export let plan: any, claim: any, isNew: boolean, mode: 'view' | 'edit';
 	const communityQuery = useGetCommunity(plan.communityUid, true)
@@ -50,7 +51,7 @@
   />
 {/if}
 {#if $communityQuery.isLoading }
-		<span>Loading community...</span>
+	<LoadingSpinner />
 {:else}
 <div class="relative">
 	<div class="mb-24 w-full p-8">

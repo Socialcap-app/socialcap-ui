@@ -10,6 +10,7 @@
 	import { getCurrentUser } from '$lib/store';
 	import { useGetPlan } from '$lib/hooks/plans';
 	import { useGetClaim } from '$lib/hooks/claims';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let data: any;
 
@@ -28,7 +29,7 @@
 
 <div class="px-2">
 	{#if $planQuery.isLoading }
-		<span>Loading plan...</span>
+		<LoadingSpinner />
 	{:else if $planQuery.isError}
 		<ErrorOnFetch description="A new claim" error={$planQuery.error} />
 	{:else}

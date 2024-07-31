@@ -6,6 +6,7 @@
   import ErrorOnFetch from '../common/ErrorOnFetch.svelte';
   import NoData from '../common/NoData.svelte';
   import Time from 'svelte-time/Time.svelte';
+	import LoadingSpinner from '../common/LoadingSpinner.svelte';
 
 	export let 
     open = false,
@@ -25,7 +26,7 @@
         Let's join <b>{title}</b>
       </p> -->
       {#if !onchainData}
-        <span>Loading...</span>
+        <LoadingSpinner />
       {:else}
         <div>
           <p class="text-sm">Network: <b>MINA {onchainData.chain}</b></p>

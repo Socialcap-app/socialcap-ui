@@ -6,10 +6,7 @@
 	import { page } from '$app/stores';
   import { removeActiveSession } from '$lib/store/sessions';
 	import { setNavigationPath } from '$lib/store/navigation';
-	import { Button, Sidebar,	SidebarGroup,	SidebarItem, SidebarWrapper } from 'flowbite-svelte';
-  import { SidebarDropdownWrapper, SidebarDropdownItem } from "flowbite-svelte";
-  import { Avatar, Select, A } from 'flowbite-svelte';
-  import { ChevronDownOutline } from "flowbite-svelte-icons";
+	import { Badge, Button, Sidebar,	SidebarGroup,	SidebarItem, SidebarWrapper, SidebarDropdownWrapper, SidebarDropdownItem } from 'flowbite-svelte';
   import Icon from "$lib/components/common/Icon.svelte";
   import type { User } from "$lib/types";
   import { useGetMyAdminedCommunities } from "$lib/hooks/communities";
@@ -83,14 +80,7 @@
             <Icon name="Network" size="5" />
         </svelte:fragment>
         <svelte:fragment slot="subtext">
-          <Select 
-            class="max-w-24 px-2 py-1 ms-3 text-xs font-medium text-gray-800 bg-green-200 rounded-full border-green-200 dark:bg-gray-700 dark:text-gray-300"
-            placeholder="" 
-            bind:value={network}
-            >
-            <option selected value="main">Devnet</option>
-            <option value="test">Testnet</option>
-          </Select>
+          <Badge class='px-5 py-2 rounded-full' color="green">Devnet</Badge>
         </svelte:fragment>  
       </SidebarItem>
 

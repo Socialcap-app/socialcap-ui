@@ -4,12 +4,13 @@
 	import { Button } from 'flowbite-svelte';
 	import { CirclePlusSolid } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 	export let community;
 </script>
 
 <div class="mx-auto">
 	{#if $community.isLoading}
-		<span>Loading...</span>
+	<LoadingSpinner />
 	{:else if $community.isError}
 		<ErrorOnFetch description="My community" error={$community.error} />
 	{:else}

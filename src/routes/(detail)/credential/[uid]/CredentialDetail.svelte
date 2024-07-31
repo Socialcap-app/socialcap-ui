@@ -20,6 +20,7 @@
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import CredentialOnChainData from './CredentialOnChainData.svelte';
 	import MintCard from '$lib/components/credentials/MintCard.svelte';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let uid;
 
@@ -60,7 +61,7 @@
 
 	<div>
 		{#if $credential.isLoading || $community.isLoading || $dataOnChain.isLoading || $mints.isLoading}
-			<span>Loading...</span>
+		<LoadingSpinner />
 		{:else if $credential.isError}
 			<ErrorOnFetch description="My community" error={$credential.error} />
 		{:else}

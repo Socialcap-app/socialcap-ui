@@ -4,6 +4,7 @@
   import { Search } from 'flowbite-svelte';
   import MembersList from "$lib/components/members/MembersList.svelte";
   import { ErrorOnFetch } from "$lib/components";
+	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
 
   export let communityUid: string = "";
 
@@ -30,7 +31,7 @@
 
   <div class="border-t">
     {#if $members.isLoading}
-      <span>Loading...</span>
+    <LoadingSpinner />
     {:else if $members.isError}
       <ErrorOnFetch 
         description="My community"
