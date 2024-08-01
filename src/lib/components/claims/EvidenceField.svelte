@@ -9,12 +9,18 @@
 	import NotaryForm from './NotaryForm.svelte';
 	import CompositeForm from './CompositeForm.svelte';
 	import type { Plan, Credential } from '$lib/types';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 
-	export let field: any, index: number, data: any, errors: any, touched: any, communityPlans: Plan[], myCredentials: Credential[];
+	export let field: any,
+		index: number,
+		data: any,
+		errors: any,
+		touched: any,
+		communityPlans: Plan[],
+		myCredentials: Credential[];
 	const plugins = [gfmPlugin()];
 	let previewOn = false;
-
+	const dispatch = createEventDispatcher();
 	/** Resize textareas **/
 
 	function initialTextareaSize(value: any) {
@@ -30,16 +36,13 @@
 	}
 
 	$: {
-		console.log('field',field)
-		console.log('error',$errors)
-	}
-
-	onMount(()=>{
-		if(!errors[field.sid]){
-			errors.set(()=>[...errors, [field.sid] = 'This field is required!'])
-			console.log($errors[field.sid])
+		if ($errors[field.sid] && field.required) {
+			dispatch('changeRequired', {
+				dataValue: data[index].value,
+				label: field.label
+			});
 		}
-	});
+	}
 </script>
 
 {#if data[index]}
@@ -175,7 +178,7 @@
 
 		{#if field.type === 'notary'}
 			<div
-				class="block -full rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
+				class="-full block rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
 			>
 				<NotaryForm
 					notaryType={field.extras.notaryType}
@@ -188,9 +191,9 @@
 			</div>
 		{/if}
 
-		{#if field.type==='composite'}
+		{#if field.type === 'composite'}
 			<div
-				class="block -full rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
+				class="-full block rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
 			>
 				<CompositeForm
 					{communityPlans}

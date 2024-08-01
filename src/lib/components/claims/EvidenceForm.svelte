@@ -3,15 +3,19 @@
 	import { Alert } from 'flowbite-svelte';
 	import { createForm } from 'felte';
 	import { array, object, string } from 'yup';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import type { Plan } from '$lib/types';
-	import {type Credential} from '$lib/types/credential';
+	import { type Credential } from '$lib/types/credential';
 
 	export let eform: any,
 		data: any,
 		communityUid: string, // this is the data for this MasterPlan and empty Claim
 		communityPlans: Plan[] = [],
 		myCredentials: Credential[] = [];
+
+	let existingErrors : string[] = [];
+
+	const dispatch = createEventDispatcher();
 
 	function camelize(str: string) {
 		return str
@@ -105,10 +109,28 @@
 		}
 	});
 
+	const isFormSubmittable = ({detail}: any/* { dataValue: string } */) => {
+		console.log(!!detail.dataValue)
+		if(detail.dataValue){
+			existingErrors = existingErrors.filter((e)=>e!==detail.label)
+		};
+		if(!detail.dataValue){
+			if(!existingErrors.find((e)=>e==detail.label))
+			existingErrors.push(detail.label)
+		};
+		existingErrors = existingErrors;
+	};
+
 	onMount(() => {
 		// force validation on mount
 		validate();
 	});
+
+	$:{
+		dispatch('existingErrors', {
+			existingErrors
+			})
+	}
 </script>
 
 <div class="">
@@ -130,6 +152,7 @@
 				bind:data
 				{myCredentials}
 				{communityPlans}
+				on:changeRequired={(val) => isFormSubmittable(val)}
 			/>
 		{/each}
 	</form>

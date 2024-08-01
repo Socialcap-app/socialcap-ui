@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Plan } from '$lib/types';
 	import type { Claim } from '$lib/types/claim';
-	import { Button } from 'flowbite-svelte';
+	import { Alert, Button } from 'flowbite-svelte';
 	import StateBadge from '../common/StateBadge.svelte';
 	import EvidenceForm from './EvidenceForm.svelte';
 	import { PaymentStep } from './payment-flow';
@@ -13,6 +13,7 @@
 	import { useGetCommunity } from '$lib/hooks/communities';
 	import { useGetMyCredentials } from '$lib/hooks/credentials';
 	import LoadingSpinner from '../common/LoadingSpinner.svelte';
+	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	export let plan: any, claim: any, isNew: boolean, mode: 'view' | 'edit';
 	const communityQuery = useGetCommunity(plan.communityUid, true)
@@ -24,7 +25,9 @@
 	let toggleDialog = false,
 		step = 0;
 	let previewOn = mode === 'view';
+	let formHasErrors = true;
 	async function confirmSubmission() {
+		if(formHasErrors)return;
 		toggleDialog = true;
 	}
 
@@ -54,13 +57,20 @@
 	<LoadingSpinner />
 {:else}
 <div class="relative">
+	{#if formHasErrors}
+	<Alert border color="yellow" class="mx-4 mt-8">
+		<InfoCircleSolid slot="icon" class="w-5 h-5" />
+		<span class="font-medium">Form Submission Error!</span>
+		Please review the required fields and correct any errors before submitting again.
+	</Alert>
+	{/if}
 	<div class="mb-24 w-full p-8">
 		<!-- <pre class="text-xs">
       {JSON.stringify(plan?.evidence, null, 2)}
     </pre> -->
 		{#if !previewOn}
 			<form>
-				<EvidenceForm eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
+				<EvidenceForm on:existingErrors={({detail})=>formHasErrors=detail.existingErrors.length} eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
 			</form>
 		{:else}
 			<EvidenceFormPreview evidenceData={claim?.evidenceData} />
