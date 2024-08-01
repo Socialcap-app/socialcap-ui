@@ -9,6 +9,7 @@
 	import NotaryForm from './NotaryForm.svelte';
 	import CompositeForm from './CompositeForm.svelte';
 	import type { Plan, Credential } from '$lib/types';
+	import { onMount } from 'svelte';
 
 	export let field: any, index: number, data: any, errors: any, touched: any, communityPlans: Plan[], myCredentials: Credential[];
 	const plugins = [gfmPlugin()];
@@ -27,6 +28,18 @@
 		inner.style.height = 4 + inner.scrollHeight + 'px';
 		// console.log("resizeTextarea height=", inner, inner.style.height);
 	}
+
+	$: {
+		console.log('field',field)
+		console.log('error',$errors)
+	}
+
+	onMount(()=>{
+		if(!errors[field.sid]){
+			errors.set(()=>[...errors, [field.sid] = 'This field is required!'])
+			console.log($errors[field.sid])
+		}
+	});
 </script>
 
 {#if data[index]}

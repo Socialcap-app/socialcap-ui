@@ -97,6 +97,9 @@
 					}),
 					{}
 				);
+				/* 
+				console.log(errors) ---> {"text_ll": "ll is required"} 
+				*/
 				return errors;
 			}
 		}
