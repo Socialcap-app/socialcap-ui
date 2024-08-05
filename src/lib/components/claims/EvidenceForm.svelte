@@ -13,9 +13,22 @@
 		communityPlans: Plan[] = [],
 		myCredentials: Credential[] = [];
 
-	let existingErrors : string[] = [];
+	export function hasErrors() {
+		let thisFormHasErrors = false;
+		fields.forEach((element: any) => {
+			let thisInput = data[fields.indexOf(element)];
+			console.log(thisInput.label, thisInput.value)
+			if(thisInput.label && thisInput.required && (!thisInput.value.trim() || thisInput.value.length > thisInput.extras.max)){
+				
+				thisFormHasErrors=true;
+				return;
+			}
+		});
+		return thisFormHasErrors;
+	}
 
-	const dispatch = createEventDispatcher();
+	let existingErrors: string[] = [];
+	let fieldComponent;
 
 	function camelize(str: string) {
 		return str
@@ -109,28 +122,21 @@
 		}
 	});
 
-	const isFormSubmittable = ({detail}: any/* { dataValue: string } */) => {
-		console.log(!!detail.dataValue)
-		if(detail.dataValue){
-			existingErrors = existingErrors.filter((e)=>e!==detail.label)
-		};
-		if(!detail.dataValue){
-			if(!existingErrors.find((e)=>e==detail.label))
-			existingErrors.push(detail.label)
-		};
+	function isFormSubmittable({ detail }: any /* { dataValue: string } */) {
+		console.log(!!detail.dataValue);
+		if (detail.dataValue) {
+			existingErrors = existingErrors.filter((e) => e !== detail.label);
+		}
+		if (!detail.dataValue) {
+			if (!existingErrors.find((e) => e == detail.label)) existingErrors.push(detail.label);
+		}
 		existingErrors = existingErrors;
-	};
+	}
 
 	onMount(() => {
 		// force validation on mount
 		validate();
 	});
-
-	$:{
-		dispatch('existingErrors', {
-			existingErrors
-			})
-	}
 </script>
 
 <div class="">
@@ -152,6 +158,7 @@
 				bind:data
 				{myCredentials}
 				{communityPlans}
+				bind:this={fieldComponent}
 				on:changeRequired={(val) => isFormSubmittable(val)}
 			/>
 		{/each}

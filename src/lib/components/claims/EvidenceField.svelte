@@ -9,7 +9,6 @@
 	import NotaryForm from './NotaryForm.svelte';
 	import CompositeForm from './CompositeForm.svelte';
 	import type { Plan, Credential } from '$lib/types';
-	import { createEventDispatcher } from 'svelte';
 
 	export let field: any,
 		index: number,
@@ -20,7 +19,6 @@
 		myCredentials: Credential[];
 	const plugins = [gfmPlugin()];
 	let previewOn = false;
-	const dispatch = createEventDispatcher();
 	/** Resize textareas **/
 
 	function initialTextareaSize(value: any) {
@@ -33,15 +31,6 @@
 		inner.style.height = 'auto';
 		inner.style.height = 4 + inner.scrollHeight + 'px';
 		// console.log("resizeTextarea height=", inner, inner.style.height);
-	}
-
-	$: {
-		if ($errors[field.sid] && field.required) {
-			dispatch('changeRequired', {
-				dataValue: data[index].value,
-				label: field.label
-			});
-		}
 	}
 </script>
 
