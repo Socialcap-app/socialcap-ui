@@ -20,17 +20,20 @@
 	const myCredentialsQuery = useGetMyCredentials()
 	const saveClaim = useSaveDratClaim();
 	const updateClaim = useUpdateClaim();
+	
 	$: communityPlans = $communityQuery.data?.plans;
 	$: myCredentials = $myCredentialsQuery.data;
+
 	let toggleDialog = false,
 		step = 0;
 	let previewOn = mode === 'view';
 	let formComponent : any;
 	let formHasErrors : boolean = true;
-	let formHasErrorsDialog : boolean = false;
+	let showFormHasErrorDialog : boolean = false;
+
 	async function confirmSubmission(sendingForm = true) {
 		formHasErrors =	formComponent.hasErrors();
-		formHasErrorsDialog = formHasErrors;
+		showFormHasErrorDialog = formHasErrors;
 		if(sendingForm)toggleDialog = !formHasErrors;
 	}
 
@@ -42,8 +45,13 @@
 		}
 		goto('/my-claims');
 	}
+
 	function isEditable() {
 		return claim?.state === DRAFT || claim?.state === UNPAID;
+	}
+
+	$:{
+		console.log(claim)
 	}
 </script>
 
@@ -60,15 +68,15 @@
 	<LoadingSpinner />
 {:else}
 <div class="relative">
-	{#if formHasErrorsDialog}
-		<Alert dismissable border color="yellow" class="animate-fadeIn fixed top-24 left-1/2 transform -translate-x-1/2 w-4/5 sm:w-3/5">
+	{#if showFormHasErrorDialog}
+		<Alert border color="yellow" class="animate-fadeIn fixed top-24 left-1/2 transform -translate-x-1/2 w-4/5 sm:w-3/5">
 			<InfoCircleSolid slot="icon" class="w-5 h-5" />
 			<span class="font-medium">Form Submission Error!</span>
 			Please review the required fields and correct any errors before submitting again.
 		</Alert>
 	{/if}
-	{#if !formHasErrorsDialog}
-		<Alert dismissable border color="yellow" class="animate-fadeOut fixed top-24 left-1/2 transform -translate-x-1/2 w-4/5 sm:w-3/5">
+	{#if !showFormHasErrorDialog}
+		<Alert border color="yellow" class="animate-fadeOut fixed top-24 left-1/2 transform -translate-x-1/2 w-4/5 sm:w-3/5">
 			<InfoCircleSolid slot="icon" class="w-5 h-5" />
 			<span class="font-medium">Form Submission Error!</span>
 			Please review the required fields and correct any errors before submitting again.

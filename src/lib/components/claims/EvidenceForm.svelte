@@ -26,7 +26,6 @@
 		return thisFormHasErrors;
 	}
 
-	let existingErrors: string[] = [];
 	let fieldComponent;
 	let dispatch = createEventDispatcher()
 
@@ -51,7 +50,16 @@
 	}
 	function getFieldSchema(field: IField) {
 		if (field.type === 'text' || field.type === 'note') {
-			return field.required ? (field.extras.max ? string().required(field.label + ' must be shorter!') : string().required(field.label + ' is required')) : string();
+			let schema = string();  // definis schema
+            // agrego condiciones al schema segun requerimientos
+            if (field.required) {
+                schema = schema.required(field.label + ' is required');
+            }
+            if (field.extras.max) {
+                schema = schema.max(field.extras.max, field.label + ' must be less than ' + field.extras.max + ' words');
+            }
+            
+            return schema;
 		}
 
 		if (field.type === 'checks') {
@@ -105,8 +113,10 @@
 	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		validate: async (values) => {
 			try {
+				/* console.log(values); */
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
+				/* console.log(err.inner); */
 				const errors = err.inner.reduce(
 					(res: any, value: any) => ({
 						[value.path]: value.message,
