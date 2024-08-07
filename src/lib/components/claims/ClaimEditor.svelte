@@ -26,10 +26,12 @@
 		step = 0;
 	let previewOn = mode === 'view';
 	let formComponent : any;
-	let formHasErrors : Boolean = false;
-	async function confirmSubmission() {
-		formHasErrors=	formComponent.hasErrors();
-		toggleDialog = !formHasErrors;
+	let formHasErrors : boolean = true;
+	let formHasErrorsDialog : boolean = false;
+	async function confirmSubmission(sendingForm = true) {
+		formHasErrors =	formComponent.hasErrors();
+		formHasErrorsDialog = formHasErrors;
+		if(sendingForm)toggleDialog = !formHasErrors;
 	}
 
 	async function saveDraft() {
@@ -58,8 +60,15 @@
 	<LoadingSpinner />
 {:else}
 <div class="relative">
-	{#if formHasErrors}
+	{#if formHasErrorsDialog}
 		<Alert dismissable border color="yellow" class="animate-fadeIn fixed top-24 left-1/2 transform -translate-x-1/2 w-4/5 sm:w-3/5">
+			<InfoCircleSolid slot="icon" class="w-5 h-5" />
+			<span class="font-medium">Form Submission Error!</span>
+			Please review the required fields and correct any errors before submitting again.
+		</Alert>
+	{/if}
+	{#if !formHasErrorsDialog}
+		<Alert dismissable border color="yellow" class="animate-fadeOut fixed top-24 left-1/2 transform -translate-x-1/2 w-4/5 sm:w-3/5">
 			<InfoCircleSolid slot="icon" class="w-5 h-5" />
 			<span class="font-medium">Form Submission Error!</span>
 			Please review the required fields and correct any errors before submitting again.
@@ -71,7 +80,7 @@
     </pre> -->
 		{#if !previewOn}
 			<form>
-				<EvidenceForm bind:this={formComponent} eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
+				<EvidenceForm bind:this={formComponent} on:validationChange={()=>confirmSubmission(false)} eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
 			</form>
 		{:else}
 			<EvidenceFormPreview evidenceData={claim?.evidenceData} />
@@ -100,7 +109,7 @@
 						Save Draft
 					{/if}</Button
 				>
-				<Button disabled={!isEditable()} size="lg" primay class="me-8" on:click={() => confirmSubmission()}>Submit</Button>
+				<Button disabled={!isEditable() || formHasErrors} size="lg" primay class="me-8" on:click={() => confirmSubmission()}>Submit</Button>
 			</div>
 		</div>
 	</div>

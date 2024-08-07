@@ -17,8 +17,7 @@
 		let thisFormHasErrors = false;
 		fields.forEach((element: any) => {
 			let thisInput = data[fields.indexOf(element)];
-			console.log(thisInput.label, thisInput.value)
-			if(thisInput.label && thisInput.required && (!thisInput.value.trim() || thisInput.value.length > thisInput.extras.max)){
+			if(thisInput.label && thisInput.required && (!thisInput.value || !thisInput.value.trim() || thisInput.value.length > thisInput.extras.max)){
 				
 				thisFormHasErrors=true;
 				return;
@@ -29,6 +28,7 @@
 
 	let existingErrors: string[] = [];
 	let fieldComponent;
+	let dispatch = createEventDispatcher()
 
 	function camelize(str: string) {
 		return str
@@ -51,7 +51,7 @@
 	}
 	function getFieldSchema(field: IField) {
 		if (field.type === 'text' || field.type === 'note') {
-			return field.required ? string().required(field.label + ' is required') : string();
+			return field.required ? (field.extras.max ? string().required(field.label + ' must be shorter!') : string().required(field.label + ' is required')) : string();
 		}
 
 		if (field.type === 'checks') {
@@ -122,21 +122,15 @@
 		}
 	});
 
-	function isFormSubmittable({ detail }: any /* { dataValue: string } */) {
-		console.log(!!detail.dataValue);
-		if (detail.dataValue) {
-			existingErrors = existingErrors.filter((e) => e !== detail.label);
-		}
-		if (!detail.dataValue) {
-			if (!existingErrors.find((e) => e == detail.label)) existingErrors.push(detail.label);
-		}
-		existingErrors = existingErrors;
-	}
-
 	onMount(() => {
 		// force validation on mount
 		validate();
 	});
+
+	$: {
+		// when isValid changes the event excecuted
+		dispatch('validationChange', $isValid)
+	}
 </script>
 
 <div class="">
