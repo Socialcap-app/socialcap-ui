@@ -31,10 +31,13 @@
 	let formHasErrors : boolean = true;
 	let showFormHasErrorDialog : boolean = false;
 
-	async function confirmSubmission(sendingForm = true) {
+	async function confirmSubmission() {
+		toggleDialog = !formHasErrors;
+	}
+	
+	async function checkFormErrors() {
 		formHasErrors =	formComponent.hasErrors();
 		showFormHasErrorDialog = formHasErrors;
-		if(sendingForm)toggleDialog = !formHasErrors;
 	}
 
 	async function saveDraft() {
@@ -88,7 +91,7 @@
     </pre> -->
 		{#if !previewOn}
 			<form>
-				<EvidenceForm bind:this={formComponent} on:validationChange={()=>confirmSubmission(false)} eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
+				<EvidenceForm bind:this={formComponent} on:validationChange={()=>checkFormErrors()} eform={plan?.evidence} data={claim?.evidenceData} communityUid={plan?.communityUid} {communityPlans} {myCredentials} />
 			</form>
 		{:else}
 			<EvidenceFormPreview evidenceData={claim?.evidenceData} />
