@@ -29,8 +29,8 @@
 		value: string = '';
 	notaryConfig = {
 		...notaryConfig,
-		since:  notaryConfig.since ||  new Date(),
-		until: notaryConfig.until ||  new Date()
+		since:  notaryConfig?.since ||  new Date(),
+		until: notaryConfig?.until ||  new Date()
 	};
 	
 	let working = '';

@@ -10,10 +10,10 @@
 		{#each evidenceData as field}
 		{#if field.type !== "remark"}
 		  <div class="pt-3 pb-0 border-bottom border-secondary-subtle">
-			  <p class="ps-0 py-0 text-sm text-black font-semibold text-start">
+			  <p class="ps-0 py-0 text-md text-black font-semibold text-start">
           {field.label}
         </p>
-			  <p class="px-0 py-0 mt-1 text-lg text-gray-500 leading-relaxed w-100 text-start">
+			  <p class="px-0 py-3 mt-1 text-lg text-gray-500 leading-relaxed w-100 text-start">
 			    <EvidenceFieldPreview 
 				    field={field}
 			    />
