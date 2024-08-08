@@ -163,7 +163,6 @@
 				{myCredentials}
 				{communityPlans}
 				bind:this={fieldComponent}
-				on:changeRequired={(val) => isFormSubmittable(val)}
 			/>
 		{/each}
 	</form>
