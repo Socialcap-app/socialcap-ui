@@ -7,7 +7,7 @@
 	const plugins = [gfmPlugin()];
 </script>
 
-<div class="fs-md m-0 p-0 text-start">
+<div class="fs-md m-0 p-0 text-start wrap-text">
 	{#if field.type === 'text' || field.type === 'note'}
 		<Markdown md={(field.value || '').replaceAll('\n', '  \n')} {plugins} />
 	{/if}
@@ -50,3 +50,9 @@
 		{/each}
 	{/if}
 </div>
+
+<style>
+	.wrap-text {
+		overflow-wrap: break-word; /* Same as word-wrap for most browsers */
+	}
+</style>
