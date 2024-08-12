@@ -6,21 +6,42 @@
 		disabled: boolean = false;
 	placeholder = placeholder ?? 'Pick a date';
 	const datepickerFormat = 'YYYY-MM-DD';
-	let valueString;
+	let valueString : string;
 	function convertValueForBinding() {
-		const now = new Date();
-		let month = '' + (now.getMonth() + 1),
-			day = '' + now.getDate(),
-			year = now.getFullYear();
+		if(value){
+			// Parse the existing valueString (assuming it is in ISO format or similar)
+			const date = new Date(value);
 
-		if (month.length < 2) month = '0' + month;
-		if (day.length < 2) day = '0' + day;
+			// Check if the date is valid
+			if (!isNaN(date.getTime())) {
+				let month = '' + (date.getMonth() + 1),
+					day = '' + date.getDate(),
+					year = date.getFullYear();
 
-		valueString = [year, month, day].join('-');
-		console.log('value', valueString);
+				// Add leading zeros if necessary
+				if (month.length < 2) month = '0' + month;
+				if (day.length < 2) day = '0' + day;
+
+				// Set valueString to the formatted date
+				valueString = [year, month, day].join('-');
+			}else {
+            console.warn('Invalid date string:', value);
+        	}
+		}else{
+
+			const now = new Date();
+			let month = '' + (now.getMonth() + 1),
+				day = '' + now.getDate(),
+				year = now.getFullYear();
+	
+			if (month.length < 2) month = '0' + month;
+			if (day.length < 2) day = '0' + day;
+	
+			valueString = [year, month, day].join('-');
+		}
 	}
 	onMount(() => {
-		// convertValueForBinding();
+		convertValueForBinding();
 	});
 </script>
 
@@ -46,7 +67,7 @@
 		class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 		{placeholder}
 		datepicker-format={datepickerFormat}
-		bind:value={value}
+		bind:value={valueString}
 		{disabled}
 		datepicker-buttons
 	/>
