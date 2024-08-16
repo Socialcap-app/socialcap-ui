@@ -40,7 +40,7 @@
 			// calling notarize
 			console.log('calling notarize');
 			console.log(notaryType, notaryConfig);
-			// Todo : call proper notary base on notaryType
+			// TODO: call proper notary base on notaryType
 			const data = await notarize_github(notaryConfig);
 
 			console.log('proofData github', data);

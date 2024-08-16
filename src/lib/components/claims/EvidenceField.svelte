@@ -32,6 +32,13 @@
 		inner.style.height = 4 + inner.scrollHeight + 'px';
 		// console.log("resizeTextarea height=", inner, inner.style.height);
 	}
+
+	$:{
+		console.log('field', field)
+	}
+	$:{
+		console.log('data', data)
+	}
 </script>
 
 {#if data[index]}
@@ -55,22 +62,6 @@
 				<div class="text-sm text-red-500">{$errors[field.sid]}</div>
 			{/if}
 		{/if}
-
-		<!-- {#if field.type === "note"}
-    <textarea 
-      id={field.sid} 
-      name={field.sid} 
-      required={field.required}
-      class="border-gray-400 text-lg block rounded-md leading-relaxed w-full"
-      on:input={(e) => { validateField(e); resizeTextarea(field.inner); }}
-      bind:value={buffer}
-      />
-      <!-- bind:inner={field.inner} 
-        rows={initialTextareaSize(buffer)}
-        bind:value={data[index].value}
-      invalid={!isValid(field, data[index].value)}
-      feedback={hasMessage(field, data[index].value)} 
-  {/if} -->
 
 		{#if field.type === 'note'}
 			<Textarea
