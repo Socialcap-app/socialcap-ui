@@ -55,6 +55,8 @@ async function getAllClaimables(params: {
  * @returns Updated Plan
  */
 async function updatePlan(data: Plan): Promise<Plan> {
+  const objj =  { ...data, state: Number(data.state), startsUTC: convertDateToISO(data.startsUTC), endsUTC: convertDateToISO(data.endsUTC), votingStartsUTC: convertDateToISO(data.votingStartsUTC), votingEndsUTC: convertDateToISO(data.votingEndsUTC) }
+  console.log('obj::', objj)
   const rs = await API.mutate("update_plan", { ...data, state: Number(data.state), startsUTC: convertDateToISO(data.startsUTC), endsUTC: convertDateToISO(data.endsUTC), votingStartsUTC: convertDateToISO(data.votingStartsUTC), votingEndsUTC: convertDateToISO(data.votingEndsUTC) })
   
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
