@@ -40,6 +40,7 @@ export async function pinFile(params: {
     }
 
     if (parsed.IpfsHash) {
+      console.log( "parsed", parsed)
       return parsed.IpfsHash;
     } else {
       console.error("pinFile error 1", parsed.error);
