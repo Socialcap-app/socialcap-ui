@@ -3,9 +3,9 @@
 	import { findState } from '$lib/types/states';
   import { Card, Badge, Avatar, Button, Img } from 'flowbite-svelte';
   import CommunityMenu from './CommunityMenu.svelte';
-  import CommunityBanner from './CommunityBanner.svelte';
   import JoinCommunityModal from './JoinCommunityModal.svelte';
 	import { goto } from '$app/navigation';
+	import Banner from '../common/Banner.svelte';
 
   export let 
     uid = '', title = '', description = '', image = '',
@@ -27,6 +27,10 @@
     ev.preventDefault();//.stopPropagation();
     joinModalOpened = true;
   }
+
+  function updateImage(img: string) {
+    image = img;
+  }
 </script>
 
 <JoinCommunityModal 
@@ -37,8 +41,7 @@
 />
 
 <Card class="" padding="none" size="none" href={gotoLink(uid)}>
-  <CommunityBanner {image} inside="card"/>
-
+  <Banner {image} on:updateimage={(e) => updateImage(e.detail.image)} inside="card"/>
   <div class="px-4 pt-6 pb-4">
     <!-- <Badge rounded border large color="green" class="inline-block mb-0">{state}</Badge> -->
     <div class="flex items-center justify-between">

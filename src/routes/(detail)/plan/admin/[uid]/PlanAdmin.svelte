@@ -3,9 +3,7 @@
 	import { Card, Badge, Avatar, Button, Img, Tabs, TabItem } from 'flowbite-svelte';
 	import Time from 'svelte-time';
 	import { H1, SubmitButton } from '$lib/components';
-	import { onMount } from 'svelte';
 	import StateBadge from '$lib/components/common/StateBadge.svelte';
-	import AdminCredentialBanner from '$lib/components/credentials/AdminCredentialBanner.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
 	import Voting from './Voting.svelte';
 	import Claims from './Claims.svelte';
@@ -16,6 +14,7 @@
 	import { useCreatePlan, useUpdatePlan } from '$lib/hooks/plans';
 	import { goto } from '$app/navigation';
 	import { type Claim } from '$lib/types/claim';
+	import Banner from '$lib/components/common/Banner.svelte';
 
 	export let plan: Plan | undefined = undefined, isNew: boolean | undefined, communityPlans: Plan[], communityClaims: Claim[];
 	const updatePlan = useUpdatePlan(plan?.uid);
@@ -23,8 +22,12 @@
 	// use it for updating button text when submitting
 	$: working = $updatePlan.isPending || $createPlan.isPending ? 'Saving' : undefined;
 	let activeTab = 0;
+	function updateImage(img: string) {
+		if (plan)
+			plan.image = img;
+	}
 	async function submit() {
-		if (isNew)
+		if (isNew)	
 			await $createPlan.mutateAsync(plan!);
 		else
 			await $updatePlan.mutateAsync(plan!);
@@ -33,7 +36,8 @@
 </script>
 
 <div class="w-full max-w-screen-lg">
-	<AdminCredentialBanner image={plan?.image} />
+	{#if plan}
+	<Banner isAdmin={true} image={plan?.image} on:updateimage={(e) => updateImage(e.detail.image)}/>
 
 	<div class="">
 		<div class="flex items-center justify-between">
@@ -67,7 +71,7 @@
 		<p class="mb-2 text-base text-gray-600 dark:text-gray-400">
 			{plan?.description}
 		</p>
-		{#if plan}
+		
 			<Tabs
 				style="underline"
 				contentClass="pt-14 pr-5 pb-4 pl-7 bg-transparent rounded-lg dark:bg-gray-800"
@@ -114,6 +118,7 @@
 					<Voting bind:plan />
 				</TabItem>
 			</Tabs>
-		{/if}
+		
 	</div>
+	{/if}
 </div>

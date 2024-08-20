@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { useCreateCommunity, useGetCommunity } from '$lib/hooks/communities';
+	import { useGetCommunity } from '$lib/hooks/communities';
 	import { onMount } from 'svelte';
-	import { Avatar, Accordion, AccordionItem, Tabs, TabItem } from 'flowbite-svelte';
-	import { getCurrentUser } from '$lib/store';
-	import type { User } from '$lib/types/user';
+	import { Avatar, Tabs, TabItem } from 'flowbite-svelte';
 	import Breadcrumbs from '../../../../lib/components/common/Breadcrumbs.svelte';
 	import {
 		useGetCredential,
@@ -11,9 +9,7 @@
 		useGetCredentialOnchainData
 	} from '$lib/hooks/credentials';
 	import { ErrorOnFetch } from '$lib/components';
-	import StateBadge from '$lib/components/common/StateBadge.svelte';
 	import Time from 'svelte-time/Time.svelte';
-	import CommunityBanner from '$lib/components/communities/CommunityBanner.svelte';
 	import CredentialActions from './CredentialActions.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
@@ -67,7 +63,6 @@
 		{:else}
 			<div class="w-full max-w-screen-lg">
 				<div class="relative flex items-end justify-center">
-					<!-- <CommunityBanner image={$credential.data?.banner} /> -->
 					<img
 						src={bannerImage}
 						class="fill h-auto w-full"
