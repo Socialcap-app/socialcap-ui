@@ -32,13 +32,6 @@
 		inner.style.height = 4 + inner.scrollHeight + 'px';
 		// console.log("resizeTextarea height=", inner, inner.style.height);
 	}
-
-	$:{
-		console.log('field', field)
-	}
-	$:{
-		console.log('data', data)
-	}
 </script>
 
 {#if data[index]}
