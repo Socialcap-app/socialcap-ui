@@ -18,12 +18,13 @@
 	const schema = object({
 		name: string()
 			.required('Name is required')
+			.max(128, 'Name must be at most 128 characters')
 			.test('verified', 'Community name already exists', async (value) => {
 				if (value === original_name) return true;
 				const exist = await checkCommunityNameExist(value);
 				return !exist as boolean;
 			}),
-		description: string().required('Description is required'),
+		description: string().required('Description is required').max(128, 'Description must be at most 128 characters'),
 		tokenId: string(),
 		tokenMaxSupply: number(),
 		tokenOwner: string(),
@@ -104,7 +105,6 @@
 			type="text"
 			id="name"
 			name="name"
-			maxlength="128"
 			placeholder=""
 			required
 			bind:value={community.name}
@@ -125,7 +125,6 @@
 			placeholder=""
 			rows="4"
 			name="description"
-			maxlength="128"
 			bind:value={community.description}
 		/>
 		{#if $errors.description && $touched.description}

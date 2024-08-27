@@ -14,11 +14,12 @@
 	const schema = object({
 		name: string()
 			.required('Name is required')
+			.max(128, 'Name must be at most 128 characters')
 			.test('verified', 'Community name already exists', async (value, values) => {
 				const exist = await checkCommunityNameExist(value);
 				return !exist as boolean;
 			}),
-		description: string().required('Description is required'),
+		description: string().required('Description is required').max(128, 'Description must be at most 128 characters'),
 		acceptTac: boolean().required().default(false).oneOf([true], 'Field must be checked'),
 		isAdmin: boolean().default(false)
 	});
@@ -92,7 +93,7 @@
 				<div class="flex justify-between">
 					<span>Name</span><span class="text-orange-400">Required</span>
 				</div>
-				<Input maxlength="128" color="{$errors.name ? "red" : "base"}" type="text" name="name" required />
+				<Input color="{$errors.name ? "red" : "base"}" type="text" name="name" required />
 				{#if $errors.name && $touched.name}
 					<span class="text-sm text-red-500">{$errors.name}</span>
 				{/if}
@@ -102,7 +103,7 @@
 				<div class="flex justify-between">
 					<span>Description</span><span class="text-orange-400">Required</span>
 				</div>
-				<Input maxlength="128" color="{$errors.description ? "red" : "base"}" type="text" name="description" required />
+				<Input color="{$errors.description ? "red" : "base"}" type="text" name="description" required />
 				{#if $errors.description && $touched.description}
 					<span class="text-sm text-red-500">{$errors.description}</span>
 				{/if}
