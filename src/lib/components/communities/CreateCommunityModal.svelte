@@ -92,7 +92,7 @@
 				<div class="flex justify-between">
 					<span>Name</span><span class="text-orange-400">Required</span>
 				</div>
-				<Input color="{$errors.name ? "red" : "base"}" type="text" name="name" required />
+				<Input maxlength="128" color="{$errors.name ? "red" : "base"}" type="text" name="name" required />
 				{#if $errors.name && $touched.name}
 					<span class="text-sm text-red-500">{$errors.name}</span>
 				{/if}
@@ -102,7 +102,7 @@
 				<div class="flex justify-between">
 					<span>Description</span><span class="text-orange-400">Required</span>
 				</div>
-				<Input color="{$errors.description ? "red" : "base"}" type="text" name="description" required />
+				<Input maxlength="128" color="{$errors.description ? "red" : "base"}" type="text" name="description" required />
 				{#if $errors.description && $touched.description}
 					<span class="text-sm text-red-500">{$errors.description}</span>
 				{/if}

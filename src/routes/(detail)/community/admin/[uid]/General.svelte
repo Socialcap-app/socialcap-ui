@@ -104,6 +104,7 @@
 			type="text"
 			id="name"
 			name="name"
+			maxlength="128"
 			placeholder=""
 			required
 			bind:value={community.name}
@@ -115,7 +116,7 @@
 	<div class="mt-2">
 		<Label for="description" class="text-base {$errors.description ? 'text-red-500' : ''}"
 			>Short Description<span class="float-right text-sm font-normal text-[#7E8390]"
-				>Max. 256 char</span
+				>Max. 128 char</span
 			></Label
 		>
 		<Textarea
@@ -124,7 +125,7 @@
 			placeholder=""
 			rows="4"
 			name="description"
-			maxlength="256"
+			maxlength="128"
 			bind:value={community.description}
 		/>
 		{#if $errors.description && $touched.description}
