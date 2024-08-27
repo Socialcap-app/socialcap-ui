@@ -18,12 +18,13 @@
 	const schema = object({
 		name: string()
 			.required('Name is required')
+			.max(128, 'Name must be at most 128 characters')
 			.test('verified', 'Community name already exists', async (value) => {
 				if (value === original_name) return true;
 				const exist = await checkCommunityNameExist(value);
 				return !exist as boolean;
 			}),
-		description: string().required('Description is required'),
+		description: string().required('Description is required').max(128, 'Description must be at most 128 characters'),
 		tokenId: string(),
 		tokenMaxSupply: number(),
 		tokenOwner: string(),
@@ -115,7 +116,7 @@
 	<div class="mt-2">
 		<Label for="description" class="text-base {$errors.description ? 'text-red-500' : ''}"
 			>Short Description<span class="float-right text-sm font-normal text-[#7E8390]"
-				>Max. 256 char</span
+				>Max. 128 char</span
 			></Label
 		>
 		<Textarea
@@ -124,7 +125,6 @@
 			placeholder=""
 			rows="4"
 			name="description"
-			maxlength="256"
 			bind:value={community.description}
 		/>
 		{#if $errors.description && $touched.description}
