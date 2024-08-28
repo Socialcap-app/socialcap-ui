@@ -10,9 +10,14 @@
 	import { ACTIVE } from "$lib/types/states";
 	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
 
-  const communities =  useGetAllCommunities({ states: ["APPROVED"]});
-  const claimables = useGetAllClaimables({});
+  export let communities =  useGetAllCommunities({ states: ["APPROVED"]});
+  export let claimables = useGetAllClaimables({});
+  export let isLogged = true;
 
+  $: {
+    console.log('communities', $communities)
+    console.log('claimables', $claimables)
+  }
 </script>
 
 <div>
@@ -59,6 +64,7 @@
             data={$communities.data} 
             joined={false} 
             grid="1"
+            {isLogged}
           />
         </ul>
       {/if}

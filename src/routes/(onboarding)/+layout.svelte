@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import '../../app.pcss';
   import Navbar from './Navbar.svelte';
   
@@ -9,7 +10,9 @@
   const bgStyle = `
     background-image: url('/images/socialcap-bg-signin.svg');height: 100vh; width: 100vw; 
     backgroundRepeat: no-repeat; backgroundSize: auto;
-  `
+  `;
+
+  const queryClient = new QueryClient()
 </script>
 
 <header	class={headerClass}>
@@ -19,7 +22,9 @@
   class="overflow-hidden lg:flex" 
   style={bgStyle}
   >
+  <QueryClientProvider client={queryClient}>
 	<div class="relative h-full w-full overflow-y-auto">
 		<slot />
 	</div>
+  </QueryClientProvider>
 </div>

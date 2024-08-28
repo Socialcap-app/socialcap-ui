@@ -7,7 +7,9 @@ import type { NavigationPath } from "../types";
 export { 
   setNavigationPath, 
   navigationPath,
-  redirectUrl
+  redirectUrl,
+  loginFormShow,
+  isOnPhone
 } ;
 
 const navigationPath = writable({
@@ -15,6 +17,8 @@ const navigationPath = writable({
   to: "",
   type: ""
 })
+
+const loginFormShow = writable(false)
 
 const redirectUrl = writable('');
 
@@ -33,3 +37,15 @@ function normalizePath(path: string): string {
     .replace('/(detail)', '')
     || '/home'; 
 }
+
+function createIsPhone() {
+  const { subscribe, set, update } = writable(true);
+
+  return {
+      subscribe,
+      checkDimenssions: () => update((n) => window.innerWidth < 750),
+      reset: () => set(true)
+  };
+}
+
+const isOnPhone = createIsPhone();
