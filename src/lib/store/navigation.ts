@@ -8,8 +8,7 @@ export {
   setNavigationPath, 
   navigationPath,
   redirectUrl,
-  loginFormShow,
-  isOnPhone
+  loginFormShow
 } ;
 
 const navigationPath = writable({
@@ -37,15 +36,3 @@ function normalizePath(path: string): string {
     .replace('/(detail)', '')
     || '/home'; 
 }
-
-function createIsPhone() {
-  const { subscribe, set, update } = writable(true);
-
-  return {
-      subscribe,
-      checkDimenssions: () => update((n) => window.innerWidth < 750),
-      reset: () => set(true)
-  };
-}
-
-const isOnPhone = createIsPhone();

@@ -41,6 +41,7 @@
             <CredentialsList 
               data={$claimables.data} 
               joined={false}
+              {isLogged}
               isClaimable={true} 
             />
           </ul>

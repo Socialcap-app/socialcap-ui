@@ -52,7 +52,7 @@ async function getAllClaimables(params: {
 async function getPublicClaims(params: {
   joined?: boolean;
 }): Promise<Plan[]> {
-  const rs = await API.query("get_public_claims", params);
+  const rs = await API.query("get_public_claims", {});
   if (rs.error) return []; // TODO handle error
   return rs.data;
 }

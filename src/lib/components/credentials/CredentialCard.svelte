@@ -17,10 +17,11 @@
 
 	export let data: Credential,
 		joined: boolean = false,
-		isClaimable: boolean = false;
+		isClaimable: boolean = false,
+		isLogged: boolean = true;
 
 	const community = useGetCommunity(data.communityUid);
-	let profile: User | null = getCurrentUser();
+	let profile: User | null = isLogged ? getCurrentUser() : null;
 	let modalOpened = false;
 	let onchainData: any = null;
 
@@ -36,7 +37,7 @@
 	$: bannerImage = data?.banner || '/images/credentialbg.svg';
 	$: avatarImage = isClaimable
 		? data?.image || '/images/credentialbg.svg'
-		: profile?.image || data.image || '/images/profile-2.png';
+		: (isLogged ? profile?.image : null) || data.image || '/images/profile-2.png';
 	$: avatarLabel = isClaimable ? data?.community || 'No name' : data.applicant || 'No name';
 	$: issuedByImage = isIssued ? $community.data?.image || '/images/credentialbg.svg' : '';
 	$: initials = getInitials(avatarLabel);
@@ -46,7 +47,7 @@
 	}
 
 	onMount(async () => {
-		profile = getCurrentUser();
+		profile = isLogged ? getCurrentUser() : null;
 		console.log('community Image', $community.data?.image);
 	});
 
