@@ -31,7 +31,7 @@ export function useGetAllClaimables(params: {
 export function useGetPublicClaims() {
   return createQuery<Plan[], Error>({
     queryKey: ['get_public_claims'],
-    queryFn: () => getPublicClaims({}),
+    queryFn: () => getPublicClaims(),
   })
 }
 
