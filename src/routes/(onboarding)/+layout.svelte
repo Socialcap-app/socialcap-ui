@@ -8,7 +8,7 @@
     dark:border-gray-600 dark:bg-gray-800
   `;
   const bgStyle = `
-    background-image: url('/images/socialcap-bg-signin.svg');height: 100vh; width: 100vw; 
+    background-image: url('/images/socialcap-bg-signin.svg');height: 100vh; width: 100%; 
     backgroundRepeat: no-repeat; backgroundSize: auto;
   `;
 
@@ -23,8 +23,14 @@
   style={bgStyle}
   >
   <QueryClientProvider client={queryClient}>
-	<div class="relative h-full w-full overflow-y-auto">
+	<div class="relative h-full w-full overflow-y-auto example">
 		<slot />
 	</div>
   </QueryClientProvider>
 </div>
+
+<style>
+  .example::-webkit-scrollbar {
+    display: none;
+  }
+</style>
