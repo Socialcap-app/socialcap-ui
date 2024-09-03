@@ -6,9 +6,11 @@
 	import { getCurrentUser } from '$lib/store';
 	import type { User } from '$lib/types';
 	import SubmitButton from '../common/SubmitButton.svelte';
+	import { loginFormShow } from '$lib/store/navigation';
 
 	export let 
     open = false,
+    isLogged = true,
     title = "",
     description = "",
     uid = "";
@@ -24,6 +26,12 @@
 	$: working = $joinCommunityMutation.isPending ? 'Joining ...' : '';
 
   function submitJoin() {
+    if(!isLogged){
+      open= false;
+      $loginFormShow = true;
+      goto('/login');
+      return;
+    };
     console.log('submitting');
     working = 'Joining ...';
     setTimeout(async () => {
@@ -59,7 +67,7 @@
 				disabled={$joinCommunityMutation.isPending}
 				no-class="order-1 mb-2 mt-6 w-full md:order-2 md:mb-0 md:ms-2"
 				size="md">
-        Join !
+        {isLogged ? 'Join !' : 'Sign in and join !'}
 			</SubmitButton>
     </div>  
 </Modal>

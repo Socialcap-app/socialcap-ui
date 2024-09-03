@@ -10,7 +10,7 @@
   export let 
     uid = '', title = '', description = '', image = '',
     state = '', count = "0", nClaims = 0, nCredentials = 0,
-    joined = false, isAdmin: boolean = false;
+    joined = false, isAdmin: boolean = false, isLogged = true;
 
   let joinModalOpened = false;
 
@@ -38,6 +38,7 @@
   uid={uid}
   description={description}
   bind:open={joinModalOpened} 
+  {isLogged}
 />
 
 <Card class="" padding="none" size="none" href={gotoLink(uid)}>

@@ -21,7 +21,7 @@
 		isLogged: boolean = true;
 
 	const community = useGetCommunity(data.communityUid);
-	let profile: User | null = isLogged ? getCurrentUser() : null;
+	/* let profile: User | null = isLogged ? getCurrentUser() : null; */
 	let modalOpened = false;
 	let onchainData: any = null;
 
@@ -35,9 +35,9 @@
 	$: fromDate = isClaimable ? data.startsUTC : data.issuedUTC;
 	$: toDate = isClaimable ? data.endsUTC : data.expiresUTC;
 	$: bannerImage = data?.banner || '/images/credentialbg.svg';
-	$: avatarImage = isClaimable
+	/* $: avatarImage = isClaimable
 		? data?.image || '/images/credentialbg.svg'
-		: (isLogged ? profile?.image : null) || data.image || '/images/profile-2.png';
+		: profile?.image || data.image || '/images/profile-2.png'; */
 	$: avatarLabel = isClaimable ? data?.community || 'No name' : data.applicant || 'No name';
 	$: issuedByImage = isIssued ? $community.data?.image || '/images/credentialbg.svg' : '';
 	$: initials = getInitials(avatarLabel);
@@ -47,7 +47,7 @@
 	}
 
 	onMount(async () => {
-		profile = isLogged ? getCurrentUser() : null;
+		/* profile = isLogged ? getCurrentUser() : null; */
 		console.log('community Image', $community.data?.image);
 	});
 
@@ -72,7 +72,7 @@
 		>
 			<div class="relative flex items-end justify-center">
 				<img
-					src={avatarImage}
+					src={/* avatarImage */ '/images/profile-2.png'}
 					class="h-40 w-full rounded object-cover"
 					alt="Credential Banner"
 					crossorigin=""

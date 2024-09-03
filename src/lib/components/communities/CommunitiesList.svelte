@@ -65,6 +65,7 @@
                     count={t.countMembers}
                     joined={joined}
                     isAdmin={isAdmin(t, user)}
+                    {isLogged}
                   />
                 </div>
             {/each}
