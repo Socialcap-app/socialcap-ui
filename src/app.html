@@ -13,14 +13,14 @@
 		rel="stylesheet" />
 
 	<style>
-		.example::-webkit-scrollbar {
+		.scroll-invisible::-webkit-scrollbar {
   			display: none;
 		}
 	</style>
 	%sveltekit.head%
 </head>
 
-<body data-sveltekit-preload-data="hover" class="bg-white dark:bg-gray-900 antialiased example">
+<body data-sveltekit-preload-data="hover" class="bg-white dark:bg-gray-900 antialiased scroll-invisible">
 	<div style="display: contents">
 		%sveltekit.body%
 	</div>
