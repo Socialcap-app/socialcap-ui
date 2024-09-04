@@ -8,6 +8,7 @@ export {
   setNavigationPath, 
   navigationPath,
   redirectUrl,
+  userLoggedIn,
   loginFormShow
 } ;
 
@@ -17,7 +18,9 @@ const navigationPath = writable({
   type: ""
 })
 
-const loginFormShow = writable(false)
+const loginFormShow = writable(false);
+
+const userLoggedIn = writable(false);
 
 const redirectUrl = writable('');
 

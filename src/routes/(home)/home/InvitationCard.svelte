@@ -29,7 +29,11 @@
         }
       }>Invite</Button>
       <Button size="sm" color="none"
-        on:click={() => open = false} outline={false}>
+        on:click={() => {
+          open = false;
+          dispatch('close');
+        }}
+        outline={false}>
         Dismiss
       </Button>
     </div>

@@ -7,7 +7,6 @@
     data: any[] = [],
     joined: boolean = false,
     isClaimable: boolean = false,
-    isLogged: boolean = true,
     grid = "1";
 
   let gridClass = "grid grid-cols-1 gap-4 lg:grid-cols-"+grid;  
@@ -45,7 +44,6 @@
               data={t}
               {joined}
               {isClaimable}
-              {isLogged}
             />
           </div>
         {/each}

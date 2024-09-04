@@ -14,14 +14,14 @@
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
+	import { loginFormShow, userLoggedIn } from '$lib/store/navigation';
 
 	export let data: Credential,
 		joined: boolean = false,
-		isClaimable: boolean = false,
-		isLogged: boolean = true;
+		isClaimable: boolean = false;
 
 	const community = useGetCommunity(data.communityUid);
-	/* let profile: User | null = isLogged ? getCurrentUser() : null; */
+	let profile: User | null = $userLoggedIn ? getCurrentUser() : null;
 	let modalOpened = false;
 	let onchainData: any = null;
 
@@ -35,9 +35,9 @@
 	$: fromDate = isClaimable ? data.startsUTC : data.issuedUTC;
 	$: toDate = isClaimable ? data.endsUTC : data.expiresUTC;
 	$: bannerImage = data?.banner || '/images/credentialbg.svg';
-	/* $: avatarImage = isClaimable
+	$: avatarImage = isClaimable
 		? data?.image || '/images/credentialbg.svg'
-		: profile?.image || data.image || '/images/profile-2.png'; */
+		: profile?.image || data.image || '/images/profile-2.png';
 	$: avatarLabel = isClaimable ? data?.community || 'No name' : data.applicant || 'No name';
 	$: issuedByImage = isIssued ? $community.data?.image || '/images/credentialbg.svg' : '';
 	$: initials = getInitials(avatarLabel);
@@ -47,7 +47,7 @@
 	}
 
 	onMount(async () => {
-		/* profile = isLogged ? getCurrentUser() : null; */
+		profile = $userLoggedIn ? getCurrentUser() : null;
 		console.log('community Image', $community.data?.image);
 	});
 
@@ -68,11 +68,11 @@
 			padding="md"
 			size="md"
 			class={`${clazz || ''}`}
-			href={isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`}
+			href={$userLoggedIn ? isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}` : ''}
 		>
 			<div class="relative flex items-end justify-center">
 				<img
-					src={/* avatarImage */ '/images/profile-2.png'}
+					src={avatarImage ?? '/images/profile-2.png'}
 					class="h-40 w-full rounded object-cover"
 					alt="Credential Banner"
 					crossorigin=""
@@ -81,7 +81,7 @@
 				<div
 					class="absolute -bottom-4 flex items-center gap-2 rounded-full border-2 border-gray-200 bg-gray-50 p-1"
 				>
-					<!-- <Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" /> -->
+					<Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" />
 					<GradientAvatar {initials} gradient={buildGradient(initials)} />
 
 					<div class="max-w-64 truncate px-2 text-xs text-black dark:text-white">{avatarLabel}</div>
@@ -163,10 +163,14 @@
 							on:click={(e) => {
 								e.preventDefault();
 								e.stopPropagation();
-								goto(`/claim/new?mp=${data.uid}`);
+								if($userLoggedIn){
+									goto(`/claim/new?mp=${data.uid}`);
+								}else{
+									$loginFormShow = true;
+								} 
 							}}
 						>
-							Claim it!
+							{'Claim it!'}
 						</Button>
 					{/if}
 				</div>

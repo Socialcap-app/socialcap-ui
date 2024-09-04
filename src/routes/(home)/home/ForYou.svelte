@@ -12,7 +12,6 @@
 
   export let communities =  useGetAllCommunities({ states: ["APPROVED"]});
   export let claimables = useGetAllClaimables({});
-  export let isLogged = true;
 
   $: {
     console.log('communities', $communities)
@@ -41,7 +40,6 @@
             <CredentialsList 
               data={$claimables.data} 
               joined={false}
-              {isLogged}
               isClaimable={true} 
             />
           </ul>
@@ -65,7 +63,6 @@
             data={$communities.data} 
             joined={false} 
             grid="1"
-            {isLogged}
           />
         </ul>
       {/if}

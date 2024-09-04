@@ -16,6 +16,8 @@
 	import { useGetPublicCommunities } from '$lib/hooks/communities';
 	import ForYou from '../../(home)/home/ForYou.svelte';
 	import { useGetPublicClaims } from '$lib/hooks/plans';
+	import InvitationCard from '../../(home)/home/InvitationCard.svelte';
+	import InviteModal from '../../(home)/home/InviteModal.svelte';
 
 	let session: Session | null = null;
 	let email: string = '';
@@ -23,6 +25,7 @@
 	let working = '';
 	let status = 'WAIT';
 	let loginFormShowing = false;
+	let inviteCardIsShowing = true;
 	let pubCommunities = useGetPublicCommunities();
 	let pubClaimables = useGetPublicClaims();
 
@@ -31,6 +34,7 @@
 		NO_OTP: 'WARNING',
 		DONE: 'SUCCESS'
 	};
+  	let openModal = false;
 
 	$: status = alert ? STATUS_COLORS[alert] : 'WAIT';
 
@@ -73,6 +77,13 @@
 	loginFormShow.subscribe((e) => {
 		loginFormShowing = e;
 	});
+
+	$: {
+		if(!loginFormShowing){
+			inviteCardIsShowing = true;
+			openModal=false
+		};
+	}
 </script>
 
 <MetaTag path="/login" title="Socialcap" subtitle="Sign in" description="Input your email" />
@@ -127,21 +138,31 @@
 		</svelte:fragment>
 	</Onboarding>
 {:else}
-	<div class="headings m-auto my-10 w-screen py-20 text-center">
-		<h1 class="text-2xl font-semibold">Create your community</h1>
-		<p class="mb-10 text-base font-normal">Invite teammates and create better communities</p>
-		<Button color={'blue'}>Create your community</Button>
-		{#if window.innerWidth > 750}
-			<div class="square one"></div>
-			<div class="square two"></div>
-      {#if window.innerWidth > 1000}
-        <div class="square three"></div>
-        <div class="square four"></div>
-      {/if}
+	{#if inviteCardIsShowing}
+		<div class="headings m-auto py-10 my-10 w-screen text-center">
+			<!-- <h1 class="text-2xl font-semibold">Create your community</h1>
+			<p class="mb-10 text-base font-normal">Invite teammates and create better communities</p>
+			<Button color={'blue'}>Create your community</Button> -->
+			<div class="relative max-w-xl m-auto mt-5 z-50">
+				<InvitationCard bind:open={inviteCardIsShowing} on:close={()=>inviteCardIsShowing = false}
+					on:invite={()=>{
+					openModal = false
+					openModal=true}}
+				/>
+				<InviteModal {openModal}/>
+			</div>
+			{#if window.innerWidth > 750}
+				<div class="square one"></div>
+				<div class="square two"></div>
+		{#if window.innerWidth > 1000}
+			<div class="square three"></div>
+			<div class="square four"></div>
 		{/if}
-	</div>
-	<div class="m-auto max-w-2xl text-center p-5">
-		<ForYou isLogged={false} claimables={pubClaimables} communities={pubCommunities} />
+			{/if}
+		</div>
+	{/if}
+	<div class="m-auto max-w-2xl p-5 text-left">
+		<ForYou claimables={pubClaimables} communities={pubCommunities} />
 	</div>
 {/if}
 
