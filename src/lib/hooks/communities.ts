@@ -1,7 +1,7 @@
 import { createQuery, useQueryClient, createMutation } from '@tanstack/svelte-query'
 import { getMyCommunities, getAllCommunities, getCommunity, getAdminCommunity } from '$lib/api/queries';
 import type { Community, NewCommunity } from '$lib/types/community';
-import { createCommunity, joinCommunity, updateCommunity } from '$lib/api/communities-api';
+import { createCommunity, getPublicCommunities, joinCommunity, updateCommunity } from '$lib/api/communities-api';
 import type { Plan } from '$lib/types';
 
 export function useGetCommunity(uid?: string, getExtraData?: boolean) {
@@ -24,6 +24,13 @@ export function useGetMyCommunities() {
     return createQuery<Community[], Error>({
         queryKey: ['get_my_communities'],
         queryFn: () => getMyCommunities({}),
+      })
+}
+
+export function useGetPublicCommunities() {
+    return createQuery<Community[], Error>({
+        queryKey: ['get_public_communities'],
+        queryFn: () => getPublicCommunities({}),
       })
 }
 

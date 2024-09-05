@@ -7,7 +7,8 @@ export {
   getAdminedPlans,
   getAllClaimables,
   updatePlan,
-  addPlan
+  addPlan,
+  getPublicClaims
 }
 
 /**
@@ -48,6 +49,11 @@ async function getAllClaimables(params: {
   return rs.data;
 }
 
+async function getPublicClaims(): Promise<Plan[]> {
+  const rs = await API.query("get_public_claims", {});
+  if (rs.error) return []; // TODO handle error
+  return rs.data;
+}
 
 /**
  * Update community master plan

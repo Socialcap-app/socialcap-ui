@@ -6,6 +6,7 @@
   import JoinCommunityModal from './JoinCommunityModal.svelte';
 	import { goto } from '$app/navigation';
 	import Banner from '../common/Banner.svelte';
+	import { userLoggedIn } from '$lib/store/navigation';
 
   export let 
     uid = '', title = '', description = '', image = '',
@@ -37,10 +38,10 @@
   title={title}
   uid={uid}
   description={description}
-  bind:open={joinModalOpened} 
+  bind:open={joinModalOpened}
 />
 
-<Card class="" padding="none" size="none" href={gotoLink(uid)}>
+<Card class="" padding="none" size="none" href={$userLoggedIn ? gotoLink(uid) : ``}>
   <Banner {image} on:updateimage={(e) => updateImage(e.detail.image)} inside="card"/>
   <div class="px-4 pt-6 pb-4">
     <!-- <Badge rounded border large color="green" class="inline-block mb-0">{state}</Badge> -->

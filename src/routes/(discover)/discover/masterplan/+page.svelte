@@ -1,0 +1,1 @@
+<h1 class="m-auto text-center my-20">Master-plan!</h1>

@@ -14,13 +14,14 @@
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
+	import { userLoggedIn } from '$lib/store/navigation';
 
 	export let data: Credential,
 		joined: boolean = false,
 		isClaimable: boolean = false;
 
 	const community = useGetCommunity(data.communityUid);
-	let profile: User | null = getCurrentUser();
+	let profile: User | null = $userLoggedIn ? getCurrentUser() : null;
 	let modalOpened = false;
 	let onchainData: any = null;
 
@@ -46,7 +47,7 @@
 	}
 
 	onMount(async () => {
-		profile = getCurrentUser();
+		profile = $userLoggedIn ? getCurrentUser() : null;
 		console.log('community Image', $community.data?.image);
 	});
 
@@ -67,11 +68,11 @@
 			padding="md"
 			size="md"
 			class={`${clazz || ''}`}
-			href={isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`}
+			href={$userLoggedIn ? (isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`) : ``}
 		>
 			<div class="relative flex items-end justify-center">
 				<img
-					src={avatarImage}
+					src={avatarImage ?? '/images/profile-2.png'}
 					class="h-40 w-full rounded object-cover"
 					alt="Credential Banner"
 					crossorigin=""
@@ -80,7 +81,7 @@
 				<div
 					class="absolute -bottom-4 flex items-center gap-2 rounded-full border-2 border-gray-200 bg-gray-50 p-1"
 				>
-					<!-- <Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" /> -->
+					<Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" />
 					<GradientAvatar {initials} gradient={buildGradient(initials)} />
 
 					<div class="max-w-64 truncate px-2 text-xs text-black dark:text-white">{avatarLabel}</div>
@@ -162,10 +163,14 @@
 							on:click={(e) => {
 								e.preventDefault();
 								e.stopPropagation();
-								goto(`/claim/new?mp=${data.uid}`);
+								if($userLoggedIn){
+									goto(`/claim/new?mp=${data.uid}`);
+								}else{
+									goto(`/login`);
+								} 
 							}}
 						>
-							Claim it!
+							{'Claim it!'}
 						</Button>
 					{/if}
 				</div>

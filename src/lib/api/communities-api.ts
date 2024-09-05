@@ -12,6 +12,7 @@ export {
   joinCommunity,
   getAdminCommunity,
   updateCommunity,
+  getPublicCommunities
 }
 
 async function getCommunity(params: {
@@ -136,4 +137,11 @@ async function updateCommunity(data: {
   const rs = await API.mutate("update_community", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
+}
+
+async function getPublicCommunities(): Promise<Community[]> {
+  const rs = await API.query("get_public_communities", {});
+  if (rs.error) throw Error(rs.error.message, rs.error);
+
+  return rs.data || [];
 }

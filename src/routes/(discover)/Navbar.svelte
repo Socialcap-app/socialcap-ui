@@ -23,7 +23,7 @@
 		{#if window.location.pathname.includes('/discover')}
 			<Button on:click={()=>goto('/login')}>Sign In</Button>
 		{:else}
-			<Button on:click={()=>goto('/discover')}>Discover</Button>
+			<Button on:click={()=>{goto('/discover')}}>Discover</Button>
 		{/if}
 	</NavContainer>
 </Navbar>
