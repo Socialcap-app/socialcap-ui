@@ -14,7 +14,7 @@
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
-	import { loginFormShow, userLoggedIn } from '$lib/store/navigation';
+	import { userLoggedIn } from '$lib/store/navigation';
 
 	export let data: Credential,
 		joined: boolean = false,
@@ -68,7 +68,7 @@
 			padding="md"
 			size="md"
 			class={`${clazz || ''}`}
-			href={$userLoggedIn ? isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}` : ''}
+			href={$userLoggedIn ? (isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`) : ``}
 		>
 			<div class="relative flex items-end justify-center">
 				<img
@@ -166,7 +166,7 @@
 								if($userLoggedIn){
 									goto(`/claim/new?mp=${data.uid}`);
 								}else{
-									$loginFormShow = true;
+									goto(`/login`);
 								} 
 							}}
 						>

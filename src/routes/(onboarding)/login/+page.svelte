@@ -12,29 +12,18 @@
 	import { SubmitButton } from '$lib/components';
 	import { MetaTag } from '$lib/components';
 	import Onboarding from '../Onboarding.svelte';
-	import { loginFormShow } from '$lib/store/navigation';
-	import { useGetPublicCommunities } from '$lib/hooks/communities';
-	import ForYou from '../../(home)/home/ForYou.svelte';
-	import { useGetPublicClaims } from '$lib/hooks/plans';
-	import InvitationCard from '../../(home)/home/InvitationCard.svelte';
-	import InviteModal from '../../(home)/home/InviteModal.svelte';
 
 	let session: Session | null = null;
 	let email: string = '';
 	let alert: 'NO_EMAIL' | 'NO_OTP' | 'DONE' | null = null;
 	let working = '';
 	let status = 'WAIT';
-	let loginFormShowing = false;
-	let inviteCardIsShowing = true;
-	let pubCommunities = useGetPublicCommunities();
-	let pubClaimables = useGetPublicClaims();
 
 	const STATUS_COLORS: any = {
 		NO_EMAIL: 'WARNING',
 		NO_OTP: 'WARNING',
 		DONE: 'SUCCESS'
 	};
-  	let openModal = false;
 
 	$: status = alert ? STATUS_COLORS[alert] : 'WAIT';
 
@@ -73,23 +62,11 @@
 	function isValidEmail(email: string) {
 		return email.length > 0 && email.includes('@');
 	}
-
-	loginFormShow.subscribe((e) => {
-		loginFormShowing = e;
-	});
-
-	$: {
-		if(!loginFormShowing){
-			inviteCardIsShowing = true;
-			openModal=false
-		};
-	}
 </script>
 
 <MetaTag path="/login" title="Socialcap" subtitle="Sign in" description="Input your email" />
 
-{#if loginFormShowing}
-	<Onboarding
+<Onboarding
 		title="Sign in"
 		subtitle="Enter your email. We will send you a code."
 		{alert}
@@ -136,73 +113,4 @@
 				Send me the code
 			</SubmitButton>
 		</svelte:fragment>
-	</Onboarding>
-{:else}
-	{#if inviteCardIsShowing}
-		<div class="headings m-auto py-10 my-10 w-screen text-center">
-			<!-- <h1 class="text-2xl font-semibold">Create your community</h1>
-			<p class="mb-10 text-base font-normal">Invite teammates and create better communities</p>
-			<Button color={'blue'}>Create your community</Button> -->
-			<div class="relative max-w-xl m-auto mt-5 z-50">
-				<InvitationCard bind:open={inviteCardIsShowing} on:close={()=>inviteCardIsShowing = false}
-					on:invite={()=>{
-					openModal = false
-					openModal=true}}
-				/>
-				<InviteModal {openModal}/>
-			</div>
-			{#if window.innerWidth > 750}
-				<div class="square one"></div>
-				<div class="square two"></div>
-		{#if window.innerWidth > 1000}
-			<div class="square three"></div>
-			<div class="square four"></div>
-		{/if}
-			{/if}
-		</div>
-	{/if}
-	<div class="m-auto max-w-2xl p-5 text-left">
-		<ForYou claimables={pubClaimables} communities={pubCommunities} />
-	</div>
-{/if}
-
-<style>
-	.headings {
-		color: #102353;
-    position: relative;
-		background: rgb(255, 255, 255);
-		background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 248, 255, 1) 100%);
-		overflow: hidden;
-	}
-	.square {
-		position: absolute;
-		width: 200px;
-		height: 200px;
-		background: rgb(214, 230, 255);
-		background: linear-gradient(45deg, rgba(214, 230, 255, 1) 0%, rgba(242, 247, 255, 1) 100%);
-		border-radius: 15%;
-		z-index: 0;
-	}
-	.one {
-		top: 10%;
-		right: 0%;
-		transform: rotateZ(45deg);
-	}
-	.two {
-		width: 100px;
-		height: 100px;
-		top: 10%;
-		left: 5%;
-		transform: rotateZ(155deg);
-	}
-	.three {
-		right: 20%;
-		top: 50%;
-		transform: rotateZ(-10deg) scale(0.8);
-	}
-	.four {
-		left: 10%;
-		top: 50%;
-		transform: rotateZ(35deg) scale(0.7);
-	}
-</style>
+</Onboarding>

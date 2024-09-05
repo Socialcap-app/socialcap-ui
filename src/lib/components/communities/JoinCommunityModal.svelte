@@ -6,7 +6,7 @@
 	import { getCurrentUser } from '$lib/store';
 	import type { User } from '$lib/types';
 	import SubmitButton from '../common/SubmitButton.svelte';
-	import { loginFormShow, userLoggedIn } from '$lib/store/navigation';
+	import { userLoggedIn } from '$lib/store/navigation';
 
 	export let 
     open = false,
@@ -27,7 +27,6 @@
   function submitJoin() {
     if(!$userLoggedIn){
       open= false;
-      $loginFormShow = true;
       goto('/login');
       return;
     };

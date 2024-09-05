@@ -12,10 +12,10 @@
     activeSession = getCurrentSession();
     const route = getRoute()
     if (! activeSession) {
-      if (route != '/login/' && route !='/signup/' && (!route.startsWith('/otp/')) ){
+      if (route != '/login/' && route !='/signup/' && route !='/discover/' && (!route.startsWith('/otp/')) ){
         redirectUrl.set(route);
       }
-      goto("/login");
+      goto("/discover");
     } 
     if (activeSession) goto(route);
     console.log("pageUrl=", route)
