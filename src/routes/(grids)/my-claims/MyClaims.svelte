@@ -7,6 +7,7 @@
 	import NoData from '$lib/components/common/NoData.svelte';
 	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 	import type { Claim } from '$lib/types/claim';
+	import { States } from '$lib/types/states';
 
 	const claims = useGetMyClaims();
 
@@ -48,17 +49,11 @@
 						</svg>
 					</div>
 					<input bind:value={inputValue} type="search" id="default-search" placeholder="Search claims..." required class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-					<button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
 				</div>
 			</div>
 
 
-			<Select class={window.innerWidth > 640 ? "w-30 h-12" : "w-full"} items={[
-				{ value: 0, name: 'All' },
-				{ value: 3, name: 'Danger' } ,
-				{ value: 2, name: 'Done' },
-				{ value: 1, name: 'Draft' }
-			]} bind:value={filterStatus} placeholder='Status' />
+			<Select class={window.innerWidth > 640 ? "w-30 h-12" : "w-full"} items={States} bind:value={filterStatus} placeholder='Status' />
 		</div>
 		<div class="hidden lg:block">
 			<ClaimsTable data={
