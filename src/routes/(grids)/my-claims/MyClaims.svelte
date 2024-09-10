@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { useGetMyClaims } from '$lib/hooks/claims';
-	import { P, Select } from 'flowbite-svelte';
+	import { Button, Card, P, Select } from 'flowbite-svelte';
 	import { H1, ErrorOnFetch } from '$lib/components';
 	import ClaimsTable from './ClaimsTable.svelte';
 	import ClaimsTableMobile from './ClaimsTableMobile.svelte';
@@ -8,6 +8,7 @@
 	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 	import type { Claim } from '$lib/types/claim';
 	import { States } from '$lib/types/states';
+	import Icon from '$lib/components/common/Icon.svelte';
 
 	const claims = useGetMyClaims();
 
@@ -15,7 +16,7 @@
 	let claimsFiltered : Claim[] | undefined = [];
 
 	let filterStatus : number = 0;
-
+	let presentStatuses = [...new Set($claims.data?.map((e) => e.state))];
 	$: {
 		/* SEARCH */
 		let inputValueLowered = inputValue.toLowerCase();
@@ -55,17 +56,38 @@
 			</div>
 
 
-			<Select class={window.innerWidth > 640 ? "w-30 h-12" : "w-full"} items={States} bind:value={filterStatus} placeholder='Status' />
+			<Select class={window.innerWidth > 640 ? "w-30 h-12" : "w-full"} items={[ States[0] ,...States.filter((e)=>presentStatuses.includes(e.value))]} bind:value={filterStatus} placeholder='Status' />
 		</div>
-		<div class="hidden lg:block">
-			<ClaimsTable data={
-				claimsFiltered
-			} />
-		</div>
-		<div class="block lg:hidden">
-			<ClaimsTableMobile data={
-				claimsFiltered
-			} />
-		</div>
+		{#if claimsFiltered?.length}
+			<div class="hidden lg:block">
+				<ClaimsTable data={
+					claimsFiltered
+				} />
+			</div>
+			<div class="block lg:hidden">
+				<ClaimsTableMobile data={
+					claimsFiltered
+				} />
+			</div>
+		{:else}
+			<div class="flex justify-center w-full mt-8 lg:mt-8">
+				<Card size="none" class="items-center px-18 py-6 rounded-md border-0 NObg-gray-50 text-center" padding="xl">
+						<div class="mb-6">
+							<Icon name="NoData" size="8" />
+						</div>
+						<h6 class="text-lg text-weight-500 mb-2 text-black dark:text-white">No Claims were found!</h6>
+						<p class="text-weight-400 mb-4 text-sm text-gray-600 dark:text-gray-400 sm:text-sm">
+							{inputValue ? 'Your search "'+inputValue+'" did not match any results. You may want to clear the filters.' 
+							: 'There are no Claims to show in this page. Go home and generate some!'}
+						</p>
+					<div
+					class="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0 rtl:space-x-reverse"
+					>
+					<Button on:click={()=>{inputValue=''; filterStatus = 0;}} color="blue" class="border-0">Clear Filters</Button>
+					</div>
+				</Card>
+			</div>
+		
+		{/if}
 	{/if}
 </div>
