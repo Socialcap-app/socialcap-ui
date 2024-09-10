@@ -17,12 +17,14 @@
 	let filterStatus : number = 0;
 
 	$: {
+		/* SEARCH */
 		let inputValueLowered = inputValue.toLowerCase();
 		claimsFiltered = inputValueLowered ? $claims.data?.filter((e)=>
 		e.description.toLowerCase().includes(inputValueLowered) ||
 		e.community.toLowerCase().includes(inputValueLowered) ||
 		e.type.toLowerCase().includes(inputValueLowered)
 		) : $claims.data;
+		/* FILTER */
 		claimsFiltered = !!filterStatus ? claimsFiltered?.filter((e)=>e.state === filterStatus) : claimsFiltered;
 	}
 	/* ($claims.data && Array.isArray($claims.data)) ? (!!filterStatus ? $claims.data.filter((e)=>e.state === filterStatus) :  $claims.data): [] */

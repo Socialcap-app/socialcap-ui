@@ -5,8 +5,12 @@
     export { clazz as class };
     export let data; // State number
 
-    console.log("clazz", clazz)
-    const state = toState(data)     
+    /* console.log("clazz", clazz) */
+    let state = toState(data)
+
+    $:{
+        state = toState(data);
+    }
 </script>
 
 
