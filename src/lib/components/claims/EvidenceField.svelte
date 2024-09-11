@@ -56,22 +56,6 @@
 			{/if}
 		{/if}
 
-		<!-- {#if field.type === "note"}
-    <textarea 
-      id={field.sid} 
-      name={field.sid} 
-      required={field.required}
-      class="border-gray-400 text-lg block rounded-md leading-relaxed w-full"
-      on:input={(e) => { validateField(e); resizeTextarea(field.inner); }}
-      bind:value={buffer}
-      />
-      <!-- bind:inner={field.inner} 
-        rows={initialTextareaSize(buffer)}
-        bind:value={data[index].value}
-      invalid={!isValid(field, data[index].value)}
-      feedback={hasMessage(field, data[index].value)} 
-  {/if} -->
-
 		{#if field.type === 'note'}
 			<Textarea
 				size="lg"
