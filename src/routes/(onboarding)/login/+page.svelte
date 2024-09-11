@@ -12,6 +12,7 @@
 	import { SubmitButton } from '$lib/components';
 	import { MetaTag } from '$lib/components';
 	import Onboarding from '../Onboarding.svelte';
+	import { userLoggedIn } from '$lib/store/navigation';
 
 	let session: Session | null = null;
 	let email: string = '';
@@ -29,6 +30,7 @@
 
 	onMount(async () => {
 		session = removeActiveSession();
+		$userLoggedIn = false;
 	});
 
 	async function getOTP() {
@@ -51,6 +53,7 @@
 
 		// success, ask for /otp
 		alert = 'DONE'; // "Done ! Going to Home ..."
+		$userLoggedIn = true;
 		setTimeout(() => {
 			session = session as Session;
 			session.key = rsp.data?.session_key;

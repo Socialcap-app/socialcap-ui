@@ -4,7 +4,7 @@
 	import type { Session, User } from "$lib/types";
   import { getCurrentSession, getDefaultSession } from "$lib/store";
   import { saveActiveSession, saveActiveUser } from "$lib/store";
-  import { redirectUrl } from "$lib/store/navigation"
+  import { redirectUrl, userLoggedIn } from "$lib/store/navigation"
   import { get } from 'svelte/store';
   import { API } from "$lib/api";
   import { login } from "$lib/api/mutations";
@@ -53,6 +53,7 @@
     // set the active user and save it
     let user: User = rsp.data.profile as User;
     saveActiveUser(user);
+    $userLoggedIn = true;
 
     // success
     // alert = 'DONE';

@@ -19,7 +19,7 @@
 
 	let joined = true,
 		sts = 0;
-	let community = useGetCommunity(uid!);
+	let community = useGetCommunity(uid);
 	$: cmn = $community.data;
 	$: sts = findState(cmn?.state === 'INITIAL' ? 'Revision' : cmn?.state || '-');
 </script>
@@ -35,7 +35,7 @@
 		{:else if $community.isError}
 			<ErrorOnFetch description="My community" error={$community.error} />
 		{:else if cmn}
-			<div class="w-full max-w-screen-lg">
+			<div class="w-full max-w-screen-lg  m-auto text-center">
 				<Banner image={cmn?.image}  />
 				<div class="px-4 pb-4 pt-3">
 					<CommunityHeader isAdmin={false} {uid} state={sts} community={cmn} touched={false}/>
@@ -51,7 +51,7 @@
 							</div>
 						</TabItem>
 
-						<TabItem class="">
+						<!-- <TabItem class="">
 							<TabHeader slot="title" label="Issued" count={cmn?.countCredentials} />
 							<div>
 								<CommunityIssued communityUid={uid} />
@@ -63,7 +63,7 @@
 							<div class="">
 								<CommunityMembers communityUid={uid} />
 							</div>
-						</TabItem>
+						</TabItem> -->
 					</Tabs>
 				</div>
 			</div>

@@ -6,6 +6,7 @@
 	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
   
   const credentials = useGetMyCredentials();
+  console.log('Eyo')
 </script>
 
 <div class="p-4">

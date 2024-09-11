@@ -41,7 +41,7 @@
   bind:open={joinModalOpened}
 />
 
-<Card class="" padding="none" size="none" href={$userLoggedIn ? gotoLink(uid) : ``}>
+<Card class="" padding="none" size="none" href={$userLoggedIn ? gotoLink(uid) : `/discover/community/${uid}`}>
   <Banner {image} on:updateimage={(e) => updateImage(e.detail.image)} inside="card"/>
   <div class="px-4 pt-6 pb-4">
     <!-- <Badge rounded border large color="green" class="inline-block mb-0">{state}</Badge> -->

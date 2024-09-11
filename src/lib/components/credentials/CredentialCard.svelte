@@ -68,7 +68,7 @@
 			padding="md"
 			size="md"
 			class={`${clazz || ''}`}
-			href={$userLoggedIn ? (isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`) : ``}
+			href={$userLoggedIn ? (isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`) : `/discover/masterplan/${data.uid}`}
 		>
 			<div class="relative flex items-end justify-center">
 				<img
