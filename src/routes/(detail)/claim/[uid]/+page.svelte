@@ -23,6 +23,10 @@
 	$: plan = $planQuery.data;
 	let claim: any = null;
 	$: claim = useGetClaim(data.uid, plan);
+
+	$:{
+		console.log('planQuery::', data.uid, plan)
+	}
 </script>
 
 <MetaTag path="claim" title="Socialcap" subtitle={`Claim`} description="" />

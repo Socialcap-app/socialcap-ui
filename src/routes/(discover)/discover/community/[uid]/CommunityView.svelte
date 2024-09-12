@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { useGetCommunity } from '$lib/hooks/communities';
 	import { findState } from '$lib/types/states';
+	import { Icon } from '$lib/components';
 	//
-	import { Tabs, TabItem } from 'flowbite-svelte';
+	import { Tabs, TabItem, Button } from 'flowbite-svelte';
 	
 	import { H1, ErrorOnFetch } from '$lib/components';
 	import Breadcrumbs from '$lib/components/common/Breadcrumbs.svelte';
@@ -36,6 +37,9 @@
 			<ErrorOnFetch description="My community" error={$community.error} />
 		{:else if cmn}
 			<div class="w-full max-w-screen-lg  m-auto text-center">
+				<Button color="alternative" class="absolute left-1 top-1 z-50" on:click={()=>history.back()}>
+					<Icon name="Home" size="5" />
+				</Button>
 				<Banner image={cmn?.image}  />
 				<div class="px-4 pb-4 pt-3">
 					<CommunityHeader isAdmin={false} {uid} state={sts} community={cmn} touched={false}/>

@@ -6,7 +6,7 @@
 	import { getCurrentUser } from '$lib/store';
 	import type { User } from '$lib/types';
 	import SubmitButton from '../common/SubmitButton.svelte';
-	import { userLoggedIn } from '$lib/store/navigation';
+	import { redirectUrl, userLoggedIn } from '$lib/store/navigation';
 
 	export let 
     open = false,
@@ -27,6 +27,7 @@
   function submitJoin() {
     if(!$userLoggedIn){
       open= false;
+      redirectUrl.set(`/community/${uid}`);
       goto('/login');
       return;
     };

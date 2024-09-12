@@ -14,7 +14,8 @@
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
-	import { userLoggedIn } from '$lib/store/navigation';
+	import { redirectUrl, userLoggedIn } from '$lib/store/navigation';
+	import { redirect } from '@sveltejs/kit';
 
 	export let data: Credential,
 		joined: boolean = false,
@@ -68,7 +69,7 @@
 			padding="md"
 			size="md"
 			class={`${clazz || ''}`}
-			href={$userLoggedIn ? (isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`) : `/discover/masterplan/${data.uid}`}
+			href={$userLoggedIn ? (isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`) : `/discover/claim/new?mp=${data.uid}`}
 		>
 			<div class="relative flex items-end justify-center">
 				<img
@@ -166,6 +167,7 @@
 								if($userLoggedIn){
 									goto(`/claim/new?mp=${data.uid}`);
 								}else{
+									redirectUrl.set(`/claim/new?mp=${data.uid}`);
 									goto(`/login`);
 								} 
 							}}

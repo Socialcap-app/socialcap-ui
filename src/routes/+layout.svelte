@@ -10,12 +10,13 @@
 
 	onMount(() => {
     activeSession = getCurrentSession();
-    const route = getRoute()
+    const route = getRoute();
+    console.log(route);
     if (! activeSession) {
       if (route != '/login/' && route !='/signup/' && route !='/discover/' && (!route.startsWith('/otp/')) ){
         redirectUrl.set(route);
       }
-      goto("/discover");
+      if(route !== '/discover/')goto("/login");
     } 
     if (activeSession) goto(route);
     console.log("pageUrl=", route)

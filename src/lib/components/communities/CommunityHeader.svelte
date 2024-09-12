@@ -41,7 +41,7 @@
 	{/if}
 </div>
 {#if !isAdmin}
-	<div class="float-right">
+	<div class="my-5 lg:float-right lg:my-0">
 		<CommunityActions community={community} />
 	</div>
 {/if}
