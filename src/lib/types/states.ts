@@ -6,6 +6,14 @@ export type State = {
     badgeType?: "info" | "success" | "danger" | "warning"
 }
 
+export type CommunityState =  "INITIAL" | "APPROVED" | "PAUSED" | "REJECTED";
+export const CommunityStates = {
+    Revision: "INITIAL",
+    Approved: "APPROVED",
+    Paused: "PAUSED",
+    Rejected: "REJECTED"
+}
+
 export const 
   NONE =  0,
   DRAFT = 1,
@@ -65,7 +73,6 @@ export type Step = {
     buttonText: string,
     handler?: () => void
 }
-      
 
 export const States: State[] = [
     {

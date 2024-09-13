@@ -1,9 +1,8 @@
 import type { Claim } from "./claim";
 import type { Plan } from "./plan";
+import type { CommunityState } from "./states";
 
 export type { Community, NewCommunity };
-
-type CommunityState =  "INITIAL" | "APPROVED" | "PAUSED" | "REJECTED";
 
 interface Community {
   /// from basic DB Claim Entity ///
