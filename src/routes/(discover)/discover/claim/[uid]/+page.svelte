@@ -46,8 +46,11 @@
 			{:else if $claim.isError}
 				<ErrorOnFetch description="A new claim" error={$claim.error} />
 			{:else}
+			<Button color="none" class="relative my-4 mb-4 p-0 lg:pl-6 pl-2" on:click={()=>history.back()}>
+				{'<- Return'}
+			</Button>
 				<ClaimHeader {plan} claim={$claim.data} {isNew} />
-				<div class="flex justify-center w-full mt-8 lg:mt-8">
+				<div class="flex justify-center w-full my-8 lg:mt-8">
 					<Card size="none" class="items-center px-18 py-6 rounded-md border-0 NObg-gray-50 text-center" padding="xl">
 							<div class="mb-6">
 								<Icon name="NoData" size="8" />
@@ -71,8 +74,7 @@
 						}}
 					>
 						{'Sign in and Claim it!'}
-					</Button>
-						  <Button on:click={()=>history.back()} color="none" class="border-0">Return to Discover</Button>
+						</Button>
 						</div>
 					  {/if}  
 					</Card>

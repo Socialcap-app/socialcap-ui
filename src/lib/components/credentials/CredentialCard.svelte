@@ -82,7 +82,7 @@
 				<div
 					class="absolute -bottom-4 flex items-center gap-2 rounded-full border-2 border-gray-200 bg-gray-50 p-1"
 				>
-					<Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" />
+					<!-- <Avatar size="xs" src={avatarImage} crossorigin="" tabindex="0" /> -->
 					<GradientAvatar {initials} gradient={buildGradient(initials)} />
 
 					<div class="max-w-64 truncate px-2 text-xs text-black dark:text-white">{avatarLabel}</div>

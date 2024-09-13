@@ -15,7 +15,7 @@
   subtitle={`Community`}
   description="" 
 />
-<div class="p-4">
+<div>
   {#key refreshOn}
     <CommunityView uid={data.uid} />
   {/key}

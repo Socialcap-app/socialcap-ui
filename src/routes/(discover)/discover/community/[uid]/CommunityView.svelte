@@ -36,16 +36,16 @@
 		{:else if $community.isError}
 			<ErrorOnFetch description="My community" error={$community.error} />
 		{:else if cmn}
+			<Button color="none" class="relative mb-4 p-0 lg:pl-6 pl-2" on:click={()=>history.back()}>
+				{'<- Return'}
+			</Button>
 			<div class="w-full max-w-screen-lg  m-auto text-center">
-				<Button color="alternative" class="absolute left-1 top-1 z-50" on:click={()=>history.back()}>
-					<Icon name="Home" size="5" />
-				</Button>
 				<Banner image={cmn?.image}  />
-				<div class="px-4 pb-4 pt-3">
+				<div class="pb-4 pt-3">
 					<CommunityHeader isAdmin={false} {uid} state={sts} community={cmn} touched={false}/>
 					<Tabs
 						style="underline"
-						contentClass="p-4 bg-transparent rounded-lg dark:bg-gray-800 mt-4"
+						contentClass="bg-transparent rounded-lg dark:bg-gray-800 mt-4"
 						defaultClass="flex flex-wrap items-end justify-center space-x-8 rtl:space-x-reverse"
 					>
 						<TabItem open class="">

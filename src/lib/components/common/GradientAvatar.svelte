@@ -15,7 +15,8 @@
   <div class="relative">
     {@html gradient}
   </div>
-  <div class="absolute w-full font-semibold inline-block text-center text-white {fontClasses} top-0">
+  <!-- <div class="absolute w-full font-semibold inline-block text-center text-white {fontClasses} top-0"> -->
+  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-semibold {fontClasses}">
     {initials}
   </div>
 </span>
