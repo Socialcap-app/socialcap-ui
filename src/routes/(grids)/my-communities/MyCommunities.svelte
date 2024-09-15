@@ -34,18 +34,6 @@
 			? communitiesFiltered?.filter((e) => e.state === filterStatus)
 			: communitiesFiltered;
 	}
-
-	$: {
-		let inputValueLowered = inputValue.toLowerCase();
-		communitiesFiltered = inputValueLowered
-			? $communities.data?.filter(
-					(e) =>
-						e.description.toLowerCase().includes(inputValueLowered) ||
-						e.name.toLowerCase().includes(inputValueLowered) ||
-						e.state.toLowerCase().includes(inputValueLowered)
-				)
-			: $communities.data;
-	}
 </script>
 
 <div class="p-4">
