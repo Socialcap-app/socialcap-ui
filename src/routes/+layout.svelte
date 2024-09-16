@@ -4,7 +4,7 @@
   import { page } from "$app/stores";
 	import modeobserver from '$lib/modeobserver';
   import { getCurrentSession, getDefaultSession } from "$lib/store/sessions";
-  import { redirectUrl } from "$lib/store/navigation"
+  import { redirectUrl, userLoggedIn } from "$lib/store/navigation"
 
   let activeSession = getCurrentSession(); 
 
@@ -18,7 +18,10 @@
       }
       if(route !== '/discover/')goto("/login");
     } 
-    if (activeSession) goto(route);
+    if (activeSession) {
+      $userLoggedIn = true;
+      goto(route)
+    };
     console.log("pageUrl=", route)
     modeobserver();
   });
