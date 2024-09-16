@@ -47,9 +47,11 @@
     <!-- <Badge rounded border large color="green" class="inline-block mb-0">{state}</Badge> -->
     <div class="flex items-center justify-between">
       <StateBadge data={sts} />
-      <div>
-        <CommunityMenu {isAdmin} {joined}  on:admin={() => goto('/community/admin/' + uid)}/>
-      </div>
+      {#if $userLoggedIn}
+        <div>
+          <CommunityMenu {isAdmin} {joined}  on:admin={() => goto('/community/admin/' + uid)}/>
+        </div>
+      {/if}
     </div>
     <h6 class="mt-2 mb-2 text-xl font-bold text-blue-900 dark:text-white">{title}</h6>
     <p class="h-10 max-h-10 mb-6 text-sm text-gray-600 dark:text-gray-400 text-ellipsis overflow-hidden ">
