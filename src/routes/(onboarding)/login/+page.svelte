@@ -53,7 +53,7 @@
 
 		// success, ask for /otp
 		alert = 'DONE'; // "Done ! Going to Home ..."
-		$userLoggedIn = true;
+		/* $userLoggedIn = true; */
 		setTimeout(() => {
 			session = session as Session;
 			session.key = rsp.data?.session_key;
