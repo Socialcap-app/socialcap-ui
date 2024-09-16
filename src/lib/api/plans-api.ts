@@ -2,7 +2,7 @@ import { API } from './api-client';
 import type { Plan } from '$lib/types/plan';
 import { convertDateToISO } from '$lib/helpers/helpers';
 
-export { getPlan, getAdminedPlans, getAllClaimables, updatePlan, addPlan };
+export { getPlan, getAdminedPlans, getAllClaimables, updatePlan, addPlan, getPublicClaims };
 
 /**
  * Get the plan details
@@ -76,3 +76,9 @@ async function addPlan(data: Plan): Promise<Plan> {
 	if (rs.error) throw Error(rs.error.message, rs.error.cause);
 	return rs.data;
 }
+
+async function getPublicClaims(): Promise<Plan[]> {
+	const rs = await API.query("get_public_claims", {});
+	if (rs.error) return []; // TODO handle error
+	return rs.data;
+  }

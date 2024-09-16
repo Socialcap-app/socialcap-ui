@@ -2,6 +2,7 @@
 import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query'
 import { getPlan, getAdminedPlans, getAllClaimables, updatePlan, addPlan } from '$lib/api/queries';
 import type { Plan } from '$lib/types/plan';
+import { getPublicClaims } from '$lib/api/plans-api';
 
 export function useGetPlan(uid: string) {
     return createQuery<Plan, Error>({
@@ -46,5 +47,12 @@ export function useCreatePlan() {
     onSettled: () => {
   
     },
+  })
+}
+
+export function useGetPublicClaims() {
+  return createQuery<Plan[], Error>({
+    queryKey: ['get_public_claims'],
+    queryFn: () => getPublicClaims(),
   })
 }

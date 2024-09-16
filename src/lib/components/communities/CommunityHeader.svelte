@@ -8,13 +8,12 @@
 	export let isAdmin: Boolean = false;
 	// export let title: string = '';
 	// export let description: string = '';
-	export let community : Community;
+	export let community: Community;
 	export let state = {};
 	export let uid: string;
 	export let working: string | undefined = undefined;
 	export let touched: boolean;
 	export let submit: () => void = () => {};
-
 </script>
 
 <div class="flex items-center justify-between">
@@ -41,8 +40,8 @@
 	{/if}
 </div>
 {#if !isAdmin}
-	<div class="float-right">
-		<CommunityActions community={community} />
+	<div class="my-5 lg:float-right lg:my-0">
+		<CommunityActions {community} />
 	</div>
 {/if}
 <h6 class="mb-2 mt-2 pt-1 text-3xl font-bold text-gray-900 dark:text-white">
