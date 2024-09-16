@@ -10,17 +10,18 @@
 	import { goto } from '$app/navigation';
 	import CredentialOnchainDataModal from './CredentialOnchainDataModal.svelte';
 	import { getCredentialOnchainData } from '$lib/api/credentials-api';
-
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import LoadingSkeleton from '../common/LoadingSkeleton.svelte';
+	import { redirectUrl, userLoggedIn } from '$lib/store/navigation';
+	import { redirect } from '@sveltejs/kit';
 
 	export let data: Credential,
 		joined: boolean = false,
 		isClaimable: boolean = false;
 
 	const community = useGetCommunity(data.communityUid);
-	let profile: User | null = getCurrentUser();
+	let profile: User | null = $userLoggedIn ? getCurrentUser() : null;
 	let modalOpened = false;
 	let onchainData: any = null;
 
@@ -46,7 +47,7 @@
 	}
 
 	onMount(async () => {
-		profile = getCurrentUser();
+		profile = $userLoggedIn ? getCurrentUser() : null;
 		console.log('community Image', $community.data?.image);
 	});
 
@@ -67,11 +68,15 @@
 			padding="md"
 			size="md"
 			class={`${clazz || ''}`}
-			href={isIssued ? `/credential/${data.uid}` : `/claim/new?mp=${data.uid}`}
+			href={$userLoggedIn
+				? isIssued
+					? `/credential/${data.uid}`
+					: `/claim/new?mp=${data.uid}`
+				: `/discover/claim/new?mp=${data.uid}`}
 		>
 			<div class="relative flex items-end justify-center">
 				<img
-					src={avatarImage}
+					src={avatarImage ?? '/images/profile-2.png'}
 					class="h-40 w-full rounded object-cover"
 					alt="Credential Banner"
 					crossorigin=""
@@ -162,7 +167,12 @@
 							on:click={(e) => {
 								e.preventDefault();
 								e.stopPropagation();
-								goto(`/claim/new?mp=${data.uid}`);
+								if ($userLoggedIn) {
+									goto(`/claim/new?mp=${data.uid}`);
+								} else {
+									redirectUrl.set(`/claim/new?mp=${data.uid}`);
+									goto(`/login`);
+								}
 							}}
 						>
 							Claim it!

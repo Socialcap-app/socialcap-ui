@@ -10,8 +10,8 @@
 	import { ACTIVE } from "$lib/types/states";
 	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
 
-  const communities =  useGetAllCommunities({ states: ["APPROVED"]});
-  const claimables = useGetAllClaimables({});
+  export let communities =  useGetAllCommunities({ states: ["APPROVED"]});
+  export let claimables = useGetAllClaimables({});
 
 </script>
 
