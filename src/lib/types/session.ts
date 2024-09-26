@@ -6,4 +6,5 @@ interface Session {
   protocol: 'https' | 'http';
   authorization: string;
   key: string;
+  guest: boolean;
 };

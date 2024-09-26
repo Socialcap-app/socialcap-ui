@@ -1,9 +1,9 @@
 <script>
-	import { useGetPublicCommunities } from '$lib/hooks/communities';
-	import { useGetPublicClaims } from '$lib/hooks/plans';
+	import { useGetAllCommunities } from '$lib/hooks/communities';
+	import { useGetAllClaimables } from '$lib/hooks/plans';
 	import ForYou from '../../(home)/home/ForYou.svelte';
-	let pubCommunities = useGetPublicCommunities();
-	let pubClaimables = useGetPublicClaims();
+	let pubCommunities = useGetAllCommunities();
+	let pubClaimables = useGetAllClaimables();
 </script>
 
 
