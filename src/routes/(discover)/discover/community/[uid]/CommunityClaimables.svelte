@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { useGetAllClaimables, useGetPublicClaims } from '$lib/hooks/plans';
+	import { useGetAllClaimables } from '$lib/hooks/plans';
 	//
 	import CredentialsList from '$lib/components/credentials/CredentialsList.svelte';
 	import { ErrorOnFetch } from '$lib/components';
 	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 	export let communityUid: string = '';
-	let allClaimables = useGetPublicClaims();
+	let allClaimables = useGetAllClaimables({ joined: false });
 	function filterClaimables(data: any, uid: string) {
 		return (data || []).filter((t: any) => {
 			return t.communityUid === uid;

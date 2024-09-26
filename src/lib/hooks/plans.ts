@@ -49,10 +49,3 @@ export function useCreatePlan() {
     },
   })
 }
-
-export function useGetPublicClaims() {
-  return createQuery<Plan[], Error>({
-    queryKey: ['get_public_claims'],
-    queryFn: () => getPublicClaims(),
-  })
-}
