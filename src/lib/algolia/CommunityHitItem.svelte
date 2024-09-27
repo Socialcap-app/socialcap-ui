@@ -3,17 +3,11 @@
 
 	export let hit;
 
-	console.log(hit)
+	console.log(hit);
 </script>
 
 <button
-	on:click={() => {
-		if (hit.community_uid) {
-			goto(`/plan/admin/${hit.uid}`);
-		} else {
-			goto(`/community/${hit.uid}`);
-		}
-	}}
+	on:click={() => goto(`/community/${hit.uid}`)}
 	class="my-2 flex w-full cursor-pointer items-center justify-center rounded bg-gray-200 px-5 py-2"
 >
 	<div class="flex-1">
@@ -23,7 +17,6 @@
 		{#if hit.description}
 			<p>Description: {@html hit.description}</p>
 		{/if}
-		<p>State: {@html hit.state}</p>
 	</div>
 	{#if hit.image}
 		<div class="overflow-hidden">

@@ -5,13 +5,17 @@
     // in a real app you'd get your credentials like this:
     const appId = import.meta.env.VITE_ALGOLIA_APP_ID
     const searchKey = import.meta.env.VITE_ALGOLIA_SEARCH_KEY
-    const indexName = import.meta.env.VITE_PUBLIC_ALGOLIA_INDEX_NAME
+
+    const indices = {
+    'socialcap-communities': HitItem,  // First index
+    'socialcap-plans': HitItem         // Second index
+    };
   </script>
   
-  <header style="height: 500px;">
+  <header>
     <Search
       {appId}
       {searchKey}
-      indices={{ 'socialcap-communities': HitItem }}
-      placeholder="Search Communities" />
+      {indices}
+      placeholder="Search" />
   </header>

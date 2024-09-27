@@ -18,6 +18,7 @@
 	import Notifications from '$lib/components/common/NotificationList.svelte';
   import SearchList from '$lib/components/common/SearchList.svelte';
   import UserMenu from '$lib/components/common/UserMenu.svelte';
+	import AlgoliaSearch from "$lib/algolia/AlgoliaSearch.svelte";
 
 	export let fluid = true;
 	export let drawerHidden = false;
@@ -46,9 +47,10 @@
 		</div> -->
     <div class="hidden lg:block">
       <div class="ms-auto flex items-center text-gray-500 dark:text-gray-400 sm:order-2">
-        <form class="hidden lg:block">
+        <!-- <form class="hidden lg:block">
           <Search size="md" class="mt-1 w-64 border focus:outline-none" />
-        </form>
+        </form> -->
+        <AlgoliaSearch />
         &nbsp;
         <Notifications />
         &nbsp;
