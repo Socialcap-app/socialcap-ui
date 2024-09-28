@@ -3,13 +3,12 @@
 	import Footer from './Footer.svelte';
 	import Navbar from './Navbar.svelte';
 	import Sidebar from './Sidebar.svelte';
-  import ActivityPanel from "./ActivityPanel.svelte";
-	import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query'
-
+	import ActivityPanel from './ActivityPanel.svelte';
+	import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query';
 	let drawerHidden = false;
+
 	// Create a client
-	const queryClient = new QueryClient()
- 
+	const queryClient = new QueryClient();
 </script>
 
 <header
@@ -19,15 +18,15 @@
 </header>
 <div class="overflow-hidden lg:flex">
 	<QueryClientProvider client={queryClient}>
-  	<Sidebar bind:drawerHidden />
-  	<div class="relative h-full w-full overflow-y-auto lg:ms-64">
-      <div class="w-full max-w-2xl mx-auto">
-        <slot />
-      </div>
-  		<Footer />
-  	</div>
-    <div class="hidden xl:block xl:ms-8 w-full max-w-md border-s border-gray-200">
-      <ActivityPanel />
-    </div> 
+		<Sidebar bind:drawerHidden />
+		<div class="relative h-full w-full overflow-y-auto lg:ms-64">
+			<div class="mx-auto w-full max-w-2xl">
+				<slot />
+			</div>
+			<Footer />
+		</div>
+		<div class="hidden w-full max-w-md border-s border-gray-200 xl:ms-8 xl:block">
+			<ActivityPanel />
+		</div>
 	</QueryClientProvider>
 </div>
