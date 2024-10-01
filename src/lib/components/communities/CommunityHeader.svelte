@@ -31,7 +31,7 @@
 				submit();
 			}}
 			{working}
-			disabled={working !== undefined && !touched}
+			disabled={working !== undefined && touched}
 			size="md"
 			class="bg-sc_red px-3 hover:bg-sc_red lg:w-32"
 		>
