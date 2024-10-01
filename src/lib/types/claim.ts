@@ -1,4 +1,4 @@
-import type { State } from "./states"
+import type { State, StateValue } from "./states"
 
 export type { Claim }
 
@@ -6,8 +6,9 @@ interface Claim {
     uid: string
     communityUid: string
     applicantUid: string
+    applicant: string;
     planUid: string
-    state: number
+    state: StateValue
     accountId?: string
     alias?: string
     createdUTC: Date
@@ -21,6 +22,8 @@ interface Claim {
     negativeVotes?: number
     ignoredVotes?: number
     evidenceData?: string
+    tokenAccountId?: string // token account that holds community custom token
+
 
     // Master Plan data
     community: string
@@ -30,4 +33,5 @@ interface Claim {
 
     // custom
     stateInfo: State
+    searchable: string;
 }

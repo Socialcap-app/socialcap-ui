@@ -9,7 +9,7 @@
 	let options = [];
 	onMount(() => {
 		options = field.extras.options.split(',');
-		console.log('options', options);
+		/* console.log('options', options); */
 		if (!value) {
 			// init the value field !
 			value = [];

@@ -5,6 +5,7 @@
     
     import { ErrorOnFetch } from "$lib/components";
     import MembersListAdmin from "$lib/components/members/MembersListAdmin.svelte";
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
     
     export let communityUid: string = "";
 
@@ -30,7 +31,7 @@
   
     <div>
       {#if $members.isLoading}
-        <span>Loading...</span>
+      <LoadingSpinner />
       {:else if $members.isError}
         <ErrorOnFetch 
           description="My community"

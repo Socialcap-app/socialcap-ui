@@ -12,14 +12,16 @@ export {
   joinCommunity,
   getAdminCommunity,
   updateCommunity,
+  getPublicCommunities
 }
 
 async function getCommunity(params: {
   uid: string,
+  extras?: boolean
 }): Promise<Community> {
   const rs = await API.query("get_community", {
     uid: params.uid,
-    extras: false // do not include claims,etc in response
+    extras: params.extras || false // do not include claims,etc in response
   });
   if (rs.error) throw Error(rs.error.message, rs.error.cause); // Todo handle error
   return rs.data;
@@ -125,9 +127,21 @@ async function updateCommunity(data: {
   // communityUid: string,
   uid: string,
   name: string,
-  description: string
+  description: string,
+  tokenId?: string,
+  tokenMaxSupply?: number,
+  tokenOwner?: string,
+  tokenMasterAccount?: string,
+  tokenSymbol?: string
 }): Promise<any> {
   const rs = await API.mutate("update_community", data)
   if (rs.error) throw Error(rs.error.message, rs.error.cause);
   return rs.data;
+}
+
+async function getPublicCommunities(): Promise<Community[]> {
+  const rs = await API.query("get_public_communities", {});
+  if (rs.error) throw Error(rs.error.message, rs.error);
+
+  return rs.data || [];
 }

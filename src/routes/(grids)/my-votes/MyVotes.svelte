@@ -6,6 +6,7 @@
 	import VotesTableMobile from './VotesTableMobile.svelte';
 	import NoData from '$lib/components/common/NoData.svelte';
 	import { ASSIGNED } from '$lib/types/states';
+	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte"
 
 
 	const tasks = useGetMyTasks();
@@ -16,7 +17,7 @@
 	<H1>My Votes</H1>
 
 	{#if $tasks.isLoading}
-		<span>Loading...</span>
+		<LoadingSpinner />
 	{:else if $tasks.isError}
 		<ErrorOnFetch description="All my votes" error={$tasks.error} />
 	{:else if !$tasks.data || $tasks.data.length === 0}

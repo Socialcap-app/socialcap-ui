@@ -8,7 +8,8 @@
 	import { NATSClient } from '$lib/nats';
 	import { getFileImage } from '$lib/transactions/tools';
 	import { makeString } from 'zkcloudworker';
-	export let credential: Credential,
+	import { useRegisterCredentialMint } from '$lib/hooks/credentials';
+	export let uid = '', credential: Credential,
 		isConnected: boolean = false,
 		accountId = '';
 	let isConnecting = false;
@@ -16,6 +17,7 @@
 	let isError = false;
 	let errorMessage = '';
 	let usr = getCurrentUser();
+	const registerCredentialMintMutation = useRegisterCredentialMint(uid);
 	async function connectWallet() {
 		isConnecting = true;
 		try {
@@ -46,7 +48,7 @@
 		const keys = [{ key: '', value: '', isPublic: false }];
 		console.log('Name:', name, name.length);
 		console.log(name, collection, description);
-		const tx = await simpleMintNFT({
+		const result = await simpleMintNFT({
 			name,
 			image,
 			collection,
@@ -56,14 +58,23 @@
 			developer: 'DFST',
 			repo: 'web-mint-example'
 		});
-		console.log('finished minting');
 		minting = false;
+
+		// register minting
+		$registerCredentialMintMutation.mutateAsync({
+			credentialUid: credential.uid,
+			protocol: 'MINANFT',
+			txnHash: result?.tx.hash || '',
+			explorerUrl: result?.explorerUrl || '',
+			marketplaceUrl: result?.mintUrl,
+			name: name,
+		})
 
 		NATSClient.notify('personal', {
 			memo: `Mint transaction success`,
 			subject: usr?.uid || '',
 			type: "transaction",
-			metadata: JSON.stringify({net: getCurrentBlockchain().chainId, hash: tx?.hash, type: "zk-tx" })
+			metadata: JSON.stringify({net: getCurrentBlockchain().chainId, hash: result?.tx.hash, type: "zk-tx" })
 		}); 
 
 		NATSClient.notify('personal', {

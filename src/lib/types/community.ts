@@ -1,8 +1,8 @@
+import type { Claim } from "./claim";
 import type { Plan } from "./plan";
+import type { CommunityState } from "./states";
 
 export type { Community, NewCommunity };
-
-type CommunityState =  "INITIAL" | "APPROVED" | "PAUSED" | "REJECTED";
 
 interface Community {
   /// from basic DB Claim Entity ///
@@ -16,6 +16,12 @@ interface Community {
   image: string; // logo image
   xadmins: string;
 
+  tokenId?: string;                // unique identifier for community custom token
+  tokenMaxSupply?: number;        // community custom token max supply
+  tokenOwner?: string;            // account that creates, facilitates, and governs how the comm token can be used
+  tokenMasterAccount?: string;    // hold initial token balance to be distributed to community
+  tokenSymbol?: string;           // community custom token symbol
+
   // activity times
   createdUTC: string;
   updatedUTC: string;
@@ -23,6 +29,9 @@ interface Community {
 
   // master plans
   plans: Plan[]; 
+
+  // claims
+  claims: Claim[];
 
   // extras 
   countMembers: number;

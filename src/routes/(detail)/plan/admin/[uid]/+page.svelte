@@ -7,12 +7,15 @@
 	import PlanAdmin from './PlanAdmin.svelte';
 	import { UID } from '$lib/types/uid';
 	import { type Plan } from '$lib/types/plan';
+	import { useGetAdminCommunity, useGetCommunity } from '$lib/hooks/communities';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let data: { uid: string; communityUid: string };
 	const { uid, communityUid } = data;
 	$: refreshOn = uid;
 	$: isNew = uid === 'new';
 	$: plan = useGetPlan(uid);
+	$: community = useGetAdminCommunity(communityUid ||  $plan.data?.communityUid!);
 	const newPlan: Plan = {
 		// uid: UID.uuid4(),
 		communityUid: communityUid,
@@ -32,18 +35,17 @@
 <MetaTag path="plan" title="Socialcap" subtitle={`Plan`} description="" />
 
 <div class="px-2">
-	{#if $plan.isLoading}
-		<span>Loading...</span>
-	{:else if $plan.isError}
-		<ErrorOnFetch description="A new claim" error={$plan.error} />
+	{#if $plan.isLoading || $community.isLoading || !$community.data}
+		<LoadingSpinner />
+	{:else if $plan.isError || $community.isError}
+		<ErrorOnFetch description="A new claim" error={$plan.error || $community.error} />
 	{:else}
 		<Breadcrumbs label={$plan.data?.name || '?'} />
-
 		{#if isNew}
-			<PlanAdmin plan={newPlan} {isNew}/>
+			<PlanAdmin plan={newPlan} {isNew} communityPlans={$community.data?.plans} communityClaims={$community.data?.claims} />
 		{:else}
 			{#key refreshOn}
-				<PlanAdmin plan={$plan.data} {isNew} />
+				<PlanAdmin plan={$plan.data} {isNew} communityPlans={$community.data?.plans} communityClaims={$community.data?.claims} />
 			{/key}
 		{/if}
 	{/if}

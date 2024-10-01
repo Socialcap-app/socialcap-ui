@@ -3,8 +3,31 @@
 	import { Alert } from 'flowbite-svelte';
 	import { createForm } from 'felte';
 	import { array, object, string } from 'yup';
-	import { onMount } from 'svelte';
-	export let eform: any, data: any; // this is the data for this MasterPlan and empty Claim
+	import { createEventDispatcher, onMount } from 'svelte';
+	import type { Plan } from '$lib/types';
+	import { type Credential } from '$lib/types/credential';
+
+	export let eform: any,
+		data: any,
+		communityUid: string, // this is the data for this MasterPlan and empty Claim
+		communityPlans: Plan[] = [],
+		myCredentials: Credential[] = [];
+
+	export function hasErrors() {
+		let thisFormHasErrors = false;
+		fields.forEach((element: any) => {
+			let thisInput = data[fields.indexOf(element)];
+			if(thisInput.label && thisInput.required && (!thisInput.value || !thisInput.value.trim() || thisInput.value.length > thisInput.extras.max)){
+				
+				thisFormHasErrors=true;
+				return;
+			}
+		});
+		return thisFormHasErrors;
+	}
+
+	let fieldComponent;
+	let dispatch = createEventDispatcher()
 
 	function camelize(str: string) {
 		return str
@@ -27,7 +50,16 @@
 	}
 	function getFieldSchema(field: IField) {
 		if (field.type === 'text' || field.type === 'note') {
-			return field.required ? string().required(field.label + ' is required') : string();
+			let schema = string();  // definis schema
+            // agrego condiciones al schema segun requerimientos
+            if (field.required) {
+                schema = schema.required(field.label + ' is required');
+            }
+            if (field.extras.max) {
+                schema = schema.max(field.extras.max, field.label + ' must be less than ' + field.extras.max + ' words');
+            }
+            
+            return schema;
 		}
 
 		if (field.type === 'checks') {
@@ -53,7 +85,7 @@
 		}
 
 		if (field.type === 'notarize') {
-			return field.required ? string().required(field.label + ' is required') : string();	
+			return field.required ? string().required(field.label + ' is required') : string();
 		}
 
 		if (field.type === 'radio') {
@@ -81,8 +113,10 @@
 	const { form, errors, isValid, touched, createSubmitHandler, validate } = createForm({
 		validate: async (values) => {
 			try {
+				/* console.log(values); */
 				await schema.validate(values, { abortEarly: false });
 			} catch (err: any) {
+				/* console.log(err.inner); */
 				const errors = err.inner.reduce(
 					(res: any, value: any) => ({
 						[value.path]: value.message,
@@ -90,6 +124,9 @@
 					}),
 					{}
 				);
+				/* 
+				console.log(errors) ---> {"text_ll": "ll is required"} 
+				*/
 				return errors;
 			}
 		}
@@ -99,6 +136,11 @@
 		// force validation on mount
 		validate();
 	});
+
+	$: {
+		// when isValid changes the event excecuted
+		dispatch('validationChange', $isValid)
+	}
 </script>
 
 <div class="">
@@ -112,7 +154,16 @@
 
 	<form use:form on:submit|stopPropagation|preventDefault class="mx-10 flex flex-col space-y-4">
 		{#each fields || [] as field, index}
-			<EvidenceField {errors} {touched} {field} {index} bind:data />
+			<EvidenceField
+				{errors}
+				{touched}
+				{field}
+				{index}
+				bind:data
+				{myCredentials}
+				{communityPlans}
+				bind:this={fieldComponent}
+			/>
 		{/each}
 	</form>
 </div>

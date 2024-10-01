@@ -10,6 +10,7 @@
 	import { getCurrentUser } from '$lib/store';
 	import { useGetPlan } from '$lib/hooks/plans';
 	import { useGetClaim } from '$lib/hooks/claims';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let data: any;
 
@@ -27,8 +28,8 @@
 <MetaTag path="claim" title="Socialcap" subtitle={`Claim`} description="" />
 
 <div class="px-2">
-	{#if $planQuery.isLoading}
-		<span>Loading...</span>
+	{#if $planQuery.isLoading }
+		<LoadingSpinner />
 	{:else if $planQuery.isError}
 		<ErrorOnFetch description="A new claim" error={$planQuery.error} />
 	{:else}
@@ -36,7 +37,7 @@
 
 		{#key refreshOn}
 			{#if $claim.isLoading}
-				<span>Loading...</span>
+				<span>Loading claim...</span>
 			{:else if $claim.isError}
 				<ErrorOnFetch description="A new claim" error={$claim.error} />
 			{:else}

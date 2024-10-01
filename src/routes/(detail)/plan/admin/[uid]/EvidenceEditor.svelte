@@ -11,9 +11,8 @@
 		AngleUpOutline,
 		CirclePlusSolid
 	} from 'flowbite-svelte-icons';
-	export let plan: Plan;
+	export let plan: Plan, communityPlans: Plan[];
 	let selected: number | undefined = undefined;
-
 	const EmptyField: Evidence = {
 		sid: '',
 		required: false, // a required field
@@ -57,7 +56,7 @@
 						<AngleUpOutline />
 					</Button>
 				</div>
-				<EvidenceField bind:field={plan.evidence[index]} />
+				<EvidenceField bind:field={plan.evidence[index]} plans={communityPlans.filter(x => x.uid !== plan.uid)} />
 				<div class="flex justify-end">
 					<Button
 						color="light"

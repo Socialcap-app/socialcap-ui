@@ -1,21 +1,22 @@
 <script lang="ts">
-	import { useCreateCommunity, useGetCommunity } from '$lib/hooks/communities';
+	import { useGetCommunity } from '$lib/hooks/communities';
 	import { onMount } from 'svelte';
-	import { Avatar, Accordion, AccordionItem } from 'flowbite-svelte';
-	import { getCurrentUser } from '$lib/store';
-	import type { User } from '$lib/types/user';
+	import { Avatar, Tabs, TabItem } from 'flowbite-svelte';
 	import Breadcrumbs from '../../../../lib/components/common/Breadcrumbs.svelte';
-	import { useGetCredential, useGetCredentialOnchainData } from '$lib/hooks/credentials';
+	import {
+		useGetCredential,
+		useGetCredentialMints,
+		useGetCredentialOnchainData
+	} from '$lib/hooks/credentials';
 	import { ErrorOnFetch } from '$lib/components';
-	import StateBadge from '$lib/components/common/StateBadge.svelte';
 	import Time from 'svelte-time/Time.svelte';
-	import CommunityBanner from '$lib/components/communities/CommunityBanner.svelte';
 	import CredentialActions from './CredentialActions.svelte';
 	import TabHeader from '$lib/components/common/TabHeader.svelte';
 	import GradientAvatar from '$lib/components/common/GradientAvatar.svelte';
 	import { getInitials, buildGradient } from '$lib/components/common/gradient-svg';
 	import CredentialOnChainData from './CredentialOnChainData.svelte';
-	
+	import MintCard from '$lib/components/credentials/MintCard.svelte';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let uid;
 
@@ -23,10 +24,11 @@
 	let accountId = '';
 	$: credential = useGetCredential(uid);
 	$: community = useGetCommunity($credential.data?.communityUid!);
+	const mints = useGetCredentialMints(uid);
 	$: initials = $credential.data ? getInitials($credential.data?.applicant!) : '??';
 	$: dataOnChain = useGetCredentialOnchainData(uid);
 	$: bannerImage = $credential.data?.banner || '/images/credentialbg.svg';
-	
+
 	function isWalletAvailable() {
 		return typeof (window as any).mina !== 'undefined';
 	}
@@ -54,14 +56,13 @@
 	<Breadcrumbs label={$credential.data?.type || '?'} />
 
 	<div>
-		{#if $credential.isLoading || $community.isLoading || $dataOnChain.isLoading}
-			<span>Loading...</span>
+		{#if $credential.isLoading || $community.isLoading || $dataOnChain.isLoading || $mints.isLoading}
+		<LoadingSpinner />
 		{:else if $credential.isError}
 			<ErrorOnFetch description="My community" error={$credential.error} />
 		{:else}
 			<div class="w-full max-w-screen-lg">
 				<div class="relative flex items-end justify-center">
-					<!-- <CommunityBanner image={$credential.data?.banner} /> -->
 					<img
 						src={bannerImage}
 						class="fill h-auto w-full"
@@ -93,11 +94,7 @@
 					</div>
 					{#if $credential.data}
 						<div class="flex items-center justify-end">
-							<CredentialActions
-								credential={$credential?.data}
-								{isConnected}
-								{accountId}
-							/>
+							<CredentialActions credential={$credential?.data} {isConnected} {accountId} {uid} />
 						</div>
 					{/if}
 					<div class="px-4 pb-4 pt-2">
@@ -130,15 +127,34 @@
 							</div>
 						</div>
 					</div>
-
-					{#if $dataOnChain.data}
-						<Accordion flush>
-							<AccordionItem>
-								<span slot="header">On Chain Data</span>
-								<CredentialOnChainData data={$dataOnChain.data} />
-							</AccordionItem>
-						</Accordion>
-					{/if}
+					<Tabs
+						style="underline"
+						contentClass="p-4 bg-transparent rounded-lg dark:bg-gray-800 mt-4"
+						defaultClass="flex flex-wrap items-end justify-center space-x-8 rtl:space-x-reverse"
+					>
+						<TabItem open>
+							<TabHeader slot="title" label="Minted Credentials" count={$mints.data?.length} />
+							{#if $mints.data}
+								<div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+									{#each $mints.data as mint}
+										<MintCard data={mint} />
+									{/each}
+								</div>
+							{:else}
+								<div>
+									<p>No minted credential</p>
+								</div>
+							{/if}
+						</TabItem>
+						<TabItem>
+							<TabHeader slot="title" label="On Chain Data" showCount={false} />
+							{#if $dataOnChain.data}
+								<div>
+									<CredentialOnChainData data={$dataOnChain.data} />
+								</div>
+							{/if}
+						</TabItem>
+					</Tabs>
 				</div>
 			</div>
 		{/if}

@@ -7,12 +7,18 @@
 	import Markdown from 'svelte-exmarkdown';
 	import Datepicker from '../common/Datepicker.svelte';
 	import NotaryForm from './NotaryForm.svelte';
+	import CompositeForm from './CompositeForm.svelte';
+	import type { Plan, Credential } from '$lib/types';
 
-	export let field: any, index: number, data: any, errors: any, touched: any;
-
+	export let field: any,
+		index: number,
+		data: any,
+		errors: any,
+		touched: any,
+		communityPlans: Plan[],
+		myCredentials: Credential[];
 	const plugins = [gfmPlugin()];
 	let previewOn = false;
-
 	/** Resize textareas **/
 
 	function initialTextareaSize(value: any) {
@@ -49,22 +55,6 @@
 				<div class="text-sm text-red-500">{$errors[field.sid]}</div>
 			{/if}
 		{/if}
-
-		<!-- {#if field.type === "note"}
-    <textarea 
-      id={field.sid} 
-      name={field.sid} 
-      required={field.required}
-      class="border-gray-400 text-lg block rounded-md leading-relaxed w-full"
-      on:input={(e) => { validateField(e); resizeTextarea(field.inner); }}
-      bind:value={buffer}
-      />
-      <!-- bind:inner={field.inner} 
-        rows={initialTextareaSize(buffer)}
-        bind:value={data[index].value}
-      invalid={!isValid(field, data[index].value)}
-      feedback={hasMessage(field, data[index].value)} 
-  {/if} -->
 
 		{#if field.type === 'note'}
 			<Textarea
@@ -161,11 +151,27 @@
 
 		{#if field.type === 'notary'}
 			<div
-				class="block -full rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
+				class="-full block rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
 			>
 				<NotaryForm
 					notaryType={field.extras.notaryType}
 					notaryConfig={field.extras.notaryConfig}
+					bind:value={data[index].value}
+				/>
+				{#if $errors[field.sid]}
+					<div class="text-sm text-red-500">{$errors[field.sid]}</div>
+				{/if}
+			</div>
+		{/if}
+
+		{#if field.type === 'composite'}
+			<div
+				class="-full block rounded-lg border-gray-300 bg-gray-100 p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 rtl:text-right"
+			>
+				<CompositeForm
+					{communityPlans}
+					{myCredentials}
+					aggregatedCredential={field.extras.aggregatedCredential}
 					bind:value={data[index].value}
 				/>
 				{#if $errors[field.sid]}

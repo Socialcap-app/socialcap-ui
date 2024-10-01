@@ -7,7 +7,8 @@ import type { NavigationPath } from "../types";
 export { 
   setNavigationPath, 
   navigationPath,
-  redirectUrl
+  redirectUrl,
+  userLoggedIn
 } ;
 
 const navigationPath = writable({
@@ -17,6 +18,8 @@ const navigationPath = writable({
 })
 
 const redirectUrl = writable('');
+const userLoggedIn = writable(false);
+
 
 function setNavigationPath(path: NavigationPath) {
   navigationPath.set({

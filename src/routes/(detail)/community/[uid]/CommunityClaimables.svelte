@@ -3,6 +3,7 @@
   // 
   import CredentialsList from "$lib/components/credentials/CredentialsList.svelte";
   import { ErrorOnFetch } from "$lib/components";
+  import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte"
 
   export let communityUid: string = "";
   let allClaimables = useGetAllClaimables({ joined: true });
@@ -16,7 +17,7 @@
 
 <div class="max-w-screen-sm mx-auto">
   {#if $allClaimables.isLoading}
-    <span>Loading...</span>
+    <LoadingSpinner />
   {:else if $allClaimables.isError}
     <ErrorOnFetch 
       description="My community"

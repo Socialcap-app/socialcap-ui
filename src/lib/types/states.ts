@@ -1,19 +1,78 @@
+export type StateValue = 0 | 1 | 2 | 3 | 4 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 19 | 20 | 21 | 32 | 99;
+
 export type State = {
     name: string
-    value: number,
+    value: StateValue,
     badgeType?: "info" | "success" | "danger" | "warning"
 }
 
+export type CommunityState =  "INITIAL" | "APPROVED" | "PAUSED" | "REJECTED";
+export const CommunityStates = {
+    Revision: "INITIAL",
+    Approved: "APPROVED",
+    Paused: "PAUSED",
+    Rejected: "REJECTED"
+}
+
 export const 
+  NONE =  0,
   DRAFT = 1,
   CANCELLED = 2,
   REVISION = 3,
   CLAIMED = 4,
+  VOTING =  6,  
+  ASSIGNED = 7,
+  ACTIVE = 8,
   WAITING = 9,
   DONE = 10,
-  ACTIVE = 8,
+  IGNORED = 11,
   UNPAID = 12,
-  ASSIGNED = 7;
+  REJECTED = 19,
+  APPROVED = 20,
+  TALLYING = 21,
+  ISSUING = 32,
+  UNKNOWN = 99;
+
+export const ALL_STATES = {
+    0: "NONE",
+    1: "DRAFT",
+    2: "CANCELED",
+    3: "REVISION",
+    4: "CLAIMED",
+    6: "VOTING",
+    7: "ASSIGNED",
+    8: "ACTIVE",
+    9: "WAITING",
+    10: "DONE",
+    11: "IGNORED",
+    12: "UNPAID",
+    13: "FAILED",
+    19: "REJECTED",
+    20: "APPROVED",
+    21: "TALLYING",
+    32: "ISSUING",
+    99: "UNKNOWN"
+}
+
+export const 
+    CLAIMING_TEXT = "Claiming",
+    ASSIGNING_TEXT = "Assigning",
+    ISSUING_TEXT  = "Issuing",
+    TALLYING_TEXT = "Tallying",
+    VOTING_TEXT = "Voting";
+
+export enum StepState {
+    PENDING = 0,
+    ONGOING = 1,
+    COMPLETED = 2
+}
+      
+export type Step = {
+    action: string,
+    description: string,
+    buttonText: string,
+    handler?: () => void
+}
 
 export const States: State[] = [
     {

@@ -14,11 +14,12 @@
 	const schema = object({
 		name: string()
 			.required('Name is required')
+			.max(128, 'Name must be at most 128 characters')
 			.test('verified', 'Community name already exists', async (value, values) => {
 				const exist = await checkCommunityNameExist(value);
 				return !exist as boolean;
 			}),
-		description: string().required('Description is required'),
+		description: string().required('Description is required').max(128, 'Description must be at most 128 characters'),
 		acceptTac: boolean().required().default(false).oneOf([true], 'Field must be checked'),
 		isAdmin: boolean().default(false)
 	});
