@@ -152,7 +152,7 @@
 				{/if}
 			</Label>
 		</div>
-		<div class="space-y-3 border-b border-gray-200 pb-6">
+		<!-- <div class="space-y-3 border-b border-gray-200 pb-6">
 			<p class="text-lg">Community token</p>
 			<div class="flex flex-col justify-between space-y-3">
 				<Label
@@ -178,6 +178,6 @@
 					>
 				</Label>
 			</div>
-		</div>
+		</div> -->
 	</form>
 </div>

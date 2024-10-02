@@ -131,7 +131,7 @@
 			<span class="mt-2 text-sm text-red-500">{$errors.description}</span>
 		{/if}
 	</div>
-	<div class="space-y-3 border-b border-t border-gray-200 py-6">
+	<!-- <div class="space-y-3 border-b border-t border-gray-200 py-6">
 		<p class="text-lg">Community token</p>
 		<Helper class="mt-2 text-sm text-gray-500"
 			>Set the community custom token fields or generate a new custom token for your community</Helper
@@ -201,7 +201,7 @@
 			color="light"
 			on:click={() => generateCommunityToken()}>Generate Community Token</Button
 		>
-	</div>
+	</div> -->
 	<SubmitButton
 		on:click={(e) => {
 			e.preventDefault();
