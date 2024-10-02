@@ -28,7 +28,8 @@
 	};
 
 	function addField() {
-		let field = JSON.parse(JSON.stringify(EmptyField));
+		// let field = JSON.parse(JSON.stringify(EmptyField));
+		let field = structuredClone(EmptyField);
 		field.id = crypto.randomUUID().replaceAll('-', '');
 		plan.evidence = plan.evidence.concat([field]);
 		plan.evidence = plan.evidence;
