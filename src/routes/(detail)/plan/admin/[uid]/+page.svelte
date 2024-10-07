@@ -11,14 +11,13 @@
 	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
 
 	export let data: { uid: string; communityUid: string };
-	const { uid, communityUid } = data;
-	$: refreshOn = uid;
-	$: isNew = uid === 'new';
-	$: plan = useGetPlan(uid);
-	$: community = useGetAdminCommunity(communityUid ||  $plan.data?.communityUid!);
+	$: refreshOn = data.uid;
+	$: isNew = data.uid === 'new';
+	$: plan = useGetPlan(data.uid);
+	$: community = useGetAdminCommunity(data.communityUid || $plan.data?.communityUid!);
 	const newPlan: Plan = {
 		// uid: UID.uuid4(),
-		communityUid: communityUid,
+		communityUid: data.communityUid,
 		name: '',
 		state: 1, // DRAFT
 		stateDescr: 'DRAFT',
@@ -35,18 +34,28 @@
 <MetaTag path="plan" title="Socialcap" subtitle={`Plan`} description="" />
 
 <div class="px-2">
-	{#if $plan.isLoading || $community.isLoading || !$community.data}
-		<LoadingSpinner />
-	{:else if $plan.isError || $community.isError}
-		<ErrorOnFetch description="A new claim" error={$plan.error || $community.error} />
-	{:else}
-		<Breadcrumbs label={$plan.data?.name || '?'} />
-		{#if isNew}
-			<PlanAdmin plan={newPlan} {isNew} communityPlans={$community.data?.plans} communityClaims={$community.data?.claims} />
+	{#key refreshOn}
+		{#if $plan.isLoading || $community.isLoading || !$community.data}
+			<LoadingSpinner />
+		{:else if $plan.isError || $community.isError}
+			<ErrorOnFetch description="A new claim" error={$plan.error || $community.error} />
 		{:else}
-			{#key refreshOn}
-				<PlanAdmin plan={$plan.data} {isNew} communityPlans={$community.data?.plans} communityClaims={$community.data?.claims} />
-			{/key}
+			<Breadcrumbs label={$plan.data?.name || '?'} />
+			{#if isNew}
+				<PlanAdmin
+					plan={newPlan}
+					{isNew}
+					communityPlans={$community.data?.plans}
+					communityClaims={$community.data?.claims}
+				/>
+			{:else}
+				<PlanAdmin
+					plan={$plan.data}
+					{isNew}
+					communityPlans={$community.data?.plans}
+					communityClaims={$community.data?.claims}
+				/>
+			{/if}
 		{/if}
-	{/if}
+	{/key}
 </div>
