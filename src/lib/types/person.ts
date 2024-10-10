@@ -14,4 +14,5 @@ interface Person {
     phone?: string
     telegram?: string
     preferences?: string
+    identityHash?: string
 }
