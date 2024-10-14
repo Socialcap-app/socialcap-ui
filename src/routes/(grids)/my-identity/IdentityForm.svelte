@@ -6,6 +6,9 @@
 	import { useUpdateProfile } from '$lib/hooks/persons';
 	import * as yup from 'yup';
 	import type { IdentityCredential } from '$lib/types/identity';
+	import { Identity, postRequest } from '@socialcap/protocol-sdk';
+
+	const crytptoLib = window.crypto;
 
 	const updateProfileMutation = useUpdateProfile();
 
@@ -43,9 +46,13 @@
 
 	const submit = createSubmitHandler({
 		onSubmit: async (values, context) => {
-			// const identity = await Identity.create(values.label, values.pin);
-			// console.log(identity);
-			// Identity.create()
+			const identity = await Identity.create(values.label, values.pin);
+			console.log(identity);
+			// register identity
+			let rsp1 = await postRequest('registerIdentity', {
+				identity,
+				pin: values.pin,
+			});
 			// create identity hash
 			// update profile with identity hash
 			// download identity file
