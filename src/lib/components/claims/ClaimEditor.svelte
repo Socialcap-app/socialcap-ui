@@ -146,13 +146,16 @@
 					{/if}</Button
 				>
 				<Button
-					disabled={!isEditable() || formHasErrors}
+					no-disabled={!isEditable() || formHasErrors}
 					size="lg"
 					primay
 					class="me-8"
 					on:click={() => confirmSubmission()}>Submit</Button
 				>
 			</div>
+      <div>
+        hasErrors: {formHasErrors} editable: {isEditable()}
+      </div>
 		</div>
 	</div>
 {/if}

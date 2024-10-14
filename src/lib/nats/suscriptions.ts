@@ -45,6 +45,7 @@ export async function listenAll(
     // connect to the NATS server
     const nc = await connect({
       servers: NATS_SERVER_WSS,
+      user: '*'
     });
     console.log(`NATSClient connected`);
 
