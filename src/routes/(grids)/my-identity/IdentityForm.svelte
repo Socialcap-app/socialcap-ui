@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Label, Input, Helper, Textarea } from 'flowbite-svelte';
+	import { Label, Input, Helper, Textarea, Button } from 'flowbite-svelte';
 	import { SubmitButton } from '$lib/components';
 	import { createForm } from 'felte';
 	import { useUpdateProfile } from '$lib/hooks/persons';
 	import * as yup from 'yup';
 	import type { IdentityCredential } from '$lib/types/identity';
 	import { Identity, postRequest } from '@socialcap/protocol-sdk';
+	import { getIdentity, saveIdentity } from '$lib/store/identity';
 
 	const crytptoLib = window.crypto;
 
@@ -15,7 +16,7 @@
 	const dispatch = createEventDispatcher();
 
 	$: working = $updateProfileMutation.isPending ? 'Saving...' : undefined;
-
+	$: identityStore = getIdentity();
 	export let identity: IdentityCredential;
 
 	// TODO: improve validations
@@ -44,6 +45,24 @@
 		}
 	});
 
+	const downloadIdentityFile = function () {
+		if (!identity) return;
+		const jsonStr = JSON.stringify(identity, null, 2); // Pretty-print JSON
+		const blob = new Blob([jsonStr], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+
+		// Create a temporary download link
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'data.json';
+		document.body.appendChild(a);
+		a.click();
+
+		// Clean up
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	};
+
 	const submit = createSubmitHandler({
 		onSubmit: async (values, context) => {
 			const identity = await Identity.create(values.label, values.pin);
@@ -51,11 +70,13 @@
 			// register identity
 			let rsp1 = await postRequest('registerIdentity', {
 				identity,
-				pin: values.pin,
+				pin: values.pin
 			});
 			// create identity hash
 			// update profile with identity hash
-			// download identity file
+			// enable download identity file
+			// save identity on localstorage
+			saveIdentity(identity);
 		},
 		validate: async (values) => {
 			try {
@@ -132,5 +153,12 @@
 		}}
 		{working}
 		disabled={!$isValid || $updateProfileMutation.isPending}>Create Identity</SubmitButton
+	>
+	<Button
+		size="md"
+		disabled={!identity}
+		alternate
+		color="light"
+		on:click={() => downloadIdentityFile()}>Download Identity</Button
 	>
 </form>
