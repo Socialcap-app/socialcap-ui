@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Label, Input, Helper, Textarea, Button } from 'flowbite-svelte';
+	import { Label, Input, Helper, Textarea, Button, Fileupload } from 'flowbite-svelte';
 	import { SubmitButton } from '$lib/components';
 	import { createForm } from 'felte';
 	import { useUpdateProfile } from '$lib/hooks/persons';
@@ -62,6 +62,12 @@
 		document.body.removeChild(a);
 		URL.revokeObjectURL(url);
 	};
+
+	const uploadIdentity = function() {
+		console.log(identity.file)
+		// Todo: check file format and schema
+		// update identity store
+	}
 
 	const submit = createSubmitHandler({
 		onSubmit: async (values, context) => {
@@ -154,9 +160,22 @@
 		{working}
 		disabled={!$isValid || $updateProfileMutation.isPending}>Create Identity</SubmitButton
 	>
+	<Label class="pb-2">Upload your identity</Label>
+	<Fileupload  value={identity.file}/>
+	<SubmitButton
+		size="md"
+		class="primary"
+		on:click={(e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			uploadIdentity();
+		}}
+		{working}
+		disabled={!$isValid || $updateProfileMutation.isPending}>Upload Identity</SubmitButton
+	>
 	<Button
 		size="md"
-		disabled={!identity}
+		disabled={!identityStore}
 		alternate
 		color="light"
 		on:click={() => downloadIdentityFile()}>Download Identity</Button
