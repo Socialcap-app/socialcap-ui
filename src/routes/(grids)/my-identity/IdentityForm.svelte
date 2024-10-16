@@ -17,12 +17,13 @@
 
 	$: working = $updateProfileMutation.isPending ? 'Saving...' : undefined;
 	$: identityStore = getIdentity();
-	export let identity: IdentityCredential;
+	export let createIdentityRq: IdentityCredential;
+	let identity: Identity;
 
 	// TODO: improve validations
 	const schema = yup.object({
 		label: yup.string().required('Name is required'),
-		pin: yup.string().required('Pin is required')
+		pin: yup.string().length(6).required('Pin is required')
 	});
 
 	const { form, errors, isValid, touched, createSubmitHandler } = createForm({
@@ -63,19 +64,19 @@
 		URL.revokeObjectURL(url);
 	};
 
-	const uploadIdentity = function() {
-		console.log(identity.file)
+	const uploadIdentity = function () {
+		console.log(createIdentityRq.file);
 		// Todo: check file format and schema
 		// update identity store
-	}
+	};
 
 	const submit = createSubmitHandler({
 		onSubmit: async (values, context) => {
-			const identity = await Identity.create(values.label, values.pin);
+			identity = await Identity.create(values.label, values.pin);
 			console.log(identity);
 			// register identity
 			let rsp1 = await postRequest('registerIdentity', {
-				identity,
+				identity: createIdentityRq,
 				pin: values.pin
 			});
 			// create identity hash
@@ -120,7 +121,7 @@
 			name="label"
 			placeholder="Pablo Doe"
 			required
-			bind:value={identity.label}
+			bind:value={createIdentityRq.label}
 		/>
 		{#if $errors.label && $touched.label}
 			<span class="mt-2 text-sm text-red-500">{$errors.label}</span>
@@ -139,7 +140,7 @@
 			name="pin"
 			placeholder="XXXXXX"
 			required
-			bind:value={identity.pin}
+			bind:value={createIdentityRq.pin}
 		/>
 		{#if $errors.pin && $touched.pin}
 			<span class="mt-2 text-sm text-red-500">{$errors.pin}</span>
@@ -158,10 +159,10 @@
 			submit();
 		}}
 		{working}
-		disabled={!$isValid || $updateProfileMutation.isPending}>Create Identity</SubmitButton
+		disabled={!$isValid || $updateProfileMutation.isPending || identity}>Create Identity</SubmitButton
 	>
 	<Label class="pb-2">Upload your identity</Label>
-	<Fileupload  value={identity.file}/>
+	<Fileupload value={createIdentityRq.file} />
 	<SubmitButton
 		size="md"
 		class="primary"
@@ -175,7 +176,7 @@
 	>
 	<Button
 		size="md"
-		disabled={!identityStore}
+		disabled={!identity}
 		alternate
 		color="light"
 		on:click={() => downloadIdentityFile()}>Download Identity</Button

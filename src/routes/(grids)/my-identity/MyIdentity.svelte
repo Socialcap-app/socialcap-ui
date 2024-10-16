@@ -37,7 +37,6 @@
 	}
 
 	let editing = false;
-
 </script>
 
 <div class="">
@@ -65,7 +64,7 @@
 
 				<div class="lg:w-full lg:pl-[60px]">
 					<IdentityForm
-						{identity}
+						createIdentityRq={identity}
 						on:save={() => {
 							editing = false;
 						}}
