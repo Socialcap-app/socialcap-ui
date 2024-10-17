@@ -148,7 +148,18 @@
 		{/if}
 	</div>
 	<div class="flex flex-col space-y-4">
-		<Button type="submit" disabled={!$isValid}>Create Identity</Button>
+		<SubmitButton
+			size="md"
+			class="primary"
+			on:click={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				submit();
+			}}
+			{working}
+			disabled={!$isValid || $updateProfileMutation.isPending || !!identity}
+			>Create Identity</SubmitButton
+		>
 	</div>
 	<div>
 		<Label class="mb-2">Upload your identity</Label>
@@ -156,9 +167,18 @@
 	</div>
 
 	<div class="flex flex-col space-y-4">
-		<Button color="alternative" on:click={uploadIdentity} disabled={!createIdentityRq.file}>
-			Upload Identity
-		</Button>
+		<SubmitButton
+			size="md"
+			class="primary"
+			on:click={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				uploadIdentity();
+			}}
+			{working}
+			disabled={$updateProfileMutation.isPending || !createIdentityRq.file}
+			>Upload Identity
+		</SubmitButton>
 		<Button color="light" on:click={downloadIdentityFile} disabled={!identity}>
 			Download Identity
 		</Button>
