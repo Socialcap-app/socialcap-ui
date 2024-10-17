@@ -64,10 +64,20 @@
 		URL.revokeObjectURL(url);
 	};
 
-	const uploadIdentity = function () {
-		console.log(createIdentityRq.file);
-		// Todo: check file format and schema
-		// update identity store
+	const uploadIdentity = async () => {
+		if (!createIdentityRq.file) return;
+
+		const fileContent = createIdentityRq.file;
+
+		try {
+			const uploadedIdentity = JSON.parse(fileContent);
+			// TODO: Validate the uploaded identity structure
+			identity = uploadedIdentity;
+			saveIdentity(identity);
+			dispatch('upload', identity);
+		} catch (error) {
+			console.error('Error uploading identity:', error);
+		}
 	};
 
 	const submit = createSubmitHandler({
@@ -105,80 +115,52 @@
 	});
 </script>
 
-<form
-	use:form
-	on:submit|stopPropagation|preventDefault
-	class="mt-14 flex w-full flex-col gap-12 px-4 lg:rounded-lg lg:border lg:py-8"
->
-	<div class="m-auto w-full lg:max-w-2xl">
-		<Label for="label" class="text-base text-black {$errors.label ? 'text-red-500' : ''}"
-			>Name or Alias<span class="float-right text-sm text-sc_red">Required</span></Label
-		>
+<form use:form class="mx-auto max-w-2xl space-y-6 rounded-lg bg-white p-6 shadow-md">
+	<div>
+		<Label for="label" class="mb-2">Name or Alias <span class="text-red-500">*</span></Label>
 		<Input
-			class="mt-2 text-sm text-black {$errors.label ? 'text-red-500' : ''}"
 			type="text"
 			id="label"
 			name="label"
 			placeholder="Pablo Doe"
-			required
-			bind:value={createIdentityRq.label}
+			class={$errors.label && $touched.label ? '!border-red-500' : ''}
 		/>
 		{#if $errors.label && $touched.label}
-			<span class="mt-2 text-sm text-red-500">{$errors.label}</span>
+			<Helper class="mt-2 text-red-500">{$errors.label}</Helper>
 		{:else}
-			<Helper class="mt-2 text-gray-400">Name or alias for your Identity</Helper>
+			<Helper>Name or alias for your Identity</Helper>
 		{/if}
 	</div>
-	<div class="m-auto w-full lg:max-w-2xl">
-		<Label for="email" class="text-base text-black {$errors.pin ? 'text-red-500' : ''}"
-			>Pin<span class="float-right text-sm text-sc_red">Required</span></Label
-		>
+
+	<div>
+		<Label for="pin" class="mb-2">PIN <span class="text-red-500">*</span></Label>
 		<Input
-			class="mt-2 text-sm text-black {$errors.pin ? 'text-red-500' : ''}"
-			type="text"
+			type="password"
 			id="pin"
 			name="pin"
 			placeholder="XXXXXX"
-			required
-			bind:value={createIdentityRq.pin}
+			class={$errors.pin && $touched.pin ? '!border-red-500' : ''}
 		/>
 		{#if $errors.pin && $touched.pin}
-			<span class="mt-2 text-sm text-red-500">{$errors.pin}</span>
+			<Helper class="mt-2 text-red-500">{$errors.pin}</Helper>
 		{:else}
-			<Helper class="mt-2 text-gray-400"
-				>A six digits pin number - do not share it with anyone</Helper
-			>
+			<Helper>A six-digit PIN number - do not share it with anyone</Helper>
 		{/if}
 	</div>
-	<SubmitButton
-		size="md"
-		class="primary"
-		on:click={(e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			submit();
-		}}
-		{working}
-		disabled={!$isValid || $updateProfileMutation.isPending || identity}>Create Identity</SubmitButton
-	>
-	<Label class="pb-2">Upload your identity</Label>
-	<Fileupload value={createIdentityRq.file} />
-	<SubmitButton
-		size="md"
-		class="primary"
-		on:click={(e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			uploadIdentity();
-		}}
-		{working}
-		disabled={!$isValid || $updateProfileMutation.isPending}>Upload Identity</SubmitButton
-	>
-	<Button
-		size="md"
-		disabled={!identity}
-		alternate
-		color="light"
-		on:click={() => downloadIdentityFile()}>Download Identity</Button
-	>
+	<div class="flex flex-col space-y-4">
+		<Button type="submit" disabled={!$isValid}>Create Identity</Button>
+	</div>
+	<div>
+		<Label class="mb-2">Upload your identity</Label>
+		<Fileupload value={createIdentityRq.file} id="file" name="file" />
+	</div>
+
+	<div class="flex flex-col space-y-4">
+		<Button color="alternative" on:click={uploadIdentity} disabled={!createIdentityRq.file}>
+			Upload Identity
+		</Button>
+		<Button color="light" on:click={downloadIdentityFile} disabled={!identity}>
+			Download Identity
+		</Button>
+	</div>
 </form>
