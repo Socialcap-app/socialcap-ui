@@ -23,6 +23,7 @@
 		<span class="block truncate text-sm font-medium">{email}</span>
 	</DropdownHeader>
 	<DropdownItem on:click={()=>{goto('/my-profile')}}>Profile</DropdownItem>
+	<DropdownItem on:click={()=>{goto('/my-identity')}}>Identity</DropdownItem>
 	<DropdownItem>Activities</DropdownItem>
 	<DropdownDivider />
 	<DropdownItem href="/login">Sign out</DropdownItem>
