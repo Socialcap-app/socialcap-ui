@@ -1,32 +1,39 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Label, Input, Helper, Textarea, Button, Fileupload } from 'flowbite-svelte';
+	import { Label, Input, Helper, Textarea, Button, Fileupload, Toggle } from 'flowbite-svelte';
 	import { SubmitButton } from '$lib/components';
 	import { createForm } from 'felte';
-	import { useUpdateProfile } from '$lib/hooks/persons';
+	import { useGetProfile, useUpdateProfile } from '$lib/hooks/persons';
 	import * as yup from 'yup';
 	import type { IdentityCredential } from '$lib/types/identity';
 	import { Identity, postRequest } from '@socialcap/protocol-sdk';
 	import { getIdentity, saveIdentity } from '$lib/store/identity';
-
+	import { EyeOutline, EyeSlashOutline } from 'flowbite-svelte-icons';
+	import { JsonView } from '@zerodevx/svelte-json-view/dist';
 	const crytptoLib = window.crypto;
-
 	const updateProfileMutation = useUpdateProfile();
-
+	const profile = useGetProfile();
 	const dispatch = createEventDispatcher();
+	let seeDetails = false;
 
 	$: working = $updateProfileMutation.isPending ? 'Saving...' : undefined;
 	$: identityStore = getIdentity();
 	export let createIdentityRq: IdentityCredential;
 	let identity: Identity;
-
+	let showPin = false;
 	// TODO: improve validations
 	const schema = yup.object({
 		label: yup.string().required('Name is required'),
-		pin: yup.string().length(6).required('Pin is required')
+		pin: yup
+			.string()
+			.matches(/^\d{6}$/, 'Pin must be exactly 6 digits')
+			.required('Pin is required')
 	});
 
 	const { form, errors, isValid, touched, createSubmitHandler } = createForm({
+		initialValues: {
+			label: identityStore?.label ?? $profile.data?.fullName
+		},
 		debounced: {
 			timeout: 450,
 			validate: async (values) => {
@@ -83,6 +90,7 @@
 	const submit = createSubmitHandler({
 		onSubmit: async (values, context) => {
 			identity = await Identity.create(values.label, values.pin);
+			// json = identity;
 			console.log(identity);
 			// register identity
 			let rsp1 = await postRequest('registerIdentity', {
@@ -135,12 +143,27 @@
 	<div>
 		<Label for="pin" class="mb-2">PIN <span class="text-red-500">*</span></Label>
 		<Input
-			type="password"
+			type={showPin ? 'text' : 'password'}
 			id="pin"
 			name="pin"
 			placeholder="XXXXXX"
 			class={$errors.pin && $touched.pin ? '!border-red-500' : ''}
-		/>
+		>
+		<span 
+			slot="right" 
+			class="cursor-pointer focus:outline-none" 
+			role="button" 
+			tabindex="0" 
+			on:click={() => (showPin = !showPin)}
+			on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && (showPin = !showPin)}
+		>
+			<svelte:component 
+			  this={showPin ? EyeOutline : EyeSlashOutline} 
+			  
+			  class="w-5 h-5"
+			/>
+		  </span>
+		</Input>	
 		{#if $errors.pin && $touched.pin}
 			<Helper class="mt-2 text-red-500">{$errors.pin}</Helper>
 		{:else}
@@ -182,5 +205,21 @@
 		<Button color="light" on:click={downloadIdentityFile} disabled={!identity}>
 			Download Identity
 		</Button>
+		<Toggle bind:checked={seeDetails} disabled={!identity}>See details</Toggle>
+
+		{#if seeDetails}
+			<div
+				class="my-6 rounded-lg border border-neutral-300 bg-neutral-50 p-4 shadow-sm dark:border-neutral-600 dark:bg-neutral-800"
+			>
+				<h3
+					class="mb-3 rounded-md bg-neutral-200 px-3 py-2 text-sm font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300"
+				>
+					Identity JSON
+				</h3>
+				<pre class="overflow-auto rounded-md bg-gray-800 p-3 text-white">
+					{JSON.stringify(identity, null, 2)}
+				  </pre>
+			</div>
+		{/if}
 	</div>
 </form>
