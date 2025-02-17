@@ -17,8 +17,9 @@ function getIdentity(): Identity | null {
 
 function saveIdentity(_identity: Identity) {
 	if (!_identity) throw Error('identity/setIdentity: Invalid identity data');
-	localStorage.setItem(STORE_KEY, JSON.stringify(identity));
+	localStorage.setItem(STORE_KEY, JSON.stringify(_identity));
 	identity = _identity;
+	console.log("saved identity", localStorage.getItem(STORE_KEY))
 	return identity;
 }
 

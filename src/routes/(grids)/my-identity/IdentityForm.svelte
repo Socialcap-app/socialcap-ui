@@ -73,13 +73,16 @@
 
 	const uploadIdentity = async () => {
 		if (!createIdentityRq.file) return;
-
-		const fileContent = createIdentityRq.file;
-
 		try {
+			const fileContent = await createIdentityRq.file.text(); // Read file as text
 			const uploadedIdentity = JSON.parse(fileContent);
 			// TODO: Validate the uploaded identity structure
-			identity = uploadedIdentity;
+			// modify Identity class on sdk to allow creating instance from JSON
+			identity = new Identity(uploadedIdentity.label, uploadedIdentity.pin);
+
+			// Assign remaining properties manually
+			Object.assign(identity, uploadedIdentity);
+			console.log("identity created", identity)
 			saveIdentity(identity);
 			dispatch('upload', identity);
 		} catch (error) {
@@ -121,6 +124,11 @@
 			dispatch('save');
 		}
 	});
+
+	function handleFileChange(event: any) {
+		console.log('event', event);
+		createIdentityRq.file = event.target.files[0]; // Get the selected file
+	}
 </script>
 
 <form use:form class="mx-auto max-w-2xl space-y-6 rounded-lg bg-white p-6 shadow-md">
@@ -149,21 +157,17 @@
 			placeholder="XXXXXX"
 			class={$errors.pin && $touched.pin ? '!border-red-500' : ''}
 		>
-		<span 
-			slot="right" 
-			class="cursor-pointer focus:outline-none" 
-			role="button" 
-			tabindex="0" 
-			on:click={() => (showPin = !showPin)}
-			on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && (showPin = !showPin)}
-		>
-			<svelte:component 
-			  this={showPin ? EyeOutline : EyeSlashOutline} 
-			  
-			  class="w-5 h-5"
-			/>
-		  </span>
-		</Input>	
+			<span
+				slot="right"
+				class="cursor-pointer focus:outline-none"
+				role="button"
+				tabindex="0"
+				on:click={() => (showPin = !showPin)}
+				on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && (showPin = !showPin)}
+			>
+				<svelte:component this={showPin ? EyeOutline : EyeSlashOutline} class="h-5 w-5" />
+			</span>
+		</Input>
 		{#if $errors.pin && $touched.pin}
 			<Helper class="mt-2 text-red-500">{$errors.pin}</Helper>
 		{:else}
@@ -186,7 +190,8 @@
 	</div>
 	<div>
 		<Label class="mb-2">Upload your identity</Label>
-		<Fileupload value={createIdentityRq.file} id="file" name="file" />
+		<Fileupload id="file" name="file" on:change={handleFileChange} />
+		<Helper>JSON Identity File.</Helper>
 	</div>
 
 	<div class="flex flex-col space-y-4">
