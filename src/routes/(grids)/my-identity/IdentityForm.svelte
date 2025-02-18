@@ -30,7 +30,7 @@
 			.required('Pin is required')
 	});
 
-	const { form, errors, isValid, touched, createSubmitHandler } = createForm({
+	const { form, errors, isValid, touched, createSubmitHandler, setFields } = createForm({
 		initialValues: {
 			label: identityStore?.label ?? $profile.data?.fullName
 		},
@@ -83,6 +83,7 @@
 			// Assign remaining properties manually
 			Object.assign(identity, uploadedIdentity);
 			console.log("identity created", identity)
+			setFields({ label: identity.label})
 			saveIdentity(identity);
 			dispatch('upload', identity);
 		} catch (error) {
