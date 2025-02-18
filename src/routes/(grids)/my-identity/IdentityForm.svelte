@@ -17,9 +17,9 @@
 	let seeDetails = false;
 
 	$: working = $updateProfileMutation.isPending ? 'Saving...' : undefined;
-	$: identityStore = getIdentity();
+	const identityStore = getIdentity();
 	export let createIdentityRq: IdentityCredential;
-	let identity: Identity;
+	let identity: Identity = identityStore!;
 	let showPin = false;
 	// TODO: improve validations
 	const schema = yup.object({
