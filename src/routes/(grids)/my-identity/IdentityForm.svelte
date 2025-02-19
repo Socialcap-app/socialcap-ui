@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Label, Input, Helper, Textarea, Button, Fileupload, Toggle } from 'flowbite-svelte';
+	import {
+		Label,
+		Input,
+		Helper,
+		Textarea,
+		Button,
+		Fileupload,
+		Toggle
+	} from 'flowbite-svelte';
 	import { SubmitButton } from '$lib/components';
 	import { createForm } from 'felte';
 	import { useGetProfile, useUpdateProfile } from '$lib/hooks/persons';
@@ -82,8 +90,8 @@
 
 			// Assign remaining properties manually
 			Object.assign(identity, uploadedIdentity);
-			console.log("identity created", identity)
-			setFields({ label: identity.label})
+			console.log('identity created', identity);
+			setFields({ label: identity.label });
 			saveIdentity(identity);
 			dispatch('upload', identity);
 		} catch (error) {
@@ -130,6 +138,33 @@
 		console.log('event', event);
 		createIdentityRq.file = event.target.files[0]; // Get the selected file
 	}
+
+	const syntaxHighlight = (jsonString: string): string => {
+    return jsonString.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(?:\s*:)?|\b(true|false|null)\b|\b\d+(\.\d+)?\b)/g,
+      (match) => {
+        let cls = "text-green-400"; // Default for strings
+        if (/^"/.test(match)) {
+          cls = /:$/.test(match) ? "text-purple-400" : "text-green-400"; // Keys or strings
+        } else if (/true|false/.test(match)) {
+          cls = "text-orange-400"; // Boolean
+        } else if (/null/.test(match)) {
+          cls = "text-gray-400"; // Null
+        } else if (/^\d+(\.\d+)?$/.test(match)) {
+          cls = "text-blue-400"; // Numbers
+        }
+        return `<span class="${cls}">${match}</span>`;
+      }
+    );
+  };
+
+  const renderJson = (obj: any): string => {
+    const jsonString = JSON.stringify(obj, null, 2); // 2-space indentation
+    // ✅ Only replace indentation after the first line
+    return syntaxHighlight(jsonString)
+      .replace(/\n/g, "<br>")
+      .replace(/^ +/gm, (spaces) => "&nbsp;".repeat(spaces.length)); 
+  };
 </script>
 
 <form use:form class="mx-auto max-w-2xl space-y-6 rounded-lg bg-white p-6 shadow-md">
@@ -214,18 +249,14 @@
 		<Toggle bind:checked={seeDetails} disabled={!identity}>See details</Toggle>
 
 		{#if seeDetails}
-			<div
-				class="my-6 rounded-lg border border-neutral-300 bg-neutral-50 p-4 shadow-sm dark:border-neutral-600 dark:bg-neutral-800"
-			>
-				<h3
-					class="mb-3 rounded-md bg-neutral-200 px-3 py-2 text-sm font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300"
-				>
-					Identity JSON
-				</h3>
-				<pre class="overflow-auto rounded-md bg-gray-800 p-3 text-white">
-					{JSON.stringify(identity, null, 2)}
-				  </pre>
-			</div>
+		<div class="my-6 rounded-lg border border-neutral-300 bg-neutral-50 p-4 shadow-sm dark:border-neutral-600 dark:bg-neutral-800">
+			<h3 class="mb-3 rounded-md bg-neutral-200 px-3 py-2 text-sm font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300">
+			  Identity JSON
+			</h3>
+			<pre class="mt-2 overflow-auto whitespace-pre-wrap break-words rounded-md bg-gray-800 p-3 text-white">
+				{@html renderJson(identity)}
+			  </pre>
+		  </div>
 		{/if}
 	</div>
 </form>
