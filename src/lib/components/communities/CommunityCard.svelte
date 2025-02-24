@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import Banner from '../common/Banner.svelte';
 	import { userLoggedIn } from '$lib/store/navigation';
-
+	let className = '';
 	export let uid = '',
 		title = '',
 		description = '',
@@ -18,6 +18,8 @@
 		nCredentials = 0,
 		joined = false,
 		isAdmin: boolean = false;
+
+    export { className as class };
 
 	let joinModalOpened = false;
 
@@ -41,7 +43,7 @@
 <JoinCommunityModal {title} {uid} {description} bind:open={joinModalOpened} />
 
 <Card
-	class=""
+	class={className}
 	padding="none"
 	size="none"
 	href={$userLoggedIn ? gotoLink(uid) : `/discover/community/${uid}`}

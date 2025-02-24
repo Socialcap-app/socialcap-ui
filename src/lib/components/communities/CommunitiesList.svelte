@@ -30,8 +30,9 @@
 		{#if grid === '1'}
 			<div class="grid grid-cols-1 gap-4 lg:grid-cols-1">
 				{#each data || [] as t}
-					<div class=" transition-opacity duration-1000">
+					<div class="h-full flex transition-opacity duration-1000">
 						<CommunityCard
+							class="h-full flex flex-col"
 							uid={t.uid}
 							state={t.state}
 							title={t.name}
@@ -47,11 +48,13 @@
 				{/each}
 			</div>
 		{/if}
+
 		{#if grid === '2'}
 			<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 				{#each data || [] as t}
-					<div class=" transition-opacity duration-1000">
+					<div class="h-full flex transition-opacity duration-1000">
 						<CommunityCard
+							class="h-full flex flex-col"
 							uid={t.uid}
 							state={t.state}
 							title={t.name}
@@ -84,9 +87,7 @@
 					<p class="text-weight-400 mb-4 text-sm text-gray-600 dark:text-gray-400 sm:text-sm">
 						{'Lets try creating one!'}
 					</p>
-					<div
-						class="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0 rtl:space-x-reverse"
-					>
+					<div class="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0 rtl:space-x-reverse">
 						<Button href="/" color="primary" size="sm">Back home</Button>
 						<Button color="none" class="border-0">Learn more</Button>
 					</div>
