@@ -5,5 +5,5 @@
 </script>
 
 <div class="p-4">
-  <ActivityPanel {activities}/>
+  <ActivityPanel />
 </div>

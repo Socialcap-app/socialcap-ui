@@ -15,7 +15,7 @@
 	import { useGetMyAssignedTasks } from '$lib/hooks/tasks';
   import GradientAvatar from "$lib/components/common/GradientAvatar.svelte";
 	import { getInitials, buildGradient } from "$lib/components/common/gradient-svg";
-
+  import { notificationsStore, refreshNotifications } from '$lib/store/notifications';
 	export let drawerHidden: boolean = false;
   export let network: string = 'main';
   
@@ -135,7 +135,7 @@
           <!-- <BoltLightningSolid class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" /> -->
         </svelte:fragment>
         <svelte:fragment slot="subtext">
-          <span class="inline-flex justify-center items-center px-2 py-1 ms-3 text-xs font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">4 pending</span>
+          <span class="inline-flex justify-center items-center px-2 py-1 ms-3 text-xs font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">{$notificationsStore.data ? $notificationsStore.data.length : 0}</span>
         </svelte:fragment>
       </SidebarItem>
     </SidebarGroup>
